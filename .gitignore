@@ -1,9 +1,12 @@
+/input/swmm/input/*
+
 # History files
 .Rhistory
 .Rapp.history
 
 # Session Data files
 .RData
+.out
 
 # Example code in package build process
 *-Ex.R
