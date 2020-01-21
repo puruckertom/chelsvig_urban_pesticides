@@ -5,7 +5,7 @@
 
 # check to make sure required packages are installed
 list.of.packages <- c("plyr", "dplyr", "reshape2", "ggplot2", "grid", "gridExtra", "sensitivity", "abind", 
-                      "ppcor","swmmr", "DEoptim", "stringi", "purrr", "vctrs")
+                      "ppcor","swmmr", "DEoptim", "stringi", "purrr", "vctrs", "sf")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)>0) {install.packages(new.packages)}
 
@@ -29,6 +29,8 @@ library(DEoptim) #Differential Evolution algorithm in R
 library(stringi)
 library(purrr)
 library(vctrs)
+library(sf)
+library(dplyr)
 
 # echo environment
 Sys.info()

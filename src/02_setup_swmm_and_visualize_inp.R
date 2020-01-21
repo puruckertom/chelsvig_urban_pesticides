@@ -7,10 +7,10 @@
 # set-up/inspect swmm 
 # -----------------------------------------------------------------------
 
-# set path to .inp, .rpt, .out files 
-inp_path <- paste0(swmmdir_input, "NPlesantCreek.inp", sep="")
-rpt_path <- tempfile()
-out_path <- tempfile()
+# set path to files
+inp_path <- (paste(swmmdir, "input/NPlesantCreek",".inp",sep=""))
+out_path <- (paste(swmmdir, "input/NPlesantCreek", ".out", sep=""))
+rpt_path <- (paste(swmmdir, "input/NPlesantCreek", ".rpt", sep=""))
 
 # look at model structure -- the result is a list of data.frames for each SWMM section
 inp <- read_inp(inp_path)
