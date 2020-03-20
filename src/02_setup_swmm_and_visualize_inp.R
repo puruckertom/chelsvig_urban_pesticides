@@ -6,11 +6,36 @@
 # -----------------------------------------------------------------------
 # set-up/inspect swmm 
 # -----------------------------------------------------------------------
+# inp_path <- (paste(swmmdir, "input/swmm/NPlesantCreek",".inp",sep=""))
+# out_path <- (paste(swmmdir, "input/swmm/NPlesantCreek", ".out", sep=""))
+# rpt_path <- (paste(swmmdir, "input/swmm/NPlesantCreek", ".rpt", sep=""))
 
-# set path to files
-inp_path <- (paste(swmmdir, "input/NPlesantCreek",".inp",sep=""))
-out_path <- (paste(swmmdir, "input/NPlesantCreek", ".out", sep=""))
-rpt_path <- (paste(swmmdir, "input/NPlesantCreek", ".rpt", sep=""))
+inp_file <- file.path(paste(swmmdir, "input/swmm/NPlesantCreek",".inp",sep=""))
+
+
+swmm_files <- run_swmm(
+  inp = inp_file,
+  rpt = NULL,
+  out = NULL
+)
+
+
+
+
+# # # # haven't worked on the code below ... # # # # # 
+
+
+obs <- read_out(
+  file = swmm_files$out,
+  iType = 1,
+  object_name = "18",
+  vIndex = 4
+)[["18"]]$total_inflow
+
+
+
+
+
 
 # look at model structure -- the result is a list of data.frames for each SWMM section
 inp <- read_inp(inp_path)
@@ -21,9 +46,10 @@ summary(inp)
 # look at composition of inp 
 str(inp)
 
-# inspect section for subcatchments
+# inspect sections
 inp$subcatchments
-
+inp$subareas
+inp$conduits
 
 # initiate the simulation (.inp, .rpt, out-file)
 files <- run_swmm(inp=inp_path, rpt=rpt_path, out=out_path)

@@ -22,10 +22,6 @@ source(paste(swmmdir,"src/03_lhs_parameterization.R",sep = ""))
 source(paste(swmmdir,"src/04_write_update_run_swmm.R",sep = ""))
 
 
-
-
-
-
 # #create input dataframe
 # #source(paste(pwcdir,"src/03write_input_dataframe.R",sep = ""))
 # # read text,csv files and save results into dataframe
@@ -34,11 +30,13 @@ source(paste(swmmdir,"src/04_write_update_run_swmm.R",sep = ""))
 # # load input and output objects into environment
 # source(paste(pwcdir,"src/05load_io.R",sep = ""))
 
+
 # run sensitivity analysis on time daily arrays
 source(paste(pwcdir,"src/06daily_sensitivity_analysis_linear.R",sep = ""))
 
 #
 source(paste(pwcdir,"src/06Max_sensitivity_analysis_linear.R",sep = ""))
+
 # plot results
 source(paste(pwcdir,"src/07sensitivity_analyses_graphics.R",sep = ""))
 source(paste(pwcdir,"src/08pardistribution.R",sep = ""))

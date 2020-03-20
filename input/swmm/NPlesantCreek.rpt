@@ -1,0 +1,18 @@
+
+  EPA STORM WATER MANAGEMENT MODEL - VERSION 5.1 (Build 5.1.013)
+  --------------------------------------------------------------
+
+  
+  *********************
+  Rainfall File Summary
+  *********************
+  Station    First        Last         Recording   Periods    Periods    Periods
+  ID         Date         Date         Frequency  w/Precip    Missing    Malfunc.
+  -------------------------------------------------------------------------------
+
+  
+  ERROR 317: cannot open rainfall data file spp1783.dat.
+
+  Analysis begun on:  Fri Mar 20 14:28:36 2020
+  Analysis ended on:  Fri Mar 20 14:28:37 2020
+  Total elapsed time: 00:00:01

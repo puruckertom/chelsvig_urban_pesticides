@@ -12,10 +12,11 @@ simend <- "1/1/2014"
 
 
 # list input paramters
-input_parameters <- c("NImperv","NPerv")
+input_parameters <- c("Kwidth", "Kslope", "KImperv", "NImperv", "NPerv", "SImperv",
+                      "SPerv", "PctZero", "MaxRate", "MinRate", "Decay", "DryTime", "Roughness")
 
 # import parameter ranges table
-param_ranges <- read.csv(paste(swmmdir,"input/lhs_param_ranges.csv",sep=""),
+param_ranges <- read.csv(paste(swmmdir,"input/lhs/lhs_param_ranges.csv",sep=""),
                          header=TRUE, sep= ",", stringsAsFactors=FALSE, row.names=NULL)
 
 
