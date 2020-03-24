@@ -9,10 +9,42 @@
   Station    First        Last         Recording   Periods    Periods    Periods
   ID         Date         Date         Frequency  w/Precip    Missing    Malfunc.
   -------------------------------------------------------------------------------
+  STA01      01/01/2004   01/01/2015      60 min     96432          0          0
+  p1572      01/01/2004   01/01/2015      60 min     96432          0          0
+  P1601      01/01/2004   01/01/2015      60 min     96432          0          0
+  P1602      01/01/2004   01/01/2015      60 min     96432          0          0
 
   
-  ERROR 317: cannot open rainfall data file spp1783.dat.
-
-  Analysis begun on:  Fri Mar 20 14:28:36 2020
-  Analysis ended on:  Fri Mar 20 14:28:37 2020
-  Total elapsed time: 00:00:01
+  *********************************************************
+  NOTE: The summary statistics displayed in this report are
+  based on results found at every computational time step,  
+  not just on results from each reporting time step.
+  *********************************************************
+  
+  ****************
+  Analysis Options
+  ****************
+  Flow Units ............... CMS
+  Process Models:
+    Rainfall/Runoff ........ YES
+    RDII ................... NO
+    Snowmelt ............... NO
+    Groundwater ............ NO
+    Flow Routing ........... YES
+    Ponding Allowed ........ NO
+    Water Quality .......... NO
+  Infiltration Method ...... HORTON
+  Flow Routing Method ...... DYNWAVE
+  Surcharge Method ......... EXTRAN
+  Starting Date ............ 01/01/2013 00:00:00
+  Ending Date .............. 01/01/2014 23:00:00
+  Antecedent Dry Days ...... 0.0
+  Report Time Step ......... 01:00:00
+  Wet Time Step ............ 00:05:00
+  Dry Time Step ............ 01:00:00
+  Routing Time Step ........ 60.00 sec
+  Variable Time Step ....... YES
+  Maximum Trials ........... 8
+  Number of Threads ........ 1
+  Head Tolerance ........... 0.001500 m
+  

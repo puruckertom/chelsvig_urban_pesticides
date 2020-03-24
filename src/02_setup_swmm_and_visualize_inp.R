@@ -10,16 +10,19 @@
 # out_path <- (paste(swmmdir, "input/swmm/NPlesantCreek", ".out", sep=""))
 # rpt_path <- (paste(swmmdir, "input/swmm/NPlesantCreek", ".rpt", sep=""))
 
-inp_file <- file.path(paste(swmmdir, "input/swmm/NPlesantCreek",".inp",sep=""))
+getwd()
+#inp_path <-setwd(paste(swmmdir, "/input/swmm/"))
+####define this
+#inp_path <-setwd("C:/Users/SSINNATH/OneDrive - Environmental Protection Agency (EPA)/Documents/git/chelsvig_urban_pesticides/input/swmm")
 
-
-swmm_files <- run_swmm(
-  inp = inp_file,
-  rpt = NULL,
-  out = NULL
-)
-
-
+# glance model structure, the result is a list of data.frames with SWMM sections
+inp <- read_inp("NPlesantCreek.inp")
+# show swmm model summary
+summary(inp)
+# for example, inspect section subcatchments
+inp$subcatchments
+# to the inp, rpt and out-file, respectively.
+files <- run_swmm("NPlesantCreek.inp")
 
 
 # # # # haven't worked on the code below ... # # # # # 

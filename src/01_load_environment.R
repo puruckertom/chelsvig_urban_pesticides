@@ -32,7 +32,10 @@ library(vctrs)
 library(sf)
 library(dplyr)
 library(reticulate)
-
+library(stringi)
+library(swmmr)
+library(purrr)
+library(vctrs)
 # echo environment
 Sys.info()
 Sys.info()[4]
@@ -49,13 +52,13 @@ if(Sys.info()[4]=="DZ2626UTPURUCKE"){
 }
 #Sumathy's window
 if(Sys.info()[4]=="DZ2626USSINNATH"){
-  swmmdir <- "C:/git/chelsvig_urban_pesticides/"
+  swmmdir <- "C:/Users/SSINNATH/OneDrive - Environmental Protection Agency (EPA)/Documents/git/chelsvig_urban_pesticides"
   # pwc,przm file (without directory, the file needs to be in vpdir_exe above)
   swmm_filename <- "NPlesantCreek.inp"
 }
 #Sumathy's desktop
-if(Sys.info()[4]=="DESKTOP-7UFGA86"){
-  swmmdir <- "C:/Users/Sumathy/chelsvig_urban_pesticides/"
+if(Sys.info()[4]=="LZ2032ESSINNATH"){
+  swmmdir <- "C:/Users/SSINNATH/OneDrive - Environmental Protection Agency (EPA)/Documents/git/chelsvig_urban_pesticides"
   # pwc,przm file (without directory, the file needs to be in vpdir_exe above)
   swmm_filename <- "NPlesantCreek.inp"
 }
