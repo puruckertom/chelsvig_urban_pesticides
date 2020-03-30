@@ -29,17 +29,17 @@
     Rainfall/Runoff ........ YES
     RDII ................... NO
     Snowmelt ............... NO
-    Groundwater ............ NO
+    Groundwater ............ YES
     Flow Routing ........... YES
     Ponding Allowed ........ NO
-    Water Quality .......... NO
+    Water Quality .......... YES
   Infiltration Method ...... HORTON
   Flow Routing Method ...... DYNWAVE
   Surcharge Method ......... EXTRAN
-  Starting Date ............ 01/01/2013 00:00:00
-  Ending Date .............. 01/01/2014 23:00:00
-  Antecedent Dry Days ...... 0.0
-  Report Time Step ......... 01:00:00
+  Starting Date ............ 01/01/2009 00:00:00
+  Ending Date .............. 01/01/2015 23:00:00
+  Antecedent Dry Days ...... 5.0
+  Report Time Step ......... 00:00:00
   Wet Time Step ............ 00:05:00
   Dry Time Step ............ 01:00:00
   Routing Time Step ........ 60.00 sec
