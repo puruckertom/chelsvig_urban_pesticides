@@ -2,6 +2,9 @@
 probabilistic/input/swmm/input/*
 probabilistic/input/swmm/NPlesantCreek.out
 probabilistic/input/swmm/input/NPlesantCreek.out
+probabilistic_r/input/swmm/input/*
+probabilistic_r/input/swmm/NPlesantCreek.out
+probabilistic_r/input/swmm/input/NPlesantCreek.out
 
 # History files
 .Rhistory
