@@ -2,39 +2,53 @@
 # Latin Hypercube sampling of parameters
 # ------------------------------------------------------------------
 
-# setup
+# setup environment
 import os, pandas, numpy
 #import matplotlib.pyplot as plt
-#from smt.sampling_methods import LHS
+from smt.sampling_methods import LHS
 
 # directory
 swmmdir = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python'
 
 # number of simulations
-Nsims = 2
+nsims = 2
 
 # simulation start and end (mm/dd/yyyy format)
 simstart = "01/01/2009"
 simend = "01/01/2018"
 
-# list input paramters
-input_parameters = ["NImperv", "NPerv", "SImperv", "SPerv", "PctZero", "MaxRate", "MinRate",
-                     "Decay", "DryTime", "Por", "WP", "FC", "Ksat", "Roughness",
-                     "Kdecay", "BCoeff2", "WCoeff2"]
-
 # import parameter ranges table
 param_ranges = pandas.read_csv(os.path.join(swmmdir, r'input\lhs\lhs_param_ranges.csv'))
 print(param_ranges.columns)
 print(param_ranges.values)
-print(param_ranges['Parameter'])
-param_ranges.head()
+
+# create list of input parameter names
+input_parameters = param_ranges["Parameter"].to_list()
+print(input_parameters)
+
+# create empty list for min,max
+row_list = []
+
+# iterate over each param_ranges row
+for index, rows in param_ranges.iterrows():
+    # create list for the current row
+    cur_list = [rows.Min, rows.Max]
+
+    # append the list to the final list
+    row_list.append(cur_list)
+
+# print the list of param ranges
+print(row_list)
 
 
-# ------------------------------------------------------------------
-# LHS
-# ------------------------------------------------------------------
+# conduct lhs sampling
+x_limits = numpy.array(row_list)
+sampling = LHS(xlimits=x_limits)
+lhs_list = sampling(nsims)
+print(lhs_list)
+print(type(lhs_list))
 
-#xlimits = numpy.array
+
 
 # # conduct Latin Hypercube Sampling for each input parameter
 # quantile_list = randomLHS(Nsims, length(input_parameters))
