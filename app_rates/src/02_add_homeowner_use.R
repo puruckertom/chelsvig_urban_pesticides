@@ -9,8 +9,8 @@ placer <- read.csv(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rat
 placer_2 <- placer
 
 
-# compute homeowner rates (estimated as 20% of professional use (TDC, 2010))
-placer_2$bif_kg_with_home <- placer$bif_kg + (placer$bif_kg*.20)
+# compute homeowner rates (estimated as 25% of professional use (TDC, 2010) (CALFED, 2011))
+placer_2$bif_kg_with_home <- placer$bif_kg + (placer$bif_kg*.25)
 
 
 # write out files
