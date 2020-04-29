@@ -263,7 +263,7 @@ for Ite in range(1, nsims+1):
 
         fixline = " ".join(oldline.split())
         newline = re.sub(r'\b0.014\b', str(Roughness), fixline)
-        newline2 = re.sub(r'\b0.01\b', str(Roughness), fixline)
+        newline2 = re.sub(r'\b0.01\b', str(Roughness), newline)
         newline2 = newline2 + "\n"
         filelines[row_t] = newline2
 
@@ -306,7 +306,7 @@ for Ite in range(1, nsims+1):
     # parameter = WCoeff2
     # ---------------------------
     Num = 1  # number of pollutants
-    row_0 = 1374
+    row_0 = 1380
     WCoeff2 = lhs_design.loc[Ite - 1, "WCoeff2"]
     print(WCoeff2)
 
