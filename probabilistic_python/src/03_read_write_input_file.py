@@ -311,25 +311,22 @@ for Ite in range(1, nsims+1):
     # ---------------------------
     # parameter = Roughness
     # ---------------------------
-    # Num = 195  # number of conduits
-    # row_0 = 734
-    # Roughness = lhs_design.loc[Ite - 1, "Roughness"]
-    # print(Roughness)
-    #
-    # for i in range(1, Num + 1):
-    #     row_t = row_0 + (i - 1)
-    #     oldline = filelines[row_t]
-    #
-    #     fixline = " ".join(oldline.split())
-    #     listline = fixline.split()
-    #
-    #     print(listline[4])
-    #
-    #     listline[4] = str(Roughness)
-    #     listTOstring = ' '.join([str(item) for item in listline])
-    #
-    #     newline = listTOstring + "\n"
-    #     filelines[row_t] = newline
+    Num = 195  # number of conduits
+    row_0 = 734
+    Roughness = lhs_design.loc[Ite - 1, "Roughness"]
+    print(Roughness)
+
+    for i in range(1, Num + 1):
+        row_t = row_0 + (i - 1)
+        oldline = filelines[row_t]
+
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[4] = str(Roughness)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
+        filelines[row_t] = newline
 
     # ---------------------------
     # parameter = Kdecay
