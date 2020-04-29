@@ -2,7 +2,7 @@
 # read, write, input file
 # -----------------------------------------
 
-import pytest_shutil, shutil, os, pandas
+import pytest_shutil, shutil, os, pandas, regex as re
 
 # nsims
 nsims = 5
@@ -61,7 +61,7 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("0.013", str(NImperv))
+        newline = re.sub(r'\b0.013\b', str(NImperv), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
@@ -77,7 +77,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("0.15", str(NPerv))
+        newline = re.sub(r'\b0.15\b', str(NPerv), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -92,7 +92,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("2.54", str(SImperv))
+        newline = re.sub(r'\b2.54\b', str(SImperv), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -107,7 +107,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("5.08", str(SPerv))
+        newline = re.sub(r'\b5.08\b', str(SPerv), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -122,7 +122,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("17", str(PctZero))
+        newline = re.sub(r'\b17\b', str(PctZero), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -138,7 +138,7 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("79", str(MaxRate))
+        newline = re.sub(r'\b79\b', str(MaxRate), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
@@ -154,7 +154,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("1.3", str(MinRate))
+        newline = re.sub(r'\b1.3\b', str(MinRate), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -169,7 +169,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("4.14", str(Decay))
+        newline = re.sub(r'\b4.14\b', str(Decay), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -184,7 +184,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("7", str(DryTime))
+        newline = re.sub(r'\b7\b', str(DryTime), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -200,7 +200,7 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("0.5", str(Por))
+        newline = re.sub(r'\b0.5\b', str(Por), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
@@ -216,7 +216,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("0.15", str(WP))
+        newline = re.sub(r'\b0.15\b', str(WP), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -231,7 +231,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("0.30", str(FC))
+        newline = re.sub(r'\b0.30\b', str(FC), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -246,7 +246,7 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = oldline.replace("4.9", str(Ksat))
+        newline = re.sub(r'\b4.9\b', str(Ksat), oldline)
         filelines[row_t] = newline
 
     # ---------------------------
@@ -262,8 +262,8 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("0.014", str(Roughness))
-        newline2 = fixline.replace("0.01", str(Roughness))
+        newline = re.sub(r'\b0.014\b', str(Roughness), fixline)
+        newline2 = re.sub(r'\b0.01\b', str(Roughness), fixline)
         newline2 = newline2 + "\n"
         filelines[row_t] = newline2
 
@@ -280,7 +280,7 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("0.004283931", str(Kdecay))
+        newline = re.sub(r'\b0.004283931\b', str(Kdecay), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
@@ -298,6 +298,7 @@ for Ite in range(1, nsims+1):
 
         fixline = " ".join(oldline.split())
         newline = fixline.replace("1.0", str(BCoeff2))
+        newline = re.sub(r'\b1.0\b', str(BCoeff2), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
@@ -314,7 +315,7 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("1.0", str(WCoeff2))
+        newline = re.sub(r'\b1.0\b', str(WCoeff2), fixline)
         newline = newline + "\n"
         filelines[row_t] = newline
 
