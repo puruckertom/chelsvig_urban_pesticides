@@ -61,8 +61,11 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b0.013\b', str(NImperv), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[1] = str(NImperv)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -77,7 +80,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b0.15\b', str(NPerv), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[2] = str(NPerv)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -92,7 +100,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b2.54\b', str(SImperv), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[3] = str(SImperv)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -107,7 +120,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b5.08\b', str(SPerv), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[4] = str(SPerv)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -122,7 +140,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b17\b', str(PctZero), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[5] = str(PctZero)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -138,8 +161,11 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b79\b', str(MaxRate), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[1] = str(MaxRate)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -154,7 +180,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b1.3\b', str(MinRate), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[2] = str(MinRate)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -169,7 +200,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b4.14\b', str(Decay), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[3] = str(Decay)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -184,9 +220,13 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b7\b', str(DryTime), oldline)
-        filelines[row_t] = newline
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[4] = str(DryTime)
+        listTOstring = ' '.join([str(item) for item in listline])
 
+        newline = listTOstring + "\n"
+        filelines[row_t] = newline
     # ---------------------------
     # parameter = Por
     # ---------------------------
@@ -200,9 +240,13 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b0.5\b', str(Por), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[1] = str(Por)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
+
 
     # ---------------------------
     #   parameter = WP
@@ -216,7 +260,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b0.15\b', str(WP), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[2] = str(WP)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -231,7 +280,12 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b0.30\b', str(FC), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[3] = str(FC)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -246,26 +300,36 @@ for Ite in range(1, nsims+1):
         row_t = row_0 + (i - 1)
         oldline = filelines[row_t]
 
-        newline = re.sub(r'\b4.9\b', str(Ksat), oldline)
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[3] = str(Ksat)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
     # parameter = Roughness
     # ---------------------------
-    Num = 195  # number of conduits
-    row_0 = 734
-    Roughness = lhs_design.loc[Ite - 1, "Roughness"]
-    print(Roughness)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b0.014\b', str(Roughness), fixline)
-        newline2 = re.sub(r'\b0.01\b', str(Roughness), newline)
-        newline2 = newline2 + "\n"
-        filelines[row_t] = newline2
+    # Num = 195  # number of conduits
+    # row_0 = 734
+    # Roughness = lhs_design.loc[Ite - 1, "Roughness"]
+    # print(Roughness)
+    #
+    # for i in range(1, Num + 1):
+    #     row_t = row_0 + (i - 1)
+    #     oldline = filelines[row_t]
+    #
+    #     fixline = " ".join(oldline.split())
+    #     listline = fixline.split()
+    #
+    #     print(listline[4])
+    #
+    #     listline[4] = str(Roughness)
+    #     listTOstring = ' '.join([str(item) for item in listline])
+    #
+    #     newline = listTOstring + "\n"
+    #     filelines[row_t] = newline
 
     # ---------------------------
     # parameter = Kdecay
@@ -280,8 +344,11 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b0.004283931\b', str(Kdecay), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[5] = str(Kdecay)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -297,9 +364,11 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = fixline.replace("1.0", str(BCoeff2))
-        newline = re.sub(r'\b1.0\b', str(BCoeff2), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[4] = str(BCoeff2)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
     # ---------------------------
@@ -315,8 +384,11 @@ for Ite in range(1, nsims+1):
         oldline = filelines[row_t]
 
         fixline = " ".join(oldline.split())
-        newline = re.sub(r'\b1.0\b', str(WCoeff2), fixline)
-        newline = newline + "\n"
+        listline = fixline.split()
+        listline[4] = str(WCoeff2)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
         filelines[row_t] = newline
 
 
