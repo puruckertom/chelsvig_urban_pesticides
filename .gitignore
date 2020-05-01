@@ -8,6 +8,9 @@ probabilistic_r/input/swmm/input/NPlesantCreek.out
 probabilistic_python/input/swmm/input*/NPlesantCreek.out
 probabilistic_python/input/swmm/NPlesantCreek.out
 probabilistic_python/input/swmm/input/NPlesantCreek.out
+probabilistic_python/input/swmm/input*/NPlesantCreek.rpt
+probabilistic_python/input/swmm/NPlesantCreek.rpt
+probabilistic_python/input/swmm/input/NPlesantCreek.rpt
 
 # History files
 .Rhistory

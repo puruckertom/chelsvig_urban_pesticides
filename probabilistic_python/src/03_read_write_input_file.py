@@ -2,23 +2,28 @@
 # read, write, input file
 # -----------------------------------------
 
+# setup
 import pytest_shutil, shutil, os, pandas, regex as re
+
+# specify location
+print(os.path.abspath(os.curdir))
+os.chdir("..")
+dir_path = os.path.abspath(os.curdir)
+print(dir_path)
+
+input_path = dir_path + r'\input\swmm'
+print(input_path)
 
 # nsims
 nsims = 5
 
-# define root path for all folders
-root_path = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\swmm'
-print(os.path.exists(root_path))
-
 # read in lhs_sampled_params
-lhs_design = pandas.read_csv(
-    r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\io\lhs_sampled_params.csv')
+lhs_design = pandas.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
 
 # round lhs decimals
 lhs_design = lhs_design.round(
     {"NImperv": 4, "NPerv": 4, "SImperv":3, "SPerv": 3, "PctZero": 3, "MaxRate": 3, "MinRate": 3, "Decay": 2, "DryTime": 0,
-     "Por": 3, "WP": 3, "FC": 3, "Ksat": 3, "Roughness": 4, "Kdecay": 3, "BCoeff2": 3, "WCoeff2": 3})
+     "Por": 3, "WP": 3, "FC": 3, "Ksat": 3, "Rough": 4, "Kdecay": 3, "BCoeff2": 3, "WCoeff2": 3})
 print(lhs_design.head())
 
 # do the following for each simulation...
@@ -26,8 +31,7 @@ for Ite in range(1, nsims+1):
     newfol = "input_" + str(Ite)
     print(newfol)
 
-    newdir = os.path.join(root_path, newfol)
-    print(newdir)
+    newdir = os.path.join(input_path, newfol)
 
     if not os.path.exists(newdir):
         os.mkdir(newdir)
@@ -39,7 +43,7 @@ for Ite in range(1, nsims+1):
     os.chdir(newdir)
 
     # copy base file into new file location
-    old_swmm5 = os.path.join(root_path, "NPlesantCreek.inp")
+    old_swmm5 = os.path.join(input_path, "NPlesantCreek.inp")
     new_file = os.path.join(newdir, "NPlesantCreek.inp")
     shutil.copyfile(old_swmm5, new_file)
 
@@ -302,31 +306,31 @@ for Ite in range(1, nsims+1):
 
         fixline = " ".join(oldline.split())
         listline = fixline.split()
-        listline[3] = str(Ksat)
+        listline[4] = str(Ksat)
         listTOstring = ' '.join([str(item) for item in listline])
 
         newline = listTOstring + "\n"
         filelines[row_t] = newline
 
-    # ---------------------------
-    # parameter = Roughness
-    # ---------------------------
-    Num = 195  # number of conduits
-    row_0 = 734
-    Roughness = lhs_design.loc[Ite - 1, "Roughness"]
-    print(Roughness)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(Roughness)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
+    # # ---------------------------
+    # # parameter = Rough
+    # # ---------------------------
+    # Num = 195  # number of conduits
+    # row_0 = 734
+    # Rough = lhs_design.loc[Ite - 1, "Rough"]
+    # print(Rough)
+    #
+    # for i in range(1, Num + 1):
+    #     row_t = row_0 + (i - 1)
+    #     oldline = filelines[row_t]
+    #
+    #     fixline = " ".join(oldline.split())
+    #     listline = fixline.split()
+    #     listline[4] = str(Rough)
+    #     listTOstring = ' '.join([str(item) for item in listline])
+    #
+    #     newline = listTOstring + "\n"
+    #     filelines[row_t] = newline
 
     # ---------------------------
     # parameter = Kdecay

@@ -8,14 +8,17 @@ from pyDOE import *
 from scipy.stats import uniform
 
 
-# directory
-swmmdir = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python'
+# specify location
+print(os.path.abspath(os.curdir))
+os.chdir("..")
+dir_path = os.path.abspath(os.curdir)
+print(dir_path)
 
 # number of simulations
 nsims = 5
 
 # import parameter ranges table
-param_ranges = pandas.read_csv(os.path.join(swmmdir, r'input\lhs\lhs_param_ranges.csv'))
+param_ranges = pandas.read_csv(dir_path + r'\input\lhs\lhs_param_ranges.csv')
 print(param_ranges)
 
 # create list of input parameter names
@@ -35,7 +38,7 @@ lhs_df = pandas.DataFrame(lhs_design, columns=param_names)
 print(lhs_df)
 
 # write out
-lhs_df.to_csv(os.path.join(swmmdir, r'io\lhs_sampled_params.csv'))
+lhs_df.to_csv(dir_path + r'\io\lhs_sampled_params.csv')
 
 
 # ------------------------------------------------------------------

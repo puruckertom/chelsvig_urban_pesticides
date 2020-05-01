@@ -6,7 +6,17 @@
 
 # setup
 from pyswmm import Simulation
-import os
+import os, pandas
+import rpy2.robjects as ro
+from rpy2.robjects.packages import importr
+import pandas.rpy.common as com
+
+d = {'package.dependencies': 'package_dot_dependencies',
+     'package_dependencies': 'package_uscore_dependencies'}
+swmmr = importr('swmmr', robject_translations = d)
+
+
+swmmr.read_out()
 
 # nsims
 nsims = 5
@@ -27,6 +37,3 @@ for i in range(1, nsims+1):
 
     # todo grab the desired output variable of interest, and store in dataframe (created above loop)
 
-# --------------------------------------------------------
-# the end
-# --------------------------------------------------------
