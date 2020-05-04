@@ -1,12 +1,10 @@
 # --------------------------------------------------
 # run probabilistic simulations, save output
 # --------------------------------------------------
-
-# todo run each of the probabilistic sim .inp files, and save the results to a cohesive data frame
-
 # setup
 from pyswmm import Simulation
-import os, pandas
+import os
+
 # specify location
 print(os.path.abspath(os.curdir))
 os.chdir("..")
@@ -19,8 +17,6 @@ print(input_path)
 # nsims
 nsims = 5
 
-
-
 # run swmm, for each sim
 for i in range(1, nsims+1):
     sim_folder = input_path + str(i)
@@ -30,8 +26,3 @@ for i in range(1, nsims+1):
     for step in sim:
         pass
     sim.report()
-
-
-# todo set up dataframe to receive the outputs from the simulations
-# todo grab the desired output variable of interest, and store in dataframe
-
