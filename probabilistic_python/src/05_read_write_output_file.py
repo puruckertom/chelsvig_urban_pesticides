@@ -96,12 +96,13 @@ for rpt in range(1, nsims+1):
         runf_df.rename(columns={runf_df.columns[sub - 1]: 'sub_' + str(sub)}, inplace=True)
         bif_df.rename(columns={bif_df.columns[sub - 1]: 'sub_' + str(sub)}, inplace=True)
 
-    # see what output looks like
-    print(runf_df)
-    print(bif_df)
+    # convert values from object to float
+    for columnName in runf_df.columns:
+        runf_df[columnName] = runf_df[columnName].astype(float)
+    for columnName in bif_df.columns:
+        bif_df[columnName] = bif_df[columnName].astype(float)
 
     # add a total sum column
-    #todo need to fix this code...not summing correctly
     runf_df["runf_sum"] = runf_df.sum(axis=1)
     bif_df["bif_sum"] = bif_df.sum(axis=1)
 
