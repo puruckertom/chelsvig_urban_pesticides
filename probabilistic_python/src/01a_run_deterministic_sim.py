@@ -3,8 +3,8 @@
 # --------------------------------------------------
 
 # set up
-from pyswmm import Simulation, Subcatchments
-import os, platform
+from pyswmm import Simulation
+import os
 
 # specify location
 print(os.path.abspath(os.curdir))

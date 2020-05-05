@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------
 
 # setup environment
-import os, pandas, numpy
+import os, pandas
 from pyDOE import *
 from scipy.stats import uniform
 

@@ -100,13 +100,17 @@ for rpt in range(1, nsims+1):
     print(runf_df)
     print(bif_df)
 
+    # add a total sum column
+    #todo need to fix this code...not summing correctly
+    runf_df["runf_sum"] = runf_df.sum(axis=1)
+    bif_df["bif_sum"] = bif_df.sum(axis=1)
+
     # add a date column
     runf_df['date'] = pandas.date_range(start='1/3/2009', periods=len(runf_df), freq='D')
     bif_df['date'] = pandas.date_range(start='1/3/2009', periods=len(bif_df), freq='D')
 
-    # add a total sum column
-    runf_df["runf_sum"] = runf_df.sum(axis=1)
-    bif_df["bif_sum"] = bif_df.sum(axis=1)
-
-# todo write out the entire data frame
-# todo write out just the date and total_runf columns
+    # write out dataframes
+    runf_out = folder_path + r'\subcatchment_runf_' + str(rpt) + r'.csv'
+    bif_out = folder_path + r'\subcatchment_bif_' + str(rpt) + r'.csv'
+    runf_df.to_csv(runf_out)
+    bif_df.to_csv(bif_out)
