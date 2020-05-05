@@ -110,6 +110,15 @@ for rpt in range(1, nsims+1):
     runf_df['date'] = pandas.date_range(start='1/3/2009', periods=len(runf_df), freq='D')
     bif_df['date'] = pandas.date_range(start='1/3/2009', periods=len(bif_df), freq='D')
 
+    # separate date column too
+    runf_df['year'] = runf_df['date'].dt.year
+    runf_df['month'] = runf_df['date'].dt.month
+    runf_df['day'] = runf_df['date'].dt.day
+
+    bif_df['year'] = bif_df['date'].dt.year
+    bif_df['month'] = bif_df['date'].dt.month
+    bif_df['day'] = bif_df['date'].dt.day
+
     # write out dataframes
     runf_out = folder_path + r'\subcatchment_runf_' + str(rpt) + r'.csv'
     bif_out = folder_path + r'\subcatchment_bif_' + str(rpt) + r'.csv'
