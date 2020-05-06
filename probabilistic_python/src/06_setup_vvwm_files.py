@@ -15,4 +15,4 @@ print(dir_path)
 input_path = dir_path + r'\input\swmm\input_'
 print(input_path)
 
-#todo for each simulation, create a .zts file using the .csv files created in 05_
+#todo for each simulation, create a .zts file using the .csv files created in 05_ (use code from 01c_)

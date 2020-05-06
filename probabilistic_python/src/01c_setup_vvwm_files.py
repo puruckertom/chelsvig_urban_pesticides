@@ -14,6 +14,9 @@ print(dir_path)
 input_path = dir_path + r'\input\swmm'
 print(input_path)
 
+output_path = dir_path + r'\input\vvwm'
+print(output_path)
+
 # read in all the .csv files
 runf_df = pandas.read_csv(input_path + r'\subcatchment_runf.csv')
 bif_df = pandas.read_csv(input_path + r'\subcatchment_bif.csv')
@@ -35,4 +38,4 @@ bif_sub = bif_df[["bif_sum", "MEp"]]
 vvwm_df = pandas.concat([runf_sub,bif_sub], axis=1)
 
 # read out into comma-deliminated .txt file
-vvwm_df.to_csv(input_path + r'\vvwm_input.zts', header=None, index=None, sep=',')
+vvwm_df.to_csv(output_path + r'\vvwm_input.zts', header=None, index=None, sep=',')
