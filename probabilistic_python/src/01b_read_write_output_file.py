@@ -89,7 +89,7 @@ for sub in range(2, 114):
     runf_df.rename(columns={runf_df.columns[sub - 1]: 'sub_' + str(sub)}, inplace=True)
     bif_df.rename(columns={bif_df.columns[sub - 1]: 'sub_' + str(sub)}, inplace=True)
 
-# convert values from object to float
+ # convert values from object to float
 for columnName in runf_df.columns:
     runf_df[columnName] = runf_df[columnName].astype(float)
 for columnName in bif_df.columns:

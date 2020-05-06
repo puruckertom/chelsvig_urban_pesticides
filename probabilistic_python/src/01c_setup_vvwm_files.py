@@ -16,15 +16,22 @@ print(input_path)
 
 # read in all the .csv files
 runf_df = pandas.read_csv(input_path + r'\subcatchment_runf.csv')
-
 bif_df = pandas.read_csv(input_path + r'\subcatchment_bif.csv')
 
-# subset the desired cols from df's and join together
-#todo will need to add the other .zts variables
-runf_sub = runf_df[["year", "month", "day", "runf_sum"]]
-bif_sub = bif_df[["bif_sum"]]
+# vvwm .zts file format:
+# year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
 
-#todo will need to add the other .zts variables
+# todo convert runf and bif units
+
+# cols of zero
+runf_df.loc[:, 'B'] = 0
+bif_df.loc[:, "MEp"] = 0
+
+# subset the desired cols from df's and join together
+runf_sub = runf_df[["year", "month", "day", "runf_sum", "B"]]
+bif_sub = bif_df[["bif_sum", "MEp"]]
+
+# combine
 vvwm_df = pandas.concat([runf_sub,bif_sub], axis=1)
 
 # read out into comma-deliminated .txt file
