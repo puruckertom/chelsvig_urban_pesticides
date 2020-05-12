@@ -30,7 +30,7 @@ before3_1572 <- before2_1572 %>%
 before3_1572$station <- rep("p1572", time=dim(before3_1572)[[1]])
 before3_1572$minute <- rep(0, time=dim(before3_1572)[[1]])
 names(before3_1572)[names(before3_1572) == "V2"] <- "precipitation"
-before3_1572$precipitation <- before3_1572$precipitation*25.4
+before3_1572$precipitation <- before3_1572$precipitation*25.4 #in to mm
 before3_1572[is.na(before3_1572)] <- 0
 
 
