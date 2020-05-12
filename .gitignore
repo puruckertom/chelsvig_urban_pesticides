@@ -11,6 +11,7 @@ probabilistic_python/input/swmm/input/NPlesantCreek.out
 probabilistic_python/input/swmm/input_*/NPlesantCreek.rpt
 probabilistic_python/input/swmm/NPlesantCreek.rpt
 probabilistic_python/input/swmm/input/NPlesantCreek.rpt
+observed_data/SURF_water.csv
 
 # History files
 .Rhistory
