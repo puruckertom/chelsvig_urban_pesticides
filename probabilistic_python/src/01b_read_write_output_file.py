@@ -18,9 +18,9 @@ swmm_file = swmm_path + r'\NPlesantCreek.rpt'
 print(swmm_file)
 vvwm_path = dir_path + r'\input\vvwm'
 print(vvwm_path)
-determ_inputs = vvwm_path + r'\inputs\determ'
-print(determ_inputs)
 
+outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
 
 # time period
 firstday = date(2009, 1, 2)
@@ -100,21 +100,20 @@ for columnName in runf_df.columns:
 for columnName in bif_df.columns:
     bif_df[columnName] = bif_df[columnName].astype(float)
 
-filenames = [vvwm_path + r'\subs_31_26.csv', vvwm_path + r'\subs_31_28.csv',
-             vvwm_path + r'\subs_31_29.csv', vvwm_path + r'\subs_31_35.csv',
-             vvwm_path + r'\subs_31_36.csv', vvwm_path + r'\subs_31_38.csv',
-             vvwm_path + r'\subs_31_42.csv', ]
+# subset subcatchment outputs for each vvwm
+for o in outfalls:
+    # set pathways
+    outfall_path = vvwm_path + o
+    determ_inputs = outfall_path + r'\inputs\determ'
+    outfall_file = outfall_path + o + r'.csv'
 
-# subset subcatchment output values for each vvwm run (based on subs in the vvwm run's zone)
-for f in filenames:
-    sub_file = pandas.read_csv(f)
+    # declare which columns need to be subset
+    sub_file = pandas.read_csv(outfall_file)
     sublist = sub_file['Subcatchment_ID'].tolist()
-    print(sublist)
 
-    collist = [x - 1 for x in sublist]
-    print(collist)  # these are the columns I want to subset from the df
+    collist = [x - 1 for x in sublist]  # columns to subset from df
 
-    # grab only the subcatchments that are needed
+    # subset
     runf_sub = runf_df.iloc[:, collist]
     bif_sub = bif_df.iloc[:, collist]
 
@@ -136,8 +135,8 @@ for f in filenames:
     bif_sub['day'] = bif_sub['date'].dt.day
 
     # write out dataframes
-    substring = f[84: 94:]
-    runf_out = determ_inputs + r'\runf' + substring
-    bif_out = determ_inputs + r'\bif' + substring
+    substring = outfall_file[102: 111:]
+    runf_out = determ_inputs + r'\runf_' + substring
+    bif_out = determ_inputs + r'\bif_' + substring
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
