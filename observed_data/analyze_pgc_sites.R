@@ -6,6 +6,8 @@ surf <- read.csv("C:/Users/echelsvi/git/chelsvig_urban_pesticides/observed_data/
 surf_bif <- surf[surf$Chemical_name == "bifenthrin", ]
 placer_bif <- surf_bif[surf_bif$County_name == "Placer", ]
 
+write.csv(placer_bif, "C:/Users/echelsvi/git/chelsvig_urban_pesticides/observed_data/SURF_water_placer_bifenthrin.csv")
+
 
 # Specific Sites
 # 31_26
