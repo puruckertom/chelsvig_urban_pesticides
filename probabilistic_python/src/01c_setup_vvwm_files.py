@@ -13,31 +13,35 @@ print(dir_path)
 
 vvwm_path = dir_path + r'\input\vvwm'
 print(vvwm_path)
-determ_inputs = vvwm_path + r'\inputs\determ'
-print(determ_inputs)
-determ_outputs = vvwm_path + r'\outputs\determ'
-print(determ_outputs)
 
-# todo read in all the files that contain a string
-# read in all the .csv files
-runf_df = pandas.read_csv(determ_inputs + r'\subcatchment_runf.csv')
-bif_df = pandas.read_csv(determ_inputs + r'\subcatchment_bif.csv')
+outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
 
-# vvwm .zts file format:
-# year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
+# loop through each outfall to create its vvwm.zts input file
+for o in outfalls:
+    # set pathways
+    outfall_path = vvwm_path + o
+    determ_input = outfall_path + r'\inputs\determ'
+    filelist = os.listdir(determ_input)
+    bif_df = pandas.read_csv(determ_input + r'\\' + filelist[0])
+    runf_df = pandas.read_csv(determ_input + r'\\' + filelist[1])
 
-# todo convert runf and bif units
+    # vvwm .zts file format:
+    # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
 
-# cols of zero
-runf_df.loc[:, 'B'] = 0
-bif_df.loc[:, "MEp"] = 0
+    # todo convert runf and bif units
 
-# subset the desired cols from df's and join together
-runf_sub = runf_df[["year", "month", "day", "runf_sum", "B"]]
-bif_sub = bif_df[["bif_sum", "MEp"]]
+    # cols of zero
+    runf_df.loc[:, 'B'] = 0
+    bif_df.loc[:, "MEp"] = 0
 
-# combine
-vvwm_df = pandas.concat([runf_sub,bif_sub], axis=1)
+    # subset the desired cols from df's and join together
+    runf_sub = runf_df[["year", "month", "day", "runf_sum", "B"]]
+    bif_sub = bif_df[["bif_sum", "MEp"]]
 
-# read out into comma-deliminated .txt file
-vvwm_df.to_csv(determ_outputs + r'\vvwm_input.zts', header=None, index=None, sep=',')
+    # combine
+    vvwm_df = pandas.concat([runf_sub, bif_sub], axis=1)
+
+    # read out into comma-deliminated .txt file
+    vvwm_df.to_csv(determ_input + r'\vvwm_input.zts', header=None, index=None, sep=',')
+
