@@ -29,8 +29,6 @@ for o in outfalls:
     # vvwm .zts file format:
     # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
 
-    # todo convert runf and bif units
-
     # cols of zero
     runf_df.loc[:, 'B'] = 0
     bif_df.loc[:, "MEp"] = 0

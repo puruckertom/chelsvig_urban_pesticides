@@ -16,12 +16,36 @@ swmm_path = dir_path + r'\input\swmm'
 print(swmm_path)
 swmm_file = swmm_path + r'\NPlesantCreek.rpt'
 print(swmm_file)
+inp_file = swmm_path + r'\NPlesantCreek.inp'
+print(inp_file)
 vvwm_path = dir_path + r'\input\vvwm'
 print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
 
+# read in the .inp file subcatchment areas (to use later in script)
+# read the .inp file
+file = open(inp_file, "r")
+
+# create blank list to hold subcatchment areas
+sub_list_area = []
+
+# skip x lines
+lines1 = file.readlines()[58:]
+
+for thissub in range(0, 113):
+    # grab the area
+    thisline = lines1[thissub]
+    fixline = " ".join(thisline.split())
+    listline = fixline.split()
+    area = listline[3]
+    area = float(area)
+
+    # insert into blank list
+    sub_list_area.append(area)
+
+# read in .rpt values of runf and bif conc.
 # time period
 firstday = date(2009, 1, 2)
 lastday = date(2009, 12, 31)
@@ -100,6 +124,39 @@ for columnName in runf_df.columns:
 for columnName in bif_df.columns:
     bif_df[columnName] = bif_df[columnName].astype(float)
 
+# copy
+runf_conv = runf_df
+bif_conv = bif_df
+
+# specify loop variables
+runf_df_cols = len(runf_conv.columns)
+runf_df_rows = len(runf_conv)
+bif_df_cols = len(bif_conv.columns)
+bif_df_rows = len(bif_conv)
+
+# conversion for runf
+for c in range(0, runf_df_cols):
+
+    # define subcatchment's area
+    this_area = sub_list_area[c]
+
+    for r in range(0, runf_df_rows):
+        # compute cm/ha/day
+        runf_conv.iloc[r, c] = (runf_conv.iloc[r, c] * 86400) / this_area
+
+# conversion for bifenthrin conc.
+for c in range(0, bif_df_cols):
+
+    # define subcatchment's area
+    this_area = sub_list_area[c]
+
+    for r in range(0, bif_df_rows):
+        # define the runoff value (m3/day)
+        this_runf = runf_df.iloc[r, c] * 864000
+
+        # compute g/ha/day
+        bif_conv.iloc[r, c] = (bif_conv.iloc[r, c] * 1000 * this_runf) / (1.0e6 * this_area)
+
 # subset subcatchment outputs for each vvwm
 for o in outfalls:
     # set pathways
@@ -114,8 +171,8 @@ for o in outfalls:
     collist = [x - 1 for x in sublist]  # columns to subset from df
 
     # subset
-    runf_sub = runf_df.iloc[:, collist]
-    bif_sub = bif_df.iloc[:, collist]
+    runf_sub = runf_conv.iloc[:, collist]
+    bif_sub = bif_conv.iloc[:, collist]
 
     # add a total sum column
     runf_sub["runf_sum"] = runf_sub.sum(axis=1)
