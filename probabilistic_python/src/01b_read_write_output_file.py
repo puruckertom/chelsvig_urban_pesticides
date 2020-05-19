@@ -161,7 +161,7 @@ for c in range(0, bif_df_cols):
 for o in outfalls:
     # set pathways
     outfall_path = vvwm_path + o
-    determ_inputs = outfall_path + r'\inputs\determ'
+    determ_inputs = outfall_path + r'\determ'
     outfall_file = outfall_path + o + r'.csv'
 
     # declare which columns need to be subset

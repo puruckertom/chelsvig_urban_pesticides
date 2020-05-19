@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------
-# create .zts file for vvwm (for probabilistic sims)
+# create .zts file for vvwm deterministic simulation
 # ------------------------------------------------------------------------------------------
 
 # setup
@@ -21,7 +21,7 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 for o in outfalls:
     # set pathways
     outfall_path = vvwm_path + o
-    determ_input = outfall_path + r'\inputs\determ'
+    determ_input = outfall_path + r'\determ'
     filelist = os.listdir(determ_input)
     bif_df = pandas.read_csv(determ_input + r'\\' + filelist[0])
     runf_df = pandas.read_csv(determ_input + r'\\' + filelist[1])
@@ -40,6 +40,6 @@ for o in outfalls:
     # combine
     vvwm_df = pandas.concat([runf_sub, bif_sub], axis=1)
 
-    # read out into comma-deliminated .txt file
-    vvwm_df.to_csv(determ_input + r'\vvwm_input.zts', header=None, index=None, sep=',')
+    # read out into comma-delimited .txt file
+    vvwm_df.to_csv(determ_input + r'\output.zts', header=None, index=None, sep=',')
 

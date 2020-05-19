@@ -1,5 +1,5 @@
 # --------------------------------------------------
-# run [practice/dummy] simulation
+# run deterministic simulation
 # --------------------------------------------------
 
 # set up
@@ -16,7 +16,7 @@ file_path = dir_path + r'\input\swmm\NPlesantCreek.inp'
 print(file_path)
 print(os.path.exists(file_path))
 
-# load the model - no interaction
+# load the model - no interaction, write out report
 sim = Simulation(file_path)
 for step in sim:
     pass

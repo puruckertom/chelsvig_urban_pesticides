@@ -16,12 +16,44 @@ ms1$Date <- as.Date( as.character(ms1$Sample_date), "%Y-%m-%d")
 site1 <- ms1[ms1$Chemical_name == "bifenthrin",]
 site1 <- site1[order(site1$Date),]
 
+# 31_27
+aside <- surf[surf$Site_code == "31_27" , ]
+aside$Date <- as.Date( as.character(aside$Sample_date), "%Y-%m-%d")
+aside <- aside[aside$Chemical_name == "bifenthrin",]
+aside <- aside[order(aside$Date),]
+
+
 
 # 31_28
 ms2 <- surf[surf$Site_code == "31_28" , ]
 ms2$Date <- as.Date( as.character(ms2$Sample_date), "%Y-%m-%d")
 site2 <- ms2[ms2$Chemical_name == "bifenthrin",]
 site2 <- site2[order(site2$Date),]
+
+
+# 31_30
+aside <- surf[surf$Site_code == "31_30" , ]
+aside$Date <- as.Date( as.character(aside$Sample_date), "%Y-%m-%d")
+aside <- aside[aside$Chemical_name == "bifenthrin",]
+aside <- aside[order(aside$Date),]
+
+# 31_31
+aside <- surf[surf$Site_code == "31_31" , ]
+aside$Date <- as.Date( as.character(aside$Sample_date), "%Y-%m-%d")
+aside <- aside[aside$Chemical_name == "bifenthrin",]
+aside <- aside[order(aside$Date),]
+
+# 31_41
+aside <- surf[surf$Site_code == "31_41" , ]
+aside$Date <- as.Date( as.character(aside$Sample_date), "%Y-%m-%d")
+aside <- aside[aside$Chemical_name == "bifenthrin",]
+aside <- aside[order(aside$Date),]
+
+
+
+
+
+
 
 # 31_29
 ms2 <- surf[surf$Site_code == "31_29" , ]
