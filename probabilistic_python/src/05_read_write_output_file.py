@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------
-# read swmm .rpt output file, and store desired outputs
+# read SWMM .rpt output file, and store desired outputs
 # ------------------------------------------------------------------------------------------
 
 # setup
@@ -13,6 +13,7 @@ dir_path = os.path.abspath(os.curdir)
 print(dir_path)
 
 input_path = dir_path + r'\input\swmm\input_'
+output_path = dir_path + r'\input\vvwm\input_'
 swmm_path = dir_path + r'\input\swmm'
 vvwm_path = dir_path + r'\input\vvwm'
 
@@ -23,7 +24,7 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 # nsims
 nsims = 5
 
-# todo need to work through all this code, still undergoing major edits
+# the loop!
 for o in outfalls:
     # set pathways
     outfall_path = vvwm_path + o
@@ -41,13 +42,10 @@ for o in outfalls:
     os.getcwd()
     os.chdir(newdir)
 
-    # read in the .rpt file for each simulation
-    output_path = outfall_path + r'\input_'
-
+    # read in the .inp file subcatchment areas (to use later in script)
     for rpt in range(1, nsims+1):
         folder_path = input_path + str(rpt)
 
-        # read in the .inp file subcatchment areas (to use later in script)
         # read the .inp file
         inp_file = folder_path + r'\NPlesantCreek.inp'
         file = open(inp_file, "r")
@@ -179,15 +177,8 @@ for o in outfalls:
                 # compute g/ha/day
                 bif_conv.iloc[r, c] = (bif_conv.iloc[r, c] * 1000 * this_runf) / (1.0e6 * this_area)
 
-# todo - I stopped making edits here...I think I might need to wrap the outfall for loop
-# todo - around the nsims for loop.  Need to think about this more.
-
-    # subset subcatchment outputs for each vvwm
-    for o in outfalls:
-        # set pathways
-        outfall_path = vvwm_path + o
-        determ_inputs = outfall_path + r'\determ'
-        outfall_file = outfall_path + o + r'.csv'
+        # subset subcatchment outputs for each vvwm
+        outfall_file = outfall_path + '\\' + o + r'.csv'
 
         # declare which columns need to be subset
         sub_file = pandas.read_csv(outfall_file)
@@ -218,14 +209,10 @@ for o in outfalls:
 
         # write out dataframes
         substring = outfall_file[102: 111:]
-        runf_out = determ_inputs + r'\runf_' + substring
-        bif_out = determ_inputs + r'\bif_' + substring
+        out_folder = output_path + str(rpt)
+        runf_out = out_folder + r'\runf_' + substring
+        bif_out = out_folder + r'\bif_' + substring
         runf_sub.to_csv(runf_out)
         bif_sub.to_csv(bif_out)
 
 
-    # write out dataframes
-    runf_out = folder_path + r'\subcatchment_runf_' + str(rpt) + r'.csv'
-    bif_out = folder_path + r'\subcatchment_bif_' + str(rpt) + r'.csv'
-    runf_df.to_csv(runf_out)
-    bif_df.to_csv(bif_out)

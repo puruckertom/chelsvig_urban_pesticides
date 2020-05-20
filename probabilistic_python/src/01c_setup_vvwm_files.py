@@ -41,5 +41,5 @@ for o in outfalls:
     vvwm_df = pandas.concat([runf_sub, bif_sub], axis=1)
 
     # read out into comma-delimited .txt file
-    vvwm_df.to_csv(determ_input + r'\output.zts', header=None, index=None, sep=',')
+    vvwm_df.to_csv(determ_input + r'\output.zts', header=False, index=False, sep=',')
 
