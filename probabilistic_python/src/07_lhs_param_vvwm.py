@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------
-# Latin Hypercube sampling of parameters
+# Latin Hypercube sampling of parameters for VVWM
 # ------------------------------------------------------------------
 
 # setup environment
@@ -17,7 +17,7 @@ print(dir_path)
 nsims = 5
 
 # import parameter ranges table
-param_ranges = pandas.read_csv(dir_path + r'\input\lhs\lhs_param_ranges.csv')
+param_ranges = pandas.read_csv(dir_path + r'\input\lhs\lhs_param_ranges_vvwm.csv')
 print(param_ranges)
 
 # create list of input parameter names
@@ -37,9 +37,4 @@ lhs_df = pandas.DataFrame(lhs_design, columns=param_names)
 print(lhs_df)
 
 # write out
-lhs_df.to_csv(dir_path + r'\io\lhs_sampled_params.csv')
-
-
-# ------------------------------------------------------------------
-# the end
-# ------------------------------------------------------------------
+lhs_df.to_csv(dir_path + r'\io\lhs_sampled_params_vvwm.csv')
