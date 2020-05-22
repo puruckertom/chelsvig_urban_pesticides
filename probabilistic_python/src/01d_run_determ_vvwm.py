@@ -54,21 +54,21 @@ for o in outfalls:
 
     filelines[0] = determ + r'\output.zts' + "\n"
     filelines[29] = determ + r'\17719_grid.wea' + "\n"
-    filelines[68] = determ + r'\output_NPlesantCreek_Custom_Parent_daily.csv' + "\n"
-    filelines[69] = determ + r'\output_NPlesantCreek_Custom_Degradate1_daily.csv' + "\n"
-    filelines[70] = determ + r'\output_NPlesantCreek_Custom_Degradate2_daily.csv' + "\n"
-    filelines[71] = determ + r'\output_NPlesantCreek_Custom_Parent.txt' + "\n"
-    filelines[72] = determ + r'\output_NPlesantCreek_Custom_Degradate1.txt' + "\n"
-    filelines[73] = determ + r'\output_NPlesantCreek_Custom_Degradate2.txt' + "\n"
-    filelines[74] = determ + r'\output_NPlesantCreek_Custom_Parent_DEEM.rdf' + "\n"
-    filelines[75] = determ + r'\output_NPlesantCreek_Custom_Degradate1_DEEM.rdf' + "\n"
-    filelines[76] = determ + r'\output_NPlesantCreek_Custom_Degradate2_DEEM.rdf' + "\n"
-    filelines[77] = determ + r'\output_NPlesantCreek_Custom_Parent_Calendex.rdf' + "\n"
-    filelines[78] = determ + r'\output_NPlesantCreek_Custom_Degradate1_Calendex.rdf' + "\n"
-    filelines[79] = determ + r'\output_NPlesantCreek_Custom_Degradate2_Calendex.rdf' + "\n"
-    filelines[80] = determ + r'\output_NPlesantCreek_Custom_15_Parent.txt' + "\n"
-    filelines[81] = determ + r'\output_NPlesantCreek_Custom_15_Degradate1.txt' + "\n"
-    filelines[82] = determ + r'\output_NPlesantCreek_Custom_15_Degradate2.txt' + "\n"
+    filelines[68] = determ + r'\output_NPlesant_Custom_parent_daily.csv' + "\n"
+    filelines[69] = determ + r'\output_NPlesant_Custom_deg1_daily.csv' + "\n"
+    filelines[70] = determ + r'\output_NPlesant_Custom_deg2_daily.csv' + "\n"
+    filelines[71] = determ + r'\output_NPlesant_Custom_parent_analysis.txt' + "\n"
+    filelines[72] = determ + r'\output_NPlesant_Custom_deg1_analysis.txt' + "\n"
+    filelines[73] = determ + r'\output_NPlesant_Custom_deg2_analysis.txt' + "\n"
+    filelines[74] = determ + r'\output_NPlesant_Custom_parent_deem.rdf' + "\n"
+    filelines[75] = determ + r'\output_NPlesant_Custom_deg1_deem.rdf' + "\n"
+    filelines[76] = determ + r'\output_NPlesant_Custom_deg2_deem.rdf' + "\n"
+    filelines[77] = determ + r'\output_NPlesant_Custom_parent_calendex.rdf' + "\n"
+    filelines[78] = determ + r'\output_NPlesant_Custom_deg1_calendex.rdf' + "\n"
+    filelines[79] = determ + r'\output_NPlesant_Custom_deg2_calendex.rdf' + "\n"
+    filelines[80] = determ + r'\output_NPlesant_Custom_parent_esa.txt' + "\n"
+    filelines[81] = determ + r'\output_NPlesant_Custom_deg1_esa.txt' + "\n"
+    filelines[82] = determ + r'\output_NPlesant_Custom_deg2_esa.txt' + "\n"
 
     # copy, write out file
     this_vvwm = open(new_file, "w")
@@ -77,5 +77,6 @@ for o in outfalls:
 
     # todo get the executable to work with python code
     # run vvwm.exe
-    transfile = determ + r'\vvwmTransfer.txt'
-    s = subprocess.Popen(new_exe, stdin=open(transfile), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    command = new_exe
+    print(command)
+    subprocess.call(command)

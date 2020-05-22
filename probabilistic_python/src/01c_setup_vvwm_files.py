@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas, os
+import pandas, os, glob
 
 # specify location
 print(os.path.abspath(os.curdir))
@@ -22,9 +22,12 @@ for o in outfalls:
     # set pathways
     outfall_path = vvwm_path + o
     determ_input = outfall_path + r'\determ'
-    filelist = os.listdir(determ_input)
-    bif_df = pandas.read_csv(determ_input + r'\\' + filelist[0])
-    runf_df = pandas.read_csv(determ_input + r'\\' + filelist[1])
+
+    # grab bif and runf .csv files
+    text_files = glob.glob(determ_input + "\*.csv", recursive=True)
+
+    bif_df = pandas.read_csv(text_files[0])
+    runf_df = pandas.read_csv(text_files[1])
 
     # vvwm .zts file format:
     # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
@@ -33,9 +36,11 @@ for o in outfalls:
     runf_df.loc[:, 'B'] = 0
     bif_df.loc[:, "MEp"] = 0
 
+    runf_df.head()
+
     # subset the desired cols from df's and join together
-    runf_sub = runf_df[["year", "month", "day", "runf_sum", "B"]]
-    bif_sub = bif_df[["bif_sum", "MEp"]]
+    runf_sub = runf_df.loc[:, ["year", "month", "day", "runf_sum", "B"]]
+    bif_sub = bif_df.loc[:, ["bif_sum", "MEp"]]
 
     # combine
     vvwm_df = pandas.concat([runf_sub, bif_sub], axis=1)
@@ -43,3 +48,23 @@ for o in outfalls:
     # read out into comma-delimited .txt file
     vvwm_df.to_csv(determ_input + r'\output.zts', header=False, index=False, sep=',')
 
+    # insert blank lines for vvwm formatting
+    blanks = ['\n', '\n', '\n']
+
+    # define locations
+    file_name = determ_input + r'\output.zts'
+    dummy_file = determ_input + r'\temp.zts'
+
+    # open original zts in read, dummy in write
+    with open(file_name, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+        # write blanks to dummy file
+        for line in blanks:
+            write_obj.write(line)
+        # read lines from original and append to dummy file
+        for line in read_obj:
+            write_obj.write(line)
+
+    # remove original file
+    os.remove(file_name)
+    # rename dummy file as original file
+    os.rename(dummy_file, file_name)

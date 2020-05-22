@@ -26,8 +26,8 @@ False
 0.0072,,,
 0.0,,,
 2
-NPlesantCreek
-C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/input/vvwm/weatherfile
+NPlesant
+C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/input/vvwm/17719_grid.wea
 40
 True,True,True,False,False,False,False
 False,30,0,
