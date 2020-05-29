@@ -6,11 +6,14 @@ library(stringr)
 library(dplyr)
 library(tidyr)
 
+# specify location
+mydir <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/swmm/"
+
 # read in the files
-before_1572 <- read.csv("C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1572.csv", skip=2, header=F)
-before_1601 <- read.csv("C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1601.csv", skip=2, header=F)
-before_1602 <- read.csv("C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1602.csv", skip=2, header=F)
-before_1783 <- read.csv("C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1783.csv", skip=2, header=F)
+before_1572 <- read.csv(paste0(mydir, "1572.csv", sep=""), skip=2, header=F)
+before_1601 <- read.csv(paste0(mydir, "1601.csv", sep=""), skip=2, header=F)
+before_1602 <- read.csv(paste0(mydir, "1602.csv", sep=""), skip=2, header=F)
+before_1783 <- read.csv(paste0(mydir, "1783.csv", sep=""), skip=2, header=F)
 
 
 # ----------------------------------
@@ -38,7 +41,7 @@ before3_1572[is.na(before3_1572)] <- 0
 after_1572 <- before3_1572[,c("station", "year", "month", "day", "hour", "minute", "precipitation")]
 
 # write out in tab-delimited
-write.table(after_1572, file = "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1572_out.txt", sep="\t",row.names=F,col.names=T,quote=F)
+write.table(after_1572, file = paste0(mydir, "1572_out.txt",sep=""), sep="\t",row.names=F,col.names=T,quote=F)
 
 #now manually append this file to the existing
 
@@ -69,7 +72,7 @@ before3_1601[is.na(before3_1601)] <- 0
 after_1601 <- before3_1601[,c("station", "year", "month", "day", "hour", "minute", "precipitation")]
 
 # write out in tab-delimited
-write.table(after_1601, file = "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1601_out.txt", sep="\t",row.names=F,col.names=T,quote=F)
+write.table(after_1601, file = paste0(mydir, "1601_out.txt",sep=""), sep="\t",row.names=F,col.names=T,quote=F)
 
 #now manually append this file to the existing
 
@@ -99,7 +102,7 @@ before3_1602[is.na(before3_1602)] <- 0
 after_1602 <- before3_1602[,c("station", "year", "month", "day", "hour", "minute", "precipitation")]
 
 # write out in tab-delimited
-write.table(after_1602, file = "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1602_out.txt", sep="\t",row.names=F,col.names=T,quote=F)
+write.table(after_1602, file = paste0(mydir, "1602_out.txt",sep=""), sep="\t",row.names=F,col.names=T,quote=F)
 
 #now manually append this file to the existing
 
@@ -129,7 +132,7 @@ before3_1783[is.na(before3_1783)] <- 0
 after_1783 <- before3_1783[,c("station", "year", "month", "day", "hour", "minute", "precipitation")]
 
 # write out in tab-delimited
-write.table(after_1783, file = "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/1783_out.txt", sep="\t",row.names=F,col.names=T,quote=F)
+write.table(after_1783, file = paste0(mydir, "1783_out.txt", sep=""), sep="\t",row.names=F,col.names=T,quote=F)
 
 #now manually append this file to the existing
 
