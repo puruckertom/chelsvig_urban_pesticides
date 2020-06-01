@@ -48,7 +48,7 @@ for thissub in range(0, 113):
 # read in .rpt values of runf and bif conc.
 # time period
 firstday = date(2009, 1, 2)
-lastday = date(2009, 12, 31)
+lastday = date(2017, 12, 31)
 delta = lastday - firstday
 days = delta.days
 dates = pandas.date_range(firstday, lastday).tolist()

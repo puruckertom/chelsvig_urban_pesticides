@@ -12,7 +12,7 @@ library(gdata)
 
 
 # specify location
-mydir <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/vvwm/"
+mydir <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/vvwm/"
 
 # read in the precip files
 df_1572 <- read.table(paste0(mydir,"sp1572.dat"), header=T, sep="\t")

@@ -7,7 +7,7 @@ library(dplyr)
 library(tidyr)
 
 # specify location
-mydir <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/weather/swmm/"
+mydir <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/swmm/"
 
 # read in the files
 before_1572 <- read.csv(paste0(mydir, "1572.csv", sep=""), skip=2, header=F)
