@@ -26,7 +26,7 @@ lhs_design = pandas.read_csv(dir_path+r'\io\lhs_sampled_params_vvwm.csv')
 # round lhs decimals
 lhs_design = lhs_design.round(
     {"kd": 2, "aer_aq": 0, "aer_aq_temp": 2, "anae_aq": 0, "anae_aq_temp": 2, "photo": 2, "rflat": 0, "hydro": 2, "sol": 4,
-     "benthic_depth": 3, "2": 3, "porosity": 2, "bulk_density": 2, "froc2": 3, "doc2": 2, "bnmas": 3, "sused": 3, "chl": 3,
+     "benthic_depth": 3, "porosity": 2, "bulk_density": 2, "froc2": 3, "doc2": 2, "bnmas": 3, "sused": 3, "chl": 3,
      "froc1": 3, "doc1": 2})
 print(lhs_design.head())
 
@@ -51,356 +51,111 @@ for o in outfalls:
         os.chdir(newdir)
 
         # copy base file into new file location
-        old_file = os.path.join(vvwm_path, r'\vvwmTransfer.txt')
-        new_file = os.path.join(newdir, r'\vvwmTransfer.txt')
+        old_file = vvwm_path + r'\vvwmTransfer.txt'
+        new_file = newdir + r'\vvwmTransfer.txt'
         shutil.copyfile(old_file, new_file)
 
         # start reading the new file
         new = open(new_file, "r")
         filelines = new.readlines()
 
-        # todo - the below code has NOT been altered since copy-paste from swmm script
-
         # edit the new file
-        # ---------------------------
         # parameter = kd
-        # ---------------------------
-        row_0 = 175
-        kd = lhs_design.loc[Ite - 1, "kd"]
-        print(kd)
-        oldline = filelines[row_0]
-
-        fixline = ",".join(oldline.split())
-        listline = fixline.split()
-        listline[1] = str(kd)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_0] = newline
-
-        # ---------------------------
-        # parameter = NPerv
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 175
-        NPerv = lhs_design.loc[Ite - 1, "NPerv"]
-        print(NPerv)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[2] = str(NPerv)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = SImperv
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 175
-        SImperv = lhs_design.loc[Ite - 1, "SImperv"]
-        print(SImperv)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[3] = str(SImperv)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = SPerv
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 175
-        SPerv = lhs_design.loc[Ite - 1, "SPerv"]
-        print(SPerv)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[4] = str(SPerv)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = PctZero
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 175
-        PctZero = lhs_design.loc[Ite - 1, "PctZero"]
-        print(PctZero)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[5] = str(PctZero)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = MaxRate
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 292
-        MaxRate = lhs_design.loc[Ite - 1, "MaxRate"]
-        print(MaxRate)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[1] = str(MaxRate)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = MinRate
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 292
-        MinRate = lhs_design.loc[Ite - 1, "MinRate"]
-        print(MinRate)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[2] = str(MinRate)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = Decay
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 292
-        Decay = lhs_design.loc[Ite - 1, "Decay"]
-        print(Decay)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[3] = str(Decay)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = DryTime
-        # ---------------------------
-        Num = 113  # number of subcatchments
-        row_0 = 292
-        DryTime = lhs_design.loc[Ite - 1, "DryTime"]
-        print(DryTime)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[4] = str(DryTime)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-        # ---------------------------
-        # parameter = Por
-        # ---------------------------
-        Num = 1  # number of aquifers
-        row_0 = 409
-        Por = lhs_design.loc[Ite - 1, "Por"]
-        print(Por)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[1] = str(Por)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-
-        # ---------------------------
-        #   parameter = WP
-        # ---------------------------
-        Num = 1  # number of aquifers
-        row_0 = 409
-        WP = lhs_design.loc[Ite - 1, "WP"]
-        print(WP)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[2] = str(WP)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = FC
-        # ---------------------------
-        Num = 1  # number of aquifers
-        row_0 = 409
-        FC = lhs_design.loc[Ite - 1, "FC"]
-        print(FC)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[3] = str(FC)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = Ksat
-        # ---------------------------
-        Num = 1  # number of aquifers
-        row_0 = 409
-        Ksat = lhs_design.loc[Ite - 1, "Ksat"]
-        print(Ksat)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[4] = str(Ksat)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # # ---------------------------
-        # # parameter = Rough
-        # # ---------------------------
-        # Num = 195  # number of conduits
-        # row_0 = 734
-        # Rough = lhs_design.loc[Ite - 1, "Rough"]
-        # print(Rough)
-        #
-        # for i in range(1, Num + 1):
-        #     row_t = row_0 + (i - 1)
-        #     oldline = filelines[row_t]
-        #
-        #     fixline = " ".join(oldline.split())
-        #     listline = fixline.split()
-        #     listline[4] = str(Rough)
-        #     listTOstring = ' '.join([str(item) for item in listline])
-        #
-        #     newline = listTOstring + "\n"
-        #     filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = Kdecay
-        # ---------------------------
-        Num = 1  # number of pollutants
-        row_0 = 1128
-        Kdecay = lhs_design.loc[Ite - 1, "Kdecay"]
-        print(Kdecay)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[5] = str(Kdecay)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = BCoeff2
-        # ---------------------------
-        Num = 1  # number of pollutants
-        row_0 = 1374
-        BCoeff2 = lhs_design.loc[Ite - 1, "BCoeff2"]
-        print(BCoeff2)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[4] = str(BCoeff2)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
-        # ---------------------------
-        # parameter = WCoeff2
-        # ---------------------------
-        Num = 1  # number of pollutants
-        row_0 = 1380
-        WCoeff2 = lhs_design.loc[Ite - 1, "WCoeff2"]
-        print(WCoeff2)
-
-        for i in range(1, Num + 1):
-            row_t = row_0 + (i - 1)
-            oldline = filelines[row_t]
-
-            fixline = " ".join(oldline.split())
-            listline = fixline.split()
-            listline[4] = str(WCoeff2)
-            listTOstring = ' '.join([str(item) for item in listline])
-
-            newline = listTOstring + "\n"
-            filelines[row_t] = newline
-
+        row_0 = 4
+        var = lhs_design.loc[Ite - 1, "kd"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = aer_aq
+        row_0 = 5
+        var = lhs_design.loc[Ite - 1, "aer_aq"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = aer_aq_temp
+        row_0 = 6
+        var = lhs_design.loc[Ite - 1, "aer_aq_temp"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = anae_aq
+        row_0 = 7
+        var = lhs_design.loc[Ite - 1, "anae_aq"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = anae_aq_temp
+        row_0 = 8
+        var = lhs_design.loc[Ite - 1, "anae_aq_temp"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = photo
+        row_0 = 9
+        var = lhs_design.loc[Ite - 1, "photo"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = rflat
+        row_0 = 10
+        var = lhs_design.loc[Ite - 1, "rflat"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = hydro
+        row_0 = 11
+        var = lhs_design.loc[Ite - 1, "hydro"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = sol
+        row_0 = 17
+        var = lhs_design.loc[Ite - 1, "sol"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = benthic depth
+        row_0 = 40
+        var = lhs_design.loc[Ite - 1, "benthic_depth"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = porosity
+        row_0 = 41
+        var = lhs_design.loc[Ite - 1, "porosity"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = bulk_density
+        row_0 = 42
+        var = lhs_design.loc[Ite - 1, "bulk_density"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = froc2
+        row_0 = 43
+        var = lhs_design.loc[Ite - 1, "froc2"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = doc2
+        row_0 = 44
+        var = lhs_design.loc[Ite - 1, "doc2"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = bnmas
+        row_0 = 45
+        var = lhs_design.loc[Ite - 1, "bnmas"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = sused
+        row_0 = 47
+        var = lhs_design.loc[Ite - 1, "sused"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = chl
+        row_0 = 48
+        var = lhs_design.loc[Ite - 1, "chl"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = froc1
+        row_0 = 49
+        var = lhs_design.loc[Ite - 1, "froc1"]
+        filelines[row_0] = str(var) + "\n"
+
+        # parameter = doc1
+        row_0 = 50
+        var = lhs_design.loc[Ite - 1, "doc1"]
+        filelines[row_0] = str(var) + "\n"
 
         # copy, write out file
-        new_swmm5 = open(new_file, "w")
-        new_swmm5.writelines(filelines)
-        new_swmm5.close()
-
+        new = open(new_file, "w")
+        new.writelines(filelines)
+        new.close()
