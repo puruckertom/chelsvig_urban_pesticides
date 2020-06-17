@@ -407,7 +407,7 @@ S113 28.253 8.159 5.91 13.0 0
 [AQUIFERS]
 ;;Name           Por    WP     FC     Ksat   Kslope Tslope ETu    ETs    Seep   Ebot   Egw    Umc    ETupat 
 ;;-------------- ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------ ------
-a1 0.428 0.185 0.236 7.393 10.0 15.0 0.35 0.3 0.002 0.0 5 0.30
+a1 0.428 0.185 0.236 4.9 10.0 15.0 0.35 0.3 0.002 0.0 5 0.30
 
 [GROUNDWATER]
 ;;Subcatchment   Aquifer          Node             Esurf  A1     B1     A2     B2     A3     Dsw    Egwt   Ebot   Wgr    Umc   
