@@ -23,6 +23,9 @@ print(param_ranges)
 # create list of input parameter names
 param_names = param_ranges["Parameter"].to_list()
 
+# parameter conditions:
+# por >= fc, fc >= wp,
+
 # conduct lhs sampling
 lhs_design = lhs(n=len(param_names), samples=nsims)
 print("LHS Design w/o Uniform: ","\n",lhs_design)
