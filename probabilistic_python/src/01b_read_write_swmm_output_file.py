@@ -68,7 +68,7 @@ sub_list_bif = []
 # skip x lines to start at day1 for subcatchment1
 lines1 = file.readlines()[60:]
 
-for thisday in range(0, days):
+for thisday in range(0, days + 1):
     # grab the runf value
     thisline = lines1[thisday]
     fixline = " ".join(thisline.split())
@@ -91,20 +91,39 @@ bif_df.rename(columns={bif_df.columns[0]: '1'}, inplace=True)
 for sub in range(2, 114):
     # skip lines to get to the next subcatchment's info
     file = open(swmm_file, "r")
-    skipto = (60 + ((days + 9) * (sub - 1))) - (sub - 2)
+    skipto = (59 + ((days + 9) * (sub - 1))) - (sub - 2)
     lines = file.readlines()[skipto:]
 
     # create blank list to hold subcatchment's runoff and bifenthrin concentration
     sub_list_runf = []
     sub_list_bif = []
 
-    for thisday in range(0, days):
+    for thisday in range(0, days + 1):
         # grab the runf value
         thisline = lines[thisday]
         fixline = " ".join(thisline.split())
         listline = fixline.split()
-        runf = listline[4]
-        bif = listline[7]
+
+        # if/then for entries whose bif conc is so large that it bleeds into the preceding column
+        if len(listline) == 7:
+            runf = listline[4]
+
+            # 2 smooshed cols
+            bug = listline[6]
+
+            # find the first instance of a decimal point
+            dist = bug.find('.')
+
+            # scan over 5 characters -> (rounding length for this col)
+            bug_scan = dist + 5
+
+            # chop string at this location
+            bif = bug[bug_scan:]
+            print(bif)
+
+        elif len(listline) == 8:
+            runf = listline[4]
+            bif = listline[7]
 
         # insert into blank list
         sub_list_runf.append(runf)
@@ -179,8 +198,8 @@ for o in outfalls:
     bif_sub["bif_sum"] = bif_sub.sum(axis=1)
 
     # add a date column
-    runf_sub['date'] = pandas.date_range(start='1/3/2009', periods=len(runf_sub), freq='D')
-    bif_sub['date'] = pandas.date_range(start='1/3/2009', periods=len(bif_sub), freq='D')
+    runf_sub['date'] = pandas.date_range(start='1/2/2009', periods=len(runf_sub), freq='D')
+    bif_sub['date'] = pandas.date_range(start='1/2/2009', periods=len(bif_sub), freq='D')
 
     # separate date column too
     runf_sub['year'] = runf_sub['date'].dt.year
@@ -197,3 +216,4 @@ for o in outfalls:
     bif_out = determ_inputs + r'\bif_' + substring
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
+

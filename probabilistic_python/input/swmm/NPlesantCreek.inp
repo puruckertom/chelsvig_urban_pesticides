@@ -1378,7 +1378,7 @@ Other	 	 Bifenthrin         NONE
 [WASHOFF]
 ;;Land Use       Pollutant        Function   Coeff1     Coeff2     SweepRmvl  BmpRmvl   
 ;;-------------- ---------------- ---------- ---------- ---------- ---------- ----------
-Developed        Bifenthrin       EXP        1.0        1.0        0.0        0.0              
+Developed        Bifenthrin       EXP        1.0        0.066      0.0        0.0              
 Other	         Bifenthrin       EXP        1.0        1.0        0.0        0.0       
 
 

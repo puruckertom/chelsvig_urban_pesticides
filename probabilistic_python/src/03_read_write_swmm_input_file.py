@@ -251,7 +251,6 @@ for Ite in range(1, nsims+1):
         newline = listTOstring + "\n"
         filelines[row_t] = newline
 
-
     # ---------------------------
     #   parameter = WP
     # ---------------------------
@@ -292,25 +291,25 @@ for Ite in range(1, nsims+1):
         newline = listTOstring + "\n"
         filelines[row_t] = newline
 
-    # # ---------------------------
-    # # parameter = Ksat
-    # # ---------------------------
-    # Num = 1  # number of aquifers
-    # row_0 = 409
-    # Ksat = lhs_design.loc[Ite - 1, "Ksat"]
-    # print(Ksat)
-    #
-    # for i in range(1, Num + 1):
-    #     row_t = row_0 + (i - 1)
-    #     oldline = filelines[row_t]
-    #
-    #     fixline = " ".join(oldline.split())
-    #     listline = fixline.split()
-    #     listline[4] = str(Ksat)
-    #     listTOstring = ' '.join([str(item) for item in listline])
-    #
-    #     newline = listTOstring + "\n"
-    #     filelines[row_t] = newline
+    # ---------------------------
+    # parameter = Ksat
+    # ---------------------------
+    Num = 1  # number of aquifers
+    row_0 = 409
+    Ksat = lhs_design.loc[Ite - 1, "Ksat"]
+    print(Ksat)
+
+    for i in range(1, Num + 1):
+        row_t = row_0 + (i - 1)
+        oldline = filelines[row_t]
+
+        fixline = " ".join(oldline.split())
+        listline = fixline.split()
+        listline[4] = str(Ksat)
+        listTOstring = ' '.join([str(item) for item in listline])
+
+        newline = listTOstring + "\n"
+        filelines[row_t] = newline
 
     # # ---------------------------
     # # parameter = Rough
