@@ -27,7 +27,7 @@ for o in outfalls:
     text_files = glob.glob(determ_input + "\*.csv", recursive=True)
 
     bif_df = pandas.read_csv(text_files[0])
-    runf_df = pandas.read_csv(text_files[1])
+    runf_df = pandas.read_csv(text_files[2]) # changed to 2 after running 01d, since that adds another .csv file
 
     # vvwm .zts file format:
     # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
