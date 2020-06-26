@@ -1,4 +1,4 @@
-C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\vvwm\outfall_31_36\determ\output.zts
+C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\vvwm\outfall_31_36\determ\output
 Bifenthrin
 1
 False
@@ -54,13 +54,13 @@ True
 1.0,1
 
 0
-0
+
 1
 1.431E+08
 35000
 2
 2
-0
+
 0
 0.0
 1

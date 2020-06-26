@@ -13,15 +13,10 @@ dir_path = os.path.abspath(os.curdir)
 print(dir_path)
 
 swmm_path = dir_path + r'\input\swmm'
-print(swmm_path)
 swmm_file = swmm_path + r'\NPlesantCreek.rpt'
-print(swmm_file)
 inp_file = swmm_path + r'\NPlesantCreek.inp'
-print(inp_file)
 vvwm_path = dir_path + r'\input\vvwm'
-print(vvwm_path)
 exe_path = dir_path + r'\exe'
-print(exe_path)
 wet_path = dir_path + r'\weather\vvwm'
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
@@ -77,7 +72,7 @@ for o in outfalls:
     this_vvwm = open(new_file, "r")
     filelines = this_vvwm.readlines()
 
-    filelines[0] = determ + r'\output.zts' + "\n"
+    filelines[0] = determ + r'\output' + "\n"
     # pathway for respective weather file
     if o == '\outfall_31_26' or o == '\outfall_31_28' or o == '\outfall_31_29' or o == '\outfall_31_42':
         filelines[29] = determ + r'\weather_STA01.dvf' + "\n"

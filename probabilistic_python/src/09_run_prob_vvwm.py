@@ -88,7 +88,7 @@ for o in outfalls:
         this_vvwm = open(new_file, "r")
         filelines = this_vvwm.readlines()
 
-        filelines[0] = sim_folder + r'\output.zts' + "\n"
+        filelines[0] = sim_folder + r'\output' + "\n"
 
         # pathway for respective weather file
         if o == '\outfall_31_26' or o == '\outfall_31_28' or o == '\outfall_31_29' or o == '\outfall_31_42':

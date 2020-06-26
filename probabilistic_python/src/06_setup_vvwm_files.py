@@ -53,8 +53,8 @@ for o in outfalls:
         # read out into comma-delimited .txt file
         vvwm_df.to_csv(input_folder + r'\output.zts', header=False, index=False, sep=',')
 
-        # insert blank lines for vvwm formatting
-        blanks = ['\n', '\n', '\n']
+        # insert blank lines for vvwm formatting, as well as 01/01/2009
+        blanks = ['\n', '\n', '\n', '2009,1,1,0.0,0,0.0,0', '\n']
 
         # define locations
         file_name = input_folder + r'\output.zts'
