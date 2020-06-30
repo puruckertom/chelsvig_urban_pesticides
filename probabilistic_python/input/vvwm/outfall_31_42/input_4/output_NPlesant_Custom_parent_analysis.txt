@@ -1,0 +1,88 @@
+ Variable Volume Water Model, Version    1.03100000000000     
+ 
+ *******************************************
+Performed on:  6/30/2020  at 11: 1
+* Insufficient years to calculate 1-in-10.0 . Only maximums are reported here.
+Initial 1-in-10.0  =  0.838E+18 ppb
+Chronic 1-in-10.0  =  0.331E+13 ppb
+Simulation Avg     =  0.728E+12 ppb
+4-d avg 1-in-10.0  =  0.178E+14 ppb
+21-d avg 1-in-10.0 =  0.935E+13 ppb
+60-d avg 1-in-10.0 =  0.666E+13 ppb
+90-d avg 1-in-10.0 =  0.596E+13 ppb
+1-d avg 1-in-10.0  =  0.625E+14 ppb
+Benthic Pore Water Peak 1-in-10.0     =  0.474E+13 ppb
+Benthic Pore Water 21-d avg 1-in-10.0 =  0.458E+13 ppb
+Benthic Conversion Factor             =  0.357E+04 -Pore water (ug/L) to (total mass, ug)/(dry sed mass,kg)
+Benthic Mass Fraction in Pore Water   =  0.104E-03
+ 
+YEAR    1-day     4-day      21-day     60-day     90-day   Yearly Avg Benthic Pk  Benthic 21-day
+  1    3.91E+13   1.02E+13   2.56E+12   1.36E+12   1.12E+12   5.25E+11   7.85E+11   7.67E+11
+  2    6.94E+12   2.00E+12   6.75E+11   5.25E+11   5.17E+11   2.96E+11   5.17E+11   5.35E+11
+  3    1.38E+13   3.65E+12   1.23E+12   7.71E+11   6.94E+11   4.40E+11   5.99E+11   5.79E+11
+  4    1.51E+13   4.17E+12   1.33E+12   8.20E+11   7.31E+11   4.76E+11   7.78E+11   7.51E+11
+  5    2.19E+13   5.86E+12   1.61E+12   8.96E+11   7.04E+11   4.10E+11   6.40E+11   6.27E+11
+  6    1.40E+13   4.30E+12   1.31E+12   8.44E+11   7.79E+11   4.80E+11   7.95E+11   7.56E+11
+  7    6.25E+13   1.78E+13   9.35E+12   6.66E+12   5.96E+12   3.31E+12   4.74E+12   4.58E+12
+  8    6.42E+12   1.83E+12   7.09E+11   5.61E+11   1.06E+12   4.50E+11   1.16E+12   1.34E+12
+  9    8.28E+12   2.22E+12   5.80E+11   3.77E+11   3.42E+11   1.74E+11   3.58E+11   3.70E+11
+****************************************************************************************************
+ Effective compartment halflives averaged over simulation duration:
+ 
+ washout halflife (days) =             5.900507773696271E-005
+ water col metab halflife (days) =      340.968566444666     
+ hydrolysis halflife (days)  =          657.662516021055     
+ photolysis halflife (days)  =          46729.9925768301     
+ volatile halflife (days)  =            5.42722182902080     
+ total water col halflife (days) =     5.900442065826035E-005
+ 
+ zero burial                           0
+ benthic metab halflife (days) =        681.937132889333     
+ benthic hydrolysis halflife (days) =   4843410.31826561     
+ total benthic halflife (days) =        681.841131775256     
+ ***********************************************************************
+ Fractional Contribution of Transport Processes to Waterbody & Total Mass (kg):
+ 
+ Due to Runoff  =     1.0000         0.5736E+018
+ Due to Erosion =     0.0000          0.000     
+ Due to Drift   =     0.0000          0.000     
+ ***********************************************************************
+ Flow in/out Characteristics of Waterbody:
+ Average Daily Runoff Into Waterbody (m3/s) =    9517.31906266280     
+ Baseflow Into Waterbody (m3/s)             =   0.000000000000000E+000
+ Average Daily Flow Out of Waterbody (m3/s) =    9517.34631657764     
+ ***********************************************************************
+ Inputs:
+  0.8925E+05 = oc partitioning coefficient
+   323.6     = water column half Life
+   20.00     = reference temp for water column degradation
+   647.2     = benthic Half Life
+   20.00     = Reference temp for benthic degradation
+   2.000     = Q ten value
+   365.0     = photolysis half life
+   40.00     = reference latitude for photolysis study
+   365.0     = hydrolysis half life
+   422.9     = molecular wt
+  0.1800E-02 = vapor pressure
+  0.1400E-04 = solubility
+  0.1431E+09 = field area
+  0.3500E+05 = water body area
+   2.000     = initial depth
+   2.000     = maximum depth
+   1         1=vvwm, 2=usepa pond, 3 = usepa reservoir, 4 = const vol no flow, 5 = const vol w/flow 
+ T  T = burial, else no burial
+  0.1000E-07 = mass transfer coefficient 
+  0.5000     = PRBEN
+  0.5000E-01 = benthic compartment depth
+  0.5000     = benthic porosity
+   1.350     =  benthic bulk density
+  0.4000E-01 = OC frcation in benthic sediment
+   5.000     = DOC in benthic compartment
+  0.6000E-02 = benthic biomass
+   1.190     = DFAC
+   30.00     = SS
+  0.5000E-02 = chlorophyll
+  0.4000E-01 = OC frcation in water column SS
+   5.000     = DOC in water column
+  0.4000     = biomass in water column
+ FRACTION AREA CROPPED =    1.00000000000000     

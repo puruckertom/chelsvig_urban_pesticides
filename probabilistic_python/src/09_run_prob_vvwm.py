@@ -2,9 +2,6 @@
 # execute vvwm for probabilistic simulations
 # ------------------------------------------------------------------------------------------
 
-# todo this script hasn't been run, so it is probably still buggy.
-# todo this script will also need to be updated once I figure out how to run vvwm (01d_)
-
 # setup
 import pandas, os, shutil, subprocess
 
@@ -15,15 +12,10 @@ dir_path = os.path.abspath(os.curdir)
 print(dir_path)
 
 swmm_path = dir_path + r'\input\swmm'
-print(swmm_path)
 swmm_file = swmm_path + r'\NPlesantCreek.rpt'
-print(swmm_file)
 inp_file = swmm_path + r'\NPlesantCreek.inp'
-print(inp_file)
 vvwm_path = dir_path + r'\input\vvwm'
-print(vvwm_path)
 exe_path = dir_path + r'\exe'
-print(exe_path)
 wet_path = dir_path + r'\weather\vvwm'
 
 # nsims
@@ -120,7 +112,6 @@ for o in outfalls:
         this_vvwm.writelines(filelines)
         this_vvwm.close()
 
-        # todo get the executable to work with python code
         # run vvwm.exe (vvwm.exe "inputfilename")
         command = new_exe + " " + new_file
         print(command)

@@ -70,7 +70,7 @@ for o in outfalls:
         # read in .rpt values of runf and bif conc.
         # time period
         firstday = date(2009, 1, 2)
-        lastday = date(2009, 12, 31)
+        lastday = date(2017, 12, 31)
         delta = lastday - firstday
         days = delta.days
         dates = pandas.date_range(firstday, lastday).tolist()
@@ -227,8 +227,8 @@ for o in outfalls:
         bif_sub['day'] = bif_sub['date'].dt.day
 
         # write out dataframes
-        substring = outfall_file[102: 111:]
-        out_folder = output_path + str(rpt)
+        substring = outfall_file[103: 112:]
+        out_folder = outfall_path + r'\input_' + str(rpt)
         runf_out = out_folder + r'\runf_' + substring
         bif_out = out_folder + r'\bif_' + substring
         runf_sub.to_csv(runf_out)
