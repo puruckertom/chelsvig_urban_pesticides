@@ -32,7 +32,7 @@ for o in outfalls:
         text_files = glob.glob(input_folder + "\*.csv", recursive=True)
 
         bif_df = pandas.read_csv(text_files[0])
-        runf_df = pandas.read_csv(text_files[1]) # todo will need to change to '2' after run vvwm which will create another .csv
+        runf_df = pandas.read_csv(text_files[2]) # todo will need to change to '2' after run vvwm which will create another .csv
 
         # vvwm .zts file format:
         # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
