@@ -16,6 +16,7 @@ dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_py
 # Kilograms
 pdf(paste(figs,"find_bug_kg_urban.pdf",sep=""),width=11,height=8, onefile=TRUE)
 
+
 for(i in 1:113){
 
   # read in data
@@ -34,18 +35,17 @@ for(i in 1:113){
   # subset
   data <- data[, c("dates", "pur_app_for_sub_kg", "totl_bif_n_runf_kg")]
   
-  # impose a false zero
-  for (j in 1:dim(data)[1]){
-    if (data[j,3] < 1e-8){
-      data[j,3] <- 1e-8
-    } 
+  # cumulative sum
+  for (r in 2:dim(data)[1]){
+    data[r,2] <- data[r-1,2] + data[r,2]
+    data[r,3] <- data[r-1,3] + data[r,3]
   }
   
   # melt for plotting
   data_melt <- reshape2::melt(data, id.var='dates')
   head(data_melt)
   
-  p <- ggplot(data_melt, aes(x=dates, y=cumsum(value), col=variable)) + 
+  p <- ggplot(data_melt, aes(x=dates, y=value, col=variable)) + 
     geom_line() +
     
     xlab("")+
@@ -134,12 +134,18 @@ all_subs$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by
 all_subs$pur_app_for_sub_totl_kg <- all_subs_pur$pur_app_for_sub_totl_kg
 all_subs$totl_bif_n_runf_totl_kg <- all_subs_swmm$totl_bif_n_runf_totl_kg
 all_subs <- all_subs[, c("dates", "pur_app_for_sub_totl_kg", "totl_bif_n_runf_totl_kg")]
+
+# cumulative sum
+for (r in 2:dim(all_subs)[1]){
+  all_subs[r,2] <- all_subs[r-1,2] + all_subs[r,2]
+  all_subs[r,3] <- all_subs[r-1,3] + all_subs[r,3]
+}
   
 # melt to plot
 data_melt <- reshape2::melt(all_subs, id.var='dates')
 head(data_melt)
   
-p <- ggplot(data_melt, aes(x=dates, y=cumsum(value), col=variable)) + 
+p <- ggplot(data_melt, aes(x=dates, y=value, col=variable)) + 
   geom_line() +
     
   xlab("")+
@@ -148,7 +154,5 @@ p <- ggplot(data_melt, aes(x=dates, y=cumsum(value), col=variable)) +
   
 print(p)
 dev.off()
-
-
 
 
