@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas, os
+import pandas as pd, os, numpy as np
 from datetime import date
 
 # specify locations
@@ -32,7 +32,7 @@ file = open(inp_file, "r")
 sub_list_area = []
 
 # skip x lines
-lines1 = file.readlines()[58:]
+lines1 = file.readlines()[55:]
 
 for thissub in range(0, 113):
     # grab the area
@@ -51,11 +51,16 @@ firstday = date(2009, 1, 2)
 lastday = date(2017, 12, 31)
 delta = lastday - firstday
 days = delta.days
-dates = pandas.date_range(firstday, lastday).tolist()
+dates = pd.date_range(firstday, lastday).tolist()
+
+# create col names for data frame
+cols_list = []
+for s in range(1, 114):
+    cols_list.insert(s-1, "sub_"+str(s))
 
 # create blank data frame
-runf_df = pandas.DataFrame(data=None, index=None, columns=None, dtype=None, copy=False)
-bif_df = pandas.DataFrame(data=None, index=None, columns=None, dtype=None, copy=False)
+runf_df = pd.DataFrame(data=None, index=None, columns=cols_list, dtype=None, copy=False)
+bif_df = pd.DataFrame(data=None, index=None, columns=cols_list, dtype=None, copy=False)
 
 # read the .rpt file
 file = open(swmm_file, "r")
@@ -66,7 +71,7 @@ sub_list_runf = []
 sub_list_bif = []
 
 # skip x lines to start at day1 for subcatchment1
-lines1 = file.readlines()[60:]
+lines1 = file.readlines()[57:]
 
 for thisday in range(0, days + 1):
     # grab the runf value
@@ -81,20 +86,17 @@ for thisday in range(0, days + 1):
     sub_list_bif.append(bif)
 
 # insert list into data frame col
-runf_df[1, ] = sub_list_runf
-runf_df.rename(columns={runf_df.columns[0]: '1'}, inplace=True)
-
-bif_df[1, ] = sub_list_bif
-bif_df.rename(columns={bif_df.columns[0]: '1'}, inplace=True)
+runf_df['sub_1']= np.array(sub_list_runf)
+bif_df['sub_1']= np.array(sub_list_bif)
 
 # for subcatchment 2 - 113
 for sub in range(2, 114):
     # skip lines to get to the next subcatchment's info
     file = open(swmm_file, "r")
-    skipto = (59 + ((days + 9) * (sub - 1))) - (sub - 2)
+    skipto = (56 + ((days + 9) * (sub - 1))) - (sub - 2)
     lines = file.readlines()[skipto:]
 
-    # create blank list to hold subcatchment's runoff and bifenthrin concentration
+        # create blank list to hold subcatchment's runoff and bifenthrin concentration
     sub_list_runf = []
     sub_list_bif = []
 
@@ -130,12 +132,8 @@ for sub in range(2, 114):
         sub_list_bif.append(bif)
 
     # insert list into data frame col
-    runf_df[sub, ] = sub_list_runf
-    bif_df[sub, ] = sub_list_bif
-
-    # rename column names
-    runf_df.rename(columns={runf_df.columns[sub - 1]: str(sub)}, inplace=True)
-    bif_df.rename(columns={bif_df.columns[sub - 1]: str(sub)}, inplace=True)
+    runf_df['sub_' + str(sub)] = np.array(sub_list_runf)
+    bif_df['sub_' + str(sub)] = np.array(sub_list_bif)
 
 # convert values from object to float
 for columnName in runf_df.columns:
@@ -144,24 +142,24 @@ for columnName in bif_df.columns:
     bif_df[columnName] = bif_df[columnName].astype(float)
 
 # copy
-runf_conv = runf_df
-bif_conv = bif_df
+runf_conv = runf_df.copy()
+bif_conv = bif_df.copy()
 
 # specify loop variables
-runf_df_cols = len(runf_conv.columns)
-runf_df_rows = len(runf_conv)
+runf_df_cols = len(runf_conv.columns)  # 113
+runf_df_rows = len(runf_conv)  # 3286
 bif_df_cols = len(bif_conv.columns)
 bif_df_rows = len(bif_conv)
 
 # conversion for runf
 for c in range(0, runf_df_cols):
+    col_name = "sub_" + str(c + 1)
 
     # define subcatchment's area
     this_area = sub_list_area[c]
 
-    for r in range(0, runf_df_rows):
-        # compute cm/ha/day
-        runf_conv.iloc[r, c] = (runf_conv.iloc[r, c] * 86400) / this_area
+    # perform conversion
+    runf_conv[col_name] = (runf_conv[col_name] * 86400 * 0.01) / this_area
 
 # conversion for bifenthrin conc.
 for c in range(0, bif_df_cols):
@@ -174,7 +172,7 @@ for c in range(0, bif_df_cols):
         this_runf = runf_df.iloc[r, c] * 864000
 
         # compute g/ha/day
-        bif_conv.iloc[r, c] = (bif_conv.iloc[r, c] * 1000 * this_runf) / (1.0e6 * this_area)
+        bif_conv.iloc[r, c] = ((bif_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
 
 # subset subcatchment outputs for each vvwm
 for o in outfalls:
@@ -184,7 +182,7 @@ for o in outfalls:
     outfall_file = outfall_path + o + r'.csv'
 
     # declare which columns need to be subset
-    sub_file = pandas.read_csv(outfall_file)
+    sub_file = pd.read_csv(outfall_file)
     sublist = sub_file['Subcatchment_ID'].tolist()
 
     collist = [x - 1 for x in sublist]  # columns to subset from df
@@ -198,8 +196,8 @@ for o in outfalls:
     bif_sub["bif_sum"] = bif_sub.sum(axis=1)
 
     # add a date column
-    runf_sub['date'] = pandas.date_range(start='1/2/2009', periods=len(runf_sub), freq='D')
-    bif_sub['date'] = pandas.date_range(start='1/2/2009', periods=len(bif_sub), freq='D')
+    runf_sub['date'] = pd.date_range(start='1/2/2009', periods=len(runf_sub), freq='D')
+    bif_sub['date'] = pd.date_range(start='1/2/2009', periods=len(bif_sub), freq='D')
 
     # separate date column too
     runf_sub['year'] = runf_sub['date'].dt.year
@@ -216,4 +214,3 @@ for o in outfalls:
     bif_out = determ_inputs + r'\bif_' + substring
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
-

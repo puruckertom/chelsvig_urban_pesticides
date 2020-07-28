@@ -27,7 +27,7 @@ False
 0.0,,,
 2
 NPlesant
-C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\vvwm\outfall_31_42\determ\weather_STA01.dvf
+C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\vvwm\outfall_31_42\determ\vvwm_wet.dvf
 40
 True,True,True,False,False,False,False
 False,30,0,

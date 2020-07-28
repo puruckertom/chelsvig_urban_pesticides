@@ -1,56 +1,56 @@
  Variable Volume Water Model, Version    1.03100000000000     
  
  *******************************************
-Performed on:  6/30/2020  at 11: 0
+Performed on:  7/28/2020  at  6:21
 * Insufficient years to calculate 1-in-10.0 . Only maximums are reported here.
-Initial 1-in-10.0  =  0.175E+19 ppb
-Chronic 1-in-10.0  =  0.283E+13 ppb
-Simulation Avg     =  0.685E+12 ppb
-4-d avg 1-in-10.0  =  0.348E+14 ppb
-21-d avg 1-in-10.0 =  0.106E+14 ppb
-60-d avg 1-in-10.0 =  0.707E+13 ppb
-90-d avg 1-in-10.0 =  0.618E+13 ppb
-1-d avg 1-in-10.0  =  0.119E+15 ppb
-Benthic Pore Water Peak 1-in-10.0     =  0.478E+13 ppb
-Benthic Pore Water 21-d avg 1-in-10.0 =  0.467E+13 ppb
+Initial 1-in-10.0  =  0.780E+15 ppb
+Chronic 1-in-10.0  =  0.907E+10 ppb
+Simulation Avg     =  0.529E+10 ppb
+4-d avg 1-in-10.0  =  0.765E+11 ppb
+21-d avg 1-in-10.0 =  0.313E+11 ppb
+60-d avg 1-in-10.0 =  0.183E+11 ppb
+90-d avg 1-in-10.0 =  0.158E+11 ppb
+1-d avg 1-in-10.0  =  0.284E+12 ppb
+Benthic Pore Water Peak 1-in-10.0     =  0.123E+11 ppb
+Benthic Pore Water 21-d avg 1-in-10.0 =  0.120E+11 ppb
 Benthic Conversion Factor             =  0.357E+04 -Pore water (ug/L) to (total mass, ug)/(dry sed mass,kg)
 Benthic Mass Fraction in Pore Water   =  0.104E-03
  
 YEAR    1-day     4-day      21-day     60-day     90-day   Yearly Avg Benthic Pk  Benthic 21-day
-  1    5.92E+12   1.61E+12   4.84E+11   3.02E+11   2.64E+11   1.94E+11   2.27E+11   2.22E+11
-  2    3.50E+12   1.00E+12   3.32E+11   2.52E+11   2.31E+11   1.67E+11   2.15E+11   2.09E+11
-  3    1.01E+13   2.64E+12   8.62E+11   6.58E+11   5.80E+11   3.15E+11   4.75E+11   4.59E+11
-  4    5.60E+12   1.73E+12   7.21E+11   5.89E+11   5.86E+11   3.33E+11   5.27E+11   5.16E+11
-  5    8.94E+13   2.34E+13   5.78E+12   3.29E+12   2.71E+12   1.22E+12   1.81E+12   1.76E+12
-  6    4.62E+12   2.43E+12   1.43E+12   1.29E+12   1.29E+12   6.86E+11   1.29E+12   1.25E+12
-  7    1.19E+14   3.48E+13   1.06E+13   7.07E+12   6.18E+12   2.83E+12   4.78E+12   4.67E+12
-  8    2.85E+12   8.65E+11   4.89E+11   3.86E+11   5.19E+11   2.99E+11   7.55E+11   8.65E+11
-  9    6.17E+12   1.65E+12   4.22E+11   2.42E+11   2.18E+11   1.25E+11   2.27E+11   2.33E+11
+  1    1.25E+11   3.32E+10   8.52E+09   4.56E+09   3.38E+09   2.01E+09   3.14E+09   3.02E+09
+  2    3.11E+10   1.49E+10   4.97E+09   5.07E+09   4.00E+09   2.20E+09   3.12E+09   3.09E+09
+  3    2.36E+11   6.13E+10   2.43E+10   1.20E+10   1.01E+10   7.31E+09   8.47E+09   8.21E+09
+  4    1.90E+11   5.31E+10   1.75E+10   1.48E+10   1.24E+10   8.22E+09   1.23E+10   1.20E+10
+  5    8.75E+10   2.65E+10   9.71E+09   7.90E+09   7.18E+09   6.25E+09   6.90E+09   6.63E+09
+  6    1.98E+11   5.98E+10   1.69E+10   1.01E+10   8.92E+09   6.51E+09   9.47E+09   9.03E+09
+  7    2.84E+11   7.65E+10   3.13E+10   1.83E+10   1.58E+10   9.07E+09   1.23E+10   1.20E+10
+  8    2.48E+10   9.65E+09   6.07E+09   6.56E+09   7.65E+09   3.85E+09   7.20E+09   7.49E+09
+  9    1.45E+11   3.84E+10   1.05E+10   5.63E+09   4.14E+09   2.17E+09   3.88E+09   3.68E+09
 ****************************************************************************************************
  Effective compartment halflives averaged over simulation duration:
  
- washout halflife (days) =             5.321804081149995E-005
+ washout halflife (days) =             1.437927576459311E-002
  water col metab halflife (days) =      340.968566444666     
- hydrolysis halflife (days)  =          653.227491879109     
- photolysis halflife (days)  =          46064.8398263061     
- volatile halflife (days)  =            5.47688262131158     
- total water col halflife (days) =     5.321751100177097E-005
+ hydrolysis halflife (days)  =          466.829347932342     
+ photolysis halflife (days)  =          36239.1797820532     
+ volatile halflife (days)  =            11.3535999387591     
+ total water col halflife (days) =     1.436003524909810E-002
  
  zero burial                           0
  benthic metab halflife (days) =        681.937132889333     
- benthic hydrolysis halflife (days) =   4799196.61411547     
- total benthic halflife (days) =        681.840247468536     
+ benthic hydrolysis halflife (days) =   3518729.49194350     
+ total benthic halflife (days) =        681.804997655194     
  ***********************************************************************
  Fractional Contribution of Transport Processes to Waterbody & Total Mass (kg):
  
- Due to Runoff  =     1.0000         0.8897E+018
+ Due to Runoff  =     1.0000         0.1630E+015
  Due to Erosion =     0.0000          0.000     
  Due to Drift   =     0.0000          0.000     
  ***********************************************************************
  Flow in/out Characteristics of Waterbody:
- Average Daily Runoff Into Waterbody (m3/s) =    10552.2547041805     
+ Average Daily Runoff Into Waterbody (m3/s) =    39.0557805712432     
  Baseflow Into Waterbody (m3/s)             =   0.000000000000000E+000
- Average Daily Flow Out of Waterbody (m3/s) =    10552.2817205610     
+ Average Daily Flow Out of Waterbody (m3/s) =    39.0542450435542     
  ***********************************************************************
  Inputs:
   0.8925E+05 = oc partitioning coefficient
