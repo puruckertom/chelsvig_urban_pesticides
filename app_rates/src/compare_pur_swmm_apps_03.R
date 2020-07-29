@@ -9,13 +9,12 @@ library(lubridate)
 library(dplyr)
 
 figs <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/figures/"
-dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/swmm/"
+dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/"
 
 
 # ------------------------------------------------------
 # Kilograms
 pdf(paste(figs,"find_bug_kg_urban.pdf",sep=""),width=11,height=8, onefile=TRUE)
-
 
 for(i in 1:113){
 
@@ -31,6 +30,8 @@ for(i in 1:113){
     data$pur_app_for_sub_kg <- rep(0, times=dim(data)[1])
   }
   
+  # to use with plot title
+  percent_develop <- round((data[1,12]*100), 2)
   
   # subset
   data <- data[, c("dates", "pur_app_for_sub_kg", "totl_bif_n_runf_kg")]
@@ -47,54 +48,81 @@ for(i in 1:113){
   
   p <- ggplot(data_melt, aes(x=dates, y=value, col=variable)) + 
     geom_line() +
-    
     xlab("")+
     ylab("Kilograms")+
-    ggtitle(paste0("Cumulative Bifenthrin Applied to Urban Hectares for Subcatchment ", i, sep=''))
-
-    
+    ggtitle(paste0("Cumulative Bifenthrin Applied to Urban Hectares for Subcatchment ", i, "(", percent_develop, "% developed)", sep=''))
   print(p)
 }
 dev.off()
 
+# ------------------------------------------------------
+# Precipitation
+pdf(paste(figs,"find_bug_precip.pdf",sep=""),width=11,height=8)
 
-# # need to change...
-# # add an if/then statement for all the precip files according to the subcatchment
-# pdf(paste(figs,"find_bug_precip.pdf",sep=""),width=11,height=8, onefile=TRUE)
-# 
-# weather <- list("sp1572.dat", "sp1601.dat", "sp1602.dat", "spp1783.dat")
-# 
-# for (wet in weather){
-#   # read in weather file
-#   precip <- read.table(file=paste(dir_weather, wet, sep=""), header=TRUE, sep="\t")
-#   precip <- precip[43848:122732, ]
-# 
-#   # create a date col
-#   precip$MONTH <- sprintf("%02d", precip$month) # fix to 2 characters
-#   precip$DAY <- sprintf("%02d", precip$day) # fix to 2 characters
-#   
-#   precip <- transform(precip,date=interaction(year,MONTH,DAY,sep='-'))
-#   precip$date <- as.Date(precip$date)
-#   
-#   # calculate the daily precip 
-#   num <- aggregate(precipitation~date,precip,length)
-#   names(num)[2] <- 'num'
-#   
-#   totalp <- aggregate(precipitation~date,precip,sum)
-#   names(totalp)[2] <- 'totalp'
-#   
-#   daily_precip <- merge(num,totalp)
-#   
-#   
-#   # plot
-#   w <-ggplot(data=daily_precip, aes(x=date, y=totalp)) +
-#     geom_bar(stat="identity") +
-#     ylab("Precipitation (cm)")+
-#     ggtitle(paste0("Daily Precipitation, Site: ", substring(wet, 1, 7), sep=''))
-#   print(w)
-# 
-# }
-# dev.off()
+# read in weather file, make necessary edits
+precip <- read.csv(file=paste0(dir_weather, "Precipitation_nldas_daily.csv", sep=""), header=TRUE, sep=",")
+precip <- precip[1:3287, ]
+precip$date <- seq(as.Date("2009-01-01"), as.Date("2017-12-31"), by="days")
+precip$DailyTotal_kgm2 <- as.numeric(levels(precip$DailyTotal_kgm2))[precip$DailyTotal_kgm2]
+precip$DailyTotal_cm <- precip$DailyTotal_kgm2 * 0.01
+
+# plot
+w <-ggplot(data=precip, aes(x=date, y=DailyTotal_cm)) +
+    geom_bar(stat="identity") +
+    theme_bw()+
+    labs(title = "", x = "", y = "Precipitation (cm)", color = "") +
+    theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+    scale_y_reverse() 
+print(w)
+
+dev.off()
+
+
+# ------------------------------------------------------
+# Compare to Precipitation
+# plot everything together
+pdf(paste(figs, "find_bug_kg_urban_with_precip.pdf", sep=""),width=11, height=8, onefile = T) 
+for(i in 1:113){
+  
+  # read in data
+  data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
+  data$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by = "day")
+  
+  # create a few new cols to analyze
+  data$sub_develop_ha <- data$sub_area_ha*data$sub_perc_develop # hectares of developed land use in the subcatchment
+  data$pur_app_for_sub_kg <- data$pur_app_kgha*data$sub_develop_ha # total kg that should be applied to the sub, based on its urban ha
+  
+  if (data$sub_perc_develop[1] == 0){
+    data$pur_app_for_sub_kg <- rep(0, times=dim(data)[1])
+  }
+  
+  # to use with plot title
+  percent_develop <- round((data[1,12]*100), 2)
+  
+  # subset
+  data <- data[, c("dates", "pur_app_for_sub_kg", "totl_bif_n_runf_kg")]
+  
+  # cumulative sum
+  for (r in 2:dim(data)[1]){
+    data[r,2] <- data[r-1,2] + data[r,2]
+    data[r,3] <- data[r-1,3] + data[r,3]
+  }
+  
+  # melt for plotting
+  data_melt <- reshape2::melt(data, id.var='dates')
+  head(data_melt)
+  
+  p <- ggplot(data_melt, aes(x=dates, y=value, col=variable)) + 
+    geom_line() +
+    xlab("")+
+    ylab("Kilograms")+
+    ggtitle(paste0("Cumulative Bifenthrin Applied to Urban Hectares for Subcatchment ", i, "(", percent_develop, "% developed)", sep=''))
+  
+  panel_plot <- cowplot::plot_grid(w,p, align = "h", nrow = 2, rel_heights = c(0.25, 0.75))
+  panel_plot <- egg::ggarrange(w,p, heights = c(0.25, 0.75))
+  print(panel_plot)
+}
+dev.off()
 
 
 # ----------------------------------------------------------------------------

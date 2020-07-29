@@ -28,7 +28,7 @@ file = open(inp_file, "r")
 sub_list_area = []
 
 # skip x lines
-lines1 = file.readlines()[58:]
+lines1 = file.readlines()[55:]
 
 for thissub in range(0, 113):
     # grab the area
@@ -71,7 +71,7 @@ sub_list_runf = []
 sub_list_bif = []
 
 # skip x lines to start at day1 for subcatchment1
-lines1 = file.readlines()[60:]
+lines1 = file.readlines()[57:]
 
 for thisday in range(0, days + 1):
     # grab the runf value
@@ -93,7 +93,7 @@ bif_df['sub_1']= np.array(sub_list_bif)
 for sub in range(2, 114):
     # skip lines to get to the next subcatchment's info
     file = open(swmm_file, "r")
-    skipto = (59 + ((days + 9) * (sub - 1))) - (sub - 2)
+    skipto = (56 + ((days + 9) * (sub - 1))) - (sub - 2)
     lines = file.readlines()[skipto:]
 
     # create blank list to hold subcatchment's runoff and bifenthrin concentration
