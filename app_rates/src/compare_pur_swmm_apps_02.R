@@ -14,7 +14,6 @@ apps <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/ca
 apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use in PGC
 apps <- apps[-1,]
 
-
 # ^ above external time series for developed land use % for each subcatchment (I think)
 # and, each subcatchment as an area provided (ha), so maybe the application rate gets
 # multiplied by the kg/ha to get kg applied to that subcatchment...?
