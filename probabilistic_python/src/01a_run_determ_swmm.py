@@ -16,11 +16,11 @@ file_path = dir_path + r'\input\swmm\NPlesantCreek.inp'
 print(file_path)
 print(os.path.exists(file_path))
 
-# load the model - no interaction, write out report
-sim = Simulation(file_path)
-for step in sim:
-    pass
-sim.report()
+binary_path = dir_path + r'\input\swmm\NPlesantCreek.out'
+
+# load the model - no interaction, write out binary file
+sim = Simulation(inputfile=file_path, reportfile=None, outputfile=binary_path)
+sim.execute()
 
 
 

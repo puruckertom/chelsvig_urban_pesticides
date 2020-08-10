@@ -1,18 +1,12 @@
 .idea/
-probabilistic/input/swmm/input/*
-probabilistic/input/swmm/NPlesantCreek.out
-probabilistic/input/swmm/input/NPlesantCreek.out
-probabilistic_r/input/swmm/input/*
-probabilistic_r/input/swmm/NPlesantCreek.out
-probabilistic_r/input/swmm/input/NPlesantCreek.out
-probabilistic_python/input/swmm/input*/NPlesantCreek.out
+probabilistic_python/input/swmm/input/*
 probabilistic_python/input/swmm/NPlesantCreek.out
 probabilistic_python/input/swmm/NPlesantCreek.rpt
-probabilistic_python/input/swmm/input/NPlesantCreek.out
+probabilistic_python/input/swmm/input_*/NPlesantCreek.out
 probabilistic_python/input/swmm/input_*/NPlesantCreek.rpt
-probabilistic_python/input/swmm/NPlesantCreek.rpt
-probabilistic_python/input/swmm/input/NPlesantCreek.rpt
 observed_data/SURF_water.csv
+probabilistic_python/input/swmm/swmm_output_bif.csv
+probabilistic_python/input/swmm/swmm_output_runf.csv
 
 # History files
 .Rhistory
