@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------
 # alter applications to account for 48hr application rule
 # ---------------------------------------------------------------
-
+library(tidyr)
 
 # set up
 dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/"
@@ -71,7 +71,7 @@ if (apps_precip[d,4] == 1){
 }
   
   
-# for first day
+# for last day
 d <- 3287
 # name the variables
 today_rain <- apps_precip[d,3]
@@ -88,6 +88,46 @@ apps_precip[d,4] <- today_buff
 if (apps_precip[d,4] == 1){
   apps_precip[d,5] <- 0
 }
+
+
+# create a difference col
+apps_precip$app_diff <- apps_precip$apps_kgha - apps_precip$apps_update_kgha
+
+
+# re-incorporate the lost applications:
+# separate date col into components
+apps_precip <- apps_precip %>%
+  separate(date, sep="-", into = c("year", "month", "day"))
+
+# loop through each month
+years <- c("2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017")
+
+y <- "2009"
+for (y in years){
+  
+  # subset the year
+  yr_subset <- apps_precip[which(apps_precip$year==y), ]
+  len <- dim(yr_subset)[1]
+  
+  #
+  for (m in 1:12){
+    m_subset <- 
+      
+  
+  # if 01/2009 then create new subset as is
+  # else append
+  }
+  
+  # if 2009 then create new subset
+  # else append
+  # going to need to append each year's df to the previous ones..
+  
+}
+
+
+
+
+
 
 
 
