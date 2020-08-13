@@ -5,6 +5,10 @@
 # setup
 import pandas as pd, os, numpy as np
 from datetime import date
+import swmmtoolbox.swmmtoolbox as swmmtoolbox
+
+# nsims
+nsims = 5
 
 # specify location
 print(os.path.abspath(os.curdir))
@@ -20,9 +24,6 @@ vvwm_path = dir_path + r'\input\vvwm'
 # outfalls
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
-
-# nsims
-nsims = 5
 
 # the loop!
 for o in outfalls:
@@ -66,6 +67,37 @@ for o in outfalls:
 
             # insert into blank list
             sub_list_area.append(area)
+
+
+
+
+        lab1 = 'subcatchment,,Runoff_rate'
+        lab2 = 'subcatchment,,Bifenthrin'
+        extract_runf = swmmtoolbox.extract(bin_file, lab1)
+        extract_bif = swmmtoolbox.extract(bin_file, lab2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # read in .rpt values of runf and bif conc.
         # time period

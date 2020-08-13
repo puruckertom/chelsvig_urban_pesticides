@@ -99,41 +99,59 @@ apps_precip$app_diff <- apps_precip$apps_kgha - apps_precip$apps_update_kgha
 apps_precip <- apps_precip %>%
   separate(date, sep="-", into = c("year", "month", "day"))
 
-# loop through each month
-years <- c("2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017")
+# add another app update col
+apps_precip$apps_update2_kgha <- NA
 
-y <- "2009"
+# set up loop vars
+years <- c("2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017")
+months <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+
+
+# loop through each year
 for (y in years){
-  
   # subset the year
   yr_subset <- apps_precip[which(apps_precip$year==y), ]
-  len <- dim(yr_subset)[1]
   
-  #
-  for (m in 1:12){
-    m_subset <- 
-      
-  
-  # if 01/2009 then create new subset as is
-  # else append
+  # loop through each month
+  for (m in months){
+    # subset the month
+    m_subset <- yr_subset[which(yr_subset$month==m), ]
+    
+    # count number of days that get apps
+    app_days <- length(m_subset$rainbuff[m_subset$rainbuff == 0])
+    
+    # sum the lost apps
+    app_lost <- sum(m_subset$app_diff)
+    
+    # divide by number of days that get apps, to divy up
+    divy <- app_lost/app_days
+    
+    # add divy to each of the app days
+    for (row in 1:nrow(m_subset)){
+      if (m_subset[row,"rainbuff"] == 0){
+        m_subset[row,"apps_update2_kgha"] = m_subset[row,"apps_update_kgha"] + divy
+      } else{
+        m_subset[row,"apps_update2_kgha"] = 0
+      }
+    }
+    if (m == "01"){
+      master_month <- data.frame(m_subset)
+    } else{
+      df <- data.frame(m_subset)
+      master_month <- rbind(master_month,df) 
+    }
   }
-  
-  # if 2009 then create new subset
-  # else append
-  # going to need to append each year's df to the previous ones..
-  
+  if (y == "2009"){
+    master_year <- master_month
+  } else{
+    master_year <- rbind(master_year, master_month)
+  }
 }
 
-
-
-
-
-
-
-
 # create app rate output file for swmm
-apps_precip$time <- rep('08:00', dim(apps_precip)[1])
-out_file <- apps_precip[, c("date", "time", "apps_update_kgha")]
+master_year$time <- rep('01:00', dim(master_year)[1])
+master_year$date <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
+out_file <- master_year[, c("date", "time", "apps_update2_kgha")]
 out_file$date <- format(as.Date(out_file$date), "%m/%d/%Y")
 
 # read out

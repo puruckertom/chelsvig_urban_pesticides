@@ -6,13 +6,12 @@
 
 # -----------------------------------------------------------
 # read in daily application rates (kg/ha)
-apps <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_output_for_swmm.txt',
+apps <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_output_for_swmm_48rain.txt',
                        sep="\t", skip=3, col.names=c("date", "hour", "app_daily_kgha"))
 
 
 # compute daily applications (kg)
 apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use in PGC
-apps <- apps[-1,]
 
 # ^ above external time series for developed land use % for each subcatchment (I think)
 # and, each subcatchment as an area provided (ha), so maybe the application rate gets
@@ -39,22 +38,22 @@ subcatch_landuse <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/ap
 
 # -----------------------------------------------------------
 # read in swmm runoff output (generated in .rpt), units = cms
-swmm_rpt_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_runf.csv',sep=",", header=T)
+swmm_rpt_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_davg_runf.csv',sep=",", header=T)
 swmm_rpt_runf <- swmm_rpt_runf[,-1 ]
 
 # read in swmm bif output (generated in .rpt), units = ug/l
-swmm_rpt_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_bif.csv',sep=",", header=T)
+swmm_rpt_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_davg_bif.csv',sep=",", header=T)
 swmm_rpt_bif <- swmm_rpt_bif[,-1 ]
 # -----------------------------------------------------------
 
 
 # -----------------------------------------------------------
 # read in swmm converted runoff values (to be input into vvwm), units = cm/ha/day
-swmm_conv_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_runf_conv_for_vvwm.csv',sep=",", header=T)
+swmm_conv_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_conv_to_vvwm_runf.csv',sep=",", header=T)
 swmm_conv_runf <- swmm_conv_runf[,-1 ]
 
 # read in swmm converted bif values (to be input into vvwm), units = g/ha/day
-swmm_conv_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_bif_conv_for_vvwm.csv',sep=",", header=T)
+swmm_conv_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_conv_to_vvwm_bif.csv',sep=",", header=T)
 swmm_conv_bif <- swmm_conv_bif[,-1 ]
 # -----------------------------------------------------------
 
@@ -67,7 +66,7 @@ for (sub in 1:113){
   output_df <- data.frame(matrix(ncol = 1, nrow = dim(swmm_rpt_runf)[1]))
   
   # fill blank df with needed cols
-  output_df$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by = "day")
+  output_df$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   output_df$pur_app_kg <- apps$app_daily_kg
   output_df$pur_app_kgha <- apps$app_daily_kgha
   output_df$rpt_runf_cms <- swmm_rpt_runf[,sub]

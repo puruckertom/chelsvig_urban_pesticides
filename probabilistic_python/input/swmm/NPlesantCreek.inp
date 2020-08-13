@@ -1382,7 +1382,7 @@ Other	         Bifenthrin       EXP        1.0        1.0        0.0        0.0
 [TIMESERIES]
 ;;Name 			  Source		File Name													 
 ;;--------------------    -----------------     ------------------------------------------------------------------------------------------------	
-bifenthrin_timeseries	  FILE		        "C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\calpip\app_rate_output_for_swmm.txt"	
+bifenthrin_timeseries	  FILE		        "C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\calpip\app_rate_output_for_swmm_48rain.txt"	
 
 
 [REPORT]

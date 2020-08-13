@@ -20,7 +20,7 @@ for(i in 1:113){
 
   # read in data
   data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
-  data$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by = "day")
+  data$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   
   # create a few new cols to analyze
   data$sub_develop_ha <- data$sub_area_ha*data$sub_perc_develop # hectares of developed land use in the subcatchment
@@ -86,7 +86,7 @@ for(i in 1:113){
   
   # read in data
   data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
-  data$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by = "day")
+  data$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   
   # create a few new cols to analyze
   data$sub_develop_ha <- data$sub_area_ha*data$sub_perc_develop # hectares of developed land use in the subcatchment
@@ -158,7 +158,7 @@ all_subs_swmm$totl_bif_n_runf_totl_kg <- rowSums(all_subs_swmm)
 
 # subset data
 all_subs <- data.frame(matrix(ncol = 1, nrow = dim(all_subs_pur)[1]))
-all_subs$dates <- seq(from=as.Date("2009-01-02"), to = as.Date("2017-12-31"), by = "day")
+all_subs$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
 all_subs$pur_app_for_sub_totl_kg <- all_subs_pur$pur_app_for_sub_totl_kg
 all_subs$totl_bif_n_runf_totl_kg <- all_subs_swmm$totl_bif_n_runf_totl_kg
 all_subs <- all_subs[, c("dates", "pur_app_for_sub_totl_kg", "totl_bif_n_runf_totl_kg")]

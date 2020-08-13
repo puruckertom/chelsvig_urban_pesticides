@@ -3,8 +3,8 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas as pd, os, numpy as np
-from datetime import date
+import pytest_shutil, shutil, os, pandas as pd, regex as re
+import swmmtoolbox.swmmtoolbox as swmmtoolbox
 
 # specify locations
 print(os.path.abspath(os.curdir))
@@ -14,8 +14,8 @@ print(dir_path)
 
 swmm_path = dir_path + r'\input\swmm'
 print(swmm_path)
-swmm_file = swmm_path + r'\NPlesantCreek.rpt'
-print(swmm_file)
+bin_file = swmm_path + r'\NPlesantCreek.out'
+print(bin_file)
 inp_file = swmm_path + r'\NPlesantCreek.inp'
 print(inp_file)
 vvwm_path = dir_path + r'\input\vvwm'
@@ -24,8 +24,76 @@ print(vvwm_path)
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
 
-# read in the .inp file subcatchment areas (to use later in script)
-# read the .inp file
+# displays version number and system info
+#swmmtoolbox.about()
+
+# list the catalog of objects in output file
+# list all available labels for the extract function
+# swmmtoolbox.catalog(filename, itemtype='', header='default')
+#swmmtoolbox.catalog(bin_file, itemtype='', header='default')
+
+# list variables available for each type
+# use this info for the 'var' portion of the 'extract' function parameter
+# this shows the variable name and its index
+# swmmtoolbox.listvariables(filename, header='default')
+#swmmtoolbox.listvariables(bin_file, header='default')
+
+# get the time series data for a particular object and variable
+#swmmtoolbox.extract(filename, *labels)
+# lables = 'type,name,var'
+# labels require two commas and no spaces
+# use 'catalog' and 'listvariables' for var parameters
+# there is a wild card feature for labels, where leaving the part out
+#   will return all labels that match all other parts.
+lab1 = 'subcatchment,,Runoff_rate'
+lab2 = 'subcatchment,,Bifenthrin'
+extract_runf = swmmtoolbox.extract(bin_file, lab1)
+extract_bif = swmmtoolbox.extract(bin_file, lab2)
+
+# write out swmm outputs
+extract_runf.to_csv(swmm_path + r'\swmm_output_runf.csv')
+extract_bif.to_csv(swmm_path + r'\swmm_output_bif.csv')
+
+# read file back in, delete first col
+swmmout_runf = pd.read_csv(swmm_path + r'\swmm_output_runf.csv')
+del swmmout_runf['Unnamed: 0']
+swmmout_bif = pd.read_csv(swmm_path + r'\swmm_output_bif.csv')
+del swmmout_bif['Unnamed: 0']
+
+# create pandas datetime col
+df = pd.DataFrame(
+        {'datetime': pd.date_range('2009-01-01', '2018-01-01', freq='1H', closed='left')}
+     )
+df = df.drop(0)
+df = df.reset_index(drop=True)
+
+# combine to swmm output with datetime
+runf_stack = pd.concat([swmmout_runf, df], axis=1)
+bif_stack = pd.concat([swmmout_bif, df], axis=1)
+
+# set datetime as DatetimeIndex
+runf_stack = runf_stack.set_index('datetime')
+bif_stack = bif_stack.set_index('datetime')
+
+# resample to daily average and save as new dataframe
+runf_davg = runf_stack.resample('D').mean()
+bif_davg = bif_stack.resample('D').mean()
+
+# write out swmm daily outputs
+runf_davg.to_csv(swmm_path + r'\swmm_output_davg_runf.csv')
+bif_davg.to_csv(swmm_path + r'\swmm_output_davg_bif.csv')
+
+# copy
+runf_to_conv = runf_davg.copy()
+bif_to_conv = bif_davg.copy()
+
+# specify loop variables
+runf_df_cols = len(runf_to_conv.columns)  # 113
+runf_df_rows = len(runf_to_conv)  # 3287
+bif_df_cols = len(bif_to_conv.columns)
+bif_df_rows = len(bif_to_conv)
+
+# read in the .inp file subcatchment areas
 file = open(inp_file, "r")
 
 # create blank list to hold subcatchment areas
@@ -45,121 +113,18 @@ for thissub in range(0, 113):
     # insert into blank list
     sub_list_area.append(area)
 
-# read in .rpt values of runf and bif conc.
-# time period
-firstday = date(2009, 1, 2)
-lastday = date(2017, 12, 31)
-delta = lastday - firstday
-days = delta.days
-dates = pd.date_range(firstday, lastday).tolist()
-
-# create col names for data frame
-cols_list = []
-for s in range(1, 114):
-    cols_list.insert(s-1, "sub_"+str(s))
-
-# create blank data frame
-runf_df = pd.DataFrame(data=None, index=None, columns=cols_list, dtype=None, copy=False)
-bif_df = pd.DataFrame(data=None, index=None, columns=cols_list, dtype=None, copy=False)
-
-# read the .rpt file
-file = open(swmm_file, "r")
-
-# for subcatchment 1
-# create blank list to hold subcatchment's runoff, and bifenthrin concentration
-sub_list_runf = []
-sub_list_bif = []
-
-# skip x lines to start at day1 for subcatchment1
-lines1 = file.readlines()[57:]
-
-for thisday in range(0, days + 1):
-    # grab the runf value
-    thisline = lines1[thisday]
-    fixline = " ".join(thisline.split())
-    listline = fixline.split()
-    runf = listline[4]
-    bif = listline[7]
-
-    # insert into blank list
-    sub_list_runf.append(runf)
-    sub_list_bif.append(bif)
-
-# insert list into data frame col
-runf_df['sub_1']= np.array(sub_list_runf)
-bif_df['sub_1']= np.array(sub_list_bif)
-
-# for subcatchment 2 - 113
-for sub in range(2, 114):
-    # skip lines to get to the next subcatchment's info
-    file = open(swmm_file, "r")
-    skipto = (56 + ((days + 9) * (sub - 1))) - (sub - 2)
-    lines = file.readlines()[skipto:]
-
-        # create blank list to hold subcatchment's runoff and bifenthrin concentration
-    sub_list_runf = []
-    sub_list_bif = []
-
-    for thisday in range(0, days + 1):
-        # grab the runf value
-        thisline = lines[thisday]
-        fixline = " ".join(thisline.split())
-        listline = fixline.split()
-
-        # if/then for entries whose bif conc is so large that it bleeds into the preceding column
-        if len(listline) == 7:
-            runf = listline[4]
-
-            # 2 smooshed cols
-            bug = listline[6]
-
-            # find the first instance of a decimal point
-            dist = bug.find('.')
-
-            # scan over 5 characters -> (rounding length for this col)
-            bug_scan = dist + 5
-
-            # chop string at this location
-            bif = bug[bug_scan:]
-            print(bif)
-
-        elif len(listline) == 8:
-            runf = listline[4]
-            bif = listline[7]
-
-        # insert into blank list
-        sub_list_runf.append(runf)
-        sub_list_bif.append(bif)
-
-    # insert list into data frame col
-    runf_df['sub_' + str(sub)] = np.array(sub_list_runf)
-    bif_df['sub_' + str(sub)] = np.array(sub_list_bif)
-
-# convert values from object to float
-for columnName in runf_df.columns:
-    runf_df[columnName] = runf_df[columnName].astype(float)
-for columnName in bif_df.columns:
-    bif_df[columnName] = bif_df[columnName].astype(float)
-
-# copy
-runf_conv = runf_df.copy()
-bif_conv = bif_df.copy()
-
-# specify loop variables
-runf_df_cols = len(runf_conv.columns)  # 113
-runf_df_rows = len(runf_conv)  # 3286
-bif_df_cols = len(bif_conv.columns)
-bif_df_rows = len(bif_conv)
-
 # conversion for runf
 for c in range(0, runf_df_cols):
-    col_name = "sub_" + str(c + 1)
+    col_name = "subcatchment_S" + str(c + 1) + "_Runoff_rate"
 
     # define subcatchment's area
     this_area = sub_list_area[c]
 
     # perform conversion
-    runf_conv[col_name] = (runf_conv[col_name] * 86400 * 0.01) / this_area
+    runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / this_area
+
+# write out converted swmm outputs
+runf_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_runf.csv')
 
 # conversion for bifenthrin conc.
 for c in range(0, bif_df_cols):
@@ -169,10 +134,13 @@ for c in range(0, bif_df_cols):
 
     for r in range(0, bif_df_rows):
         # define the runoff value (m3/day)
-        this_runf = runf_df.iloc[r, c] * 864000
+        this_runf = runf_davg.iloc[r, c] * 864000
 
         # compute g/ha/day
-        bif_conv.iloc[r, c] = ((bif_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
+        bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
+
+# write out converted swmm outputs
+bif_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_bif.csv')
 
 # subset subcatchment outputs for each vvwm
 for o in outfalls:
@@ -181,23 +149,23 @@ for o in outfalls:
     determ_inputs = outfall_path + r'\determ'
     outfall_file = outfall_path + o + r'.csv'
 
-    # declare which columns need to be subset
+    # declare which columns need to be subset for the respective outfall
     sub_file = pd.read_csv(outfall_file)
     sublist = sub_file['Subcatchment_ID'].tolist()
 
     collist = [x - 1 for x in sublist]  # columns to subset from df
 
     # subset
-    runf_sub = runf_conv.iloc[:, collist]
-    bif_sub = bif_conv.iloc[:, collist]
+    runf_sub = runf_to_conv.iloc[:, collist]
+    bif_sub = bif_to_conv.iloc[:, collist]
 
     # add a total sum column
     runf_sub["runf_sum"] = runf_sub.sum(axis=1)
     bif_sub["bif_sum"] = bif_sub.sum(axis=1)
 
     # add a date column
-    runf_sub['date'] = pd.date_range(start='1/2/2009', periods=len(runf_sub), freq='D')
-    bif_sub['date'] = pd.date_range(start='1/2/2009', periods=len(bif_sub), freq='D')
+    runf_sub['date'] = pd.date_range(start='1/1/2009', periods=len(runf_sub), freq='D')
+    bif_sub['date'] = pd.date_range(start='1/1/2009', periods=len(bif_sub), freq='D')
 
     # separate date column too
     runf_sub['year'] = runf_sub['date'].dt.year
@@ -210,7 +178,10 @@ for o in outfalls:
 
     # write out dataframes
     substring = outfall_file[102: 111:]
-    runf_out = determ_inputs + r'\runf_' + substring
-    bif_out = determ_inputs + r'\bif_' + substring
+    runf_out = determ_inputs + r'\runf_for_vvwm_' + substring
+    bif_out = determ_inputs + r'\bif_for_vvwm_' + substring
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
+
+
+
