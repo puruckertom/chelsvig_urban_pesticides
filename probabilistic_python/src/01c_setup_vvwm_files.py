@@ -49,7 +49,7 @@ for o in outfalls:
     vvwm_df.to_csv(determ_input + r'\output.zts', header=False, index=False, sep=',')
 
     # insert blank lines for vvwm formatting, as well as 01/01/2009
-    blanks = ['\n', '\n', '\n', '2009,1,1,0.0,0,0.0,0', '\n']
+    blanks = ['\n', '\n', '\n']
 
     # define locations
     file_name = determ_input + r'\output.zts'

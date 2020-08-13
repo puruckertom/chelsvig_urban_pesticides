@@ -148,10 +148,16 @@ for (y in years){
   }
 }
 
+
+# multiply apps by 0.7362 to account for the fact that approximately 0.2638 apps
+# are going into pervious surfaces (and not impervious) - Jorgenson 2013
+master_year$apps_update2_imp_kgha <- master_year$apps_update2_kgha * 0.7362
+
+
 # create app rate output file for swmm
 master_year$time <- rep('01:00', dim(master_year)[1])
 master_year$date <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
-out_file <- master_year[, c("date", "time", "apps_update2_kgha")]
+out_file <- master_year[, c("date", "time", "apps_update2_imp_kgha")]
 out_file$date <- format(as.Date(out_file$date), "%m/%d/%Y")
 
 # read out

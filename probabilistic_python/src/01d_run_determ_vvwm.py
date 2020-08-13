@@ -3,8 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas, os, shutil, subprocess
-from subprocess import Popen, PIPE
+import os, shutil, subprocess
 
 # specify location
 print(os.path.abspath(os.curdir))
