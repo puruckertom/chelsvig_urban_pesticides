@@ -48,3 +48,6 @@ rsconnect/
 
 # Julia's Jupyter files
 probabilistic_python/jupyter_notebooks/JS_*
+
+# Julia's temporary files 
+JS_temp/
