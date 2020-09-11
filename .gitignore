@@ -45,3 +45,6 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+
+# Julia's Jupyter files
+probabilistic_python/jupyter_notebooks/JS_*
