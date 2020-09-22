@@ -2,12 +2,12 @@
 # trying to find the runoff and bifenthrin concentration bug (swmm -> vvwm)
 # ------------------------------------------------------------------------------
 
-
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
 
 # -----------------------------------------------------------
 # read in daily application rates (kg/ha)
-apps <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_output_for_swmm_48rain.txt',
-                       sep="\t", skip=3, col.names=c("date", "hour", "app_daily_kgha"))
+apps <- read.table(paste0(mypath,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),
+                       sep="\t", skip=3, col.names=c("date", "hour", "app_daily_kgha")) #JMS 9/22/20
 
 
 # compute daily applications (kg)
@@ -22,8 +22,8 @@ apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use
 
 # -----------------------------------------------------------
 # read in swmm subcatchment areas (ha)
-subcatch_areas <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_sub_list_areas.txt', 
-                             sep=" ", header=F, col.names="area_ha")
+subcatch_areas <- read.table(paste0(mypath,'app_rates/io/swmm_sub_list_areas.txt'), 
+                             sep=" ", header=F, col.names="area_ha") #JMS 9/20/22
 # -----------------------------------------------------------
 
 
@@ -32,28 +32,28 @@ subcatch_areas <- read.table('C:/Users/echelsvi/git/chelsvig_urban_pesticides/ap
 # read in subcatchment land use percentages
 # -----------------------------------------------------------
 # need to get from .inp file
-subcatch_landuse <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/sub_list_landuse.csv',sep=",", header=T)
+subcatch_landuse <- read.csv(paste0(mypath,'app_rates/io/sub_list_landuse.csv'),sep=",", header=T) #JMS 9/22/20
 
 
 
 # -----------------------------------------------------------
 # read in swmm runoff output (generated in .rpt), units = cms
-swmm_rpt_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_davg_runf.csv',sep=",", header=T)
+swmm_rpt_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_runf.csv'),sep=",", header=T) #JMS 9/20/22
 swmm_rpt_runf <- swmm_rpt_runf[,-1 ]
 
 # read in swmm bif output (generated in .rpt), units = ug/l
-swmm_rpt_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_output_davg_bif.csv',sep=",", header=T)
+swmm_rpt_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_bif.csv'),sep=",", header=T)
 swmm_rpt_bif <- swmm_rpt_bif[,-1 ]
 # -----------------------------------------------------------
 
 
 # -----------------------------------------------------------
 # read in swmm converted runoff values (to be input into vvwm), units = cm/ha/day
-swmm_conv_runf <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_conv_to_vvwm_runf.csv',sep=",", header=T)
+swmm_conv_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_runf.csv'),sep=",", header=T) #JMS 9/22/20
 swmm_conv_runf <- swmm_conv_runf[,-1 ]
 
 # read in swmm converted bif values (to be input into vvwm), units = g/ha/day
-swmm_conv_bif <- read.csv('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/io/swmm_conv_to_vvwm_bif.csv',sep=",", header=T)
+swmm_conv_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_bif.csv'),sep=",", header=T)
 swmm_conv_bif <- swmm_conv_bif[,-1 ]
 # -----------------------------------------------------------
 
@@ -83,7 +83,7 @@ for (sub in 1:113){
   
   output_df <- output_df[,-1]
 
-  write.csv(output_df, file=paste0(file='C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/', "bug_values_sub", sub, ".csv", sep=""), row.names=F)
+  write.csv(output_df, file=paste0(file= paste0(mypath,'app_rates/output/'), "bug_values_sub", sub, ".csv", sep=""), row.names=F) #JMS 9/22/20
    
 }
 # -----------------------------------------------------------
@@ -95,7 +95,7 @@ for (sub in 1:113){
 # analyze the data
 
 # !! this is *just* looking at a random subcatchment (85)
-df <- read.csv(file='C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub85.csv', header=T)
+df <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub85.csv'), header=T) # JMS 9/22/20
 toobig <- df[which(df$totl_bif_n_runf_kg > df$pur_app_kg),]
 dim(toobig)
 

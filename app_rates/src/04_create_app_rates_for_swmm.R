@@ -2,14 +2,14 @@
 # create *.txt file with 2192 app rates
 # ---------------------------------------------------------------
 
-
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/app_rates/calpip/" #JMS 9/22/20
 
 
 # ---------------------------------------------------------------
 # set up the file for the 30-day moving average
 # ---------------------------------------------------------------
 # read in *.csv
-placer <- read.csv(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rates_09-17_pgc_inputs.csv", header=TRUE)
+placer <- read.csv(file=paste0(mypath,"app_rates_09-17_pgc_inputs.csv"), header=TRUE) #JMS 9/22/20
 
 # check/name variables
 nrow(placer)
@@ -17,7 +17,7 @@ days <- placer$days
 
 
 # create output text file containing each day's app rate
-sink(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi_for_swmm.txt", append=TRUE)
+sink(file=paste0(mypath,"app_rate_oi_for_swmm.txt"), append=TRUE) #JMS 9/22/20
 
 
 # for every day in each month, write a line regarding the application rate variables for SWMM .inp
@@ -47,8 +47,8 @@ sink()
 
 
 # read file back in to apply a 30-day moving average
-ma_placer <- read.table(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi_for_swmm.txt")
-con_ma_placer <- file("C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi_for_swmm.txt")
+ma_placer <- read.table(file=paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
+con_ma_placer <- file(paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
 
 a_old=readLines(con_ma_placer)
 a=readLines(con_ma_placer)
@@ -73,18 +73,18 @@ for(j in 1:31){
 }
 
 # feb 2009 - end 30-day moving average
-for(k in 32:length(app_vec)){
-  ma_vec[k] <- (app_vec[k-30]+app_vec[k-29]+app_vec[k-28]+app_vec[k-27]+app_vec[k-26]+app_vec[k-25]+app_vec[k-24]+app_vec[k-23]+app_vec[k-22]+
-                  app_vec[k-21]+app_vec[k-20]+app_vec[k-19]+app_vec[k-18]+app_vec[k-17]+app_vec[k-16]+app_vec[k-15]+app_vec[k-14]+app_vec[k-13]+
-    app_vec[k-12]+app_vec[k-11]+app_vec[k-10]+app_vec[k-9]+app_vec[k-8]+app_vec[k-7]+app_vec[k-6]+app_vec[k-5]+app_vec[k-4]+app_vec[k-3]+
-    app_vec[k-2]+app_vec[k-1])/30
-}
+# Use the "filter()" funtion for time series to calculate moving average
+ma_vec[32:length(app_vec)] <- as.vector(
+  filter(x=ts(app_vec),filter = rep(1/30,30), method = "convolution", sides = 1)
+  )[-(1:31)] #JMS 9/22/20
 
+# make it characters, not numerics #JMS 9/22/20
 ma_vec <- as.character(ma_vec)
 
 
 # insert the app rates back into the file
-con2_ma_placer <- file("C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi_for_swmm.txt")
+#???? This just reads what's already in it. It doesn't insert anything new #JMS 9/22/20
+con2_ma_placer <- file(paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
 
 b_old=readLines(con2_ma_placer)
 b=readLines(con2_ma_placer)
@@ -98,9 +98,9 @@ for(l in 1:length(ma_vec)){
 
 
 # write out file
-out_file <- paste("C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi2_for_swmm",".txt", sep="")
+out_file <- paste(paste0(mypath,"app_rate_oi2_for_swmm"),".txt", sep="") #JMS 9/22/20
 file.exists(out_file)
-file.create(out_file)
+file.create(out_file) # why did we check if we are just going to create it no matter what? #JMS 9/22/20
 file.exists(out_file)
 con_apps <- file(out_file)
 writeLines(b, con_apps)
@@ -112,7 +112,7 @@ close(con_apps)
 # --------------------------------------------------------
 
 # read file 
-read_oi2 <- read.table(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_oi2_for_swmm.txt")
+read_oi2 <- read.table(file=paste0(mypath,"app_rate_oi2_for_swmm.txt")) #JMS 9/22/20
 
 # columns should be:  date  time  value
 to_format <- read_oi2
@@ -123,8 +123,8 @@ to_format$time <- rep("08:00", times=3287)
 
 to_output <- to_format[, c("date", "time", "value")]
 
-write.table(to_output, file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rate_output_for_swmm.txt",
-           sep="\t", row.names=F, col.names=F, quote=F)
+write.table(to_output, file=paste0(mypath,"app_rate_output_for_swmm.txt"),
+           sep="\t", row.names=F, col.names=F, quote=F) #JMS 9/22/20
 
 
 # now, manually go into .txt to add headers and any desired comments, in swmm-readable format. consult swmm user manual.

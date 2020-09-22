@@ -3,12 +3,15 @@
 # ---------------------------------------------------------------
 library(tidyr)
 
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
+
 # set up
-dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/"
-dir_apps <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/"
+dir_weather <- paste0(mypath,"probabilistic_python/weather/") #JMS 9/22/20
+dir_apps <- paste0(mypath,"app_rates/") #JMS 9/22/20
 
 # read in apps and precip files
 daily_apps <- read.table(paste0(dir_apps, "calpip/app_rate_output_for_swmm.txt", sep=''),skip = 3, header=F)
+# should consider naming columns -JMS 9/22/20
 daily_apps$date <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
 daily_apps$apps_kgha <- daily_apps$V3
 
@@ -16,6 +19,7 @@ daily_precip <- read.csv(file=paste0(dir_weather, "Precipitation_nldas_daily.csv
 daily_precip <- daily_precip[1:3287, ]
 daily_precip$date <- seq(as.Date("2009-01-01"), as.Date("2017-12-31"), by="days")
 daily_precip$DailyTotal_kgm2 <- as.numeric(levels(daily_precip$DailyTotal_kgm2))[daily_precip$DailyTotal_kgm2]
+# not sure if the bracket is necessary... -JMS 9/22/20
 
 
 # merge files
@@ -27,6 +31,8 @@ apps_precip$rainbuff <- NA
 apps_precip$apps_update_kgha <- apps_precip$apps_kgha
 
 
+## When convenient, I would like condense this part -JMS 9/22/20
+## begin area I want to condense----------------------- -JMS 9/22/20
 
 # reduce apps to 0 if rainfall within 48hr
 for (d in 2:dim(apps_precip)[1]-1){
@@ -89,6 +95,7 @@ if (apps_precip[d,4] == 1){
   apps_precip[d,5] <- 0
 }
 
+## end area I want to condense-------------------------- -JMS 9/22/20
 
 # create a difference col
 apps_precip$app_diff <- apps_precip$apps_kgha - apps_precip$apps_update_kgha
@@ -106,6 +113,8 @@ apps_precip$apps_update2_kgha <- NA
 years <- c("2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017")
 months <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
 
+## If worthwhile, would like to condense this part as well -JMS 9/22/20
+## begin ------------------------------------------------------
 
 # loop through each year
 for (y in years){
@@ -126,6 +135,7 @@ for (y in years){
     # divide by number of days that get apps, to divy up
     divy <- app_lost/app_days
     
+    ### ?? so you are trying to substitute missing values with averages? -JMS 9/22/20
     # add divy to each of the app days
     for (row in 1:nrow(m_subset)){
       if (m_subset[row,"rainbuff"] == 0){
@@ -148,6 +158,7 @@ for (y in years){
   }
 }
 
+## end ------------------------------------------------------------ -JMS 9/22/20
 
 # multiply apps by 0.7362 to account for the fact that approximately 0.2638 apps
 # are going into pervious surfaces (and not impervious) - Jorgenson 2013

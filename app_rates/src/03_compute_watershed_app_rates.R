@@ -11,14 +11,14 @@
 #
 # where PUR(County) is the reported urban bifenthrin uses from the PUR database
 
-
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/app_rates/calpip/" #JMS 9/22/20
 
 # read in files
-placer <- read.csv(file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/placer_09-17_with_homeowner.csv",header=T, sep=",")
+placer <- read.csv(file=paste0(mypath,"placer_09-17_with_homeowner.csv"),header=T, sep=",") #JMS 9/22/20
 
-# create a null matrix to fill
-final_mat <- matrix(data=NA, nrow=108, ncol=5)
-final_df <- as.data.frame(final_mat)
+# create a null data frame to fill
+# names its columns for what they will be filled with #JMS 9/22/20
+final_df <- as.data.frame(matrix(data=NA, nrow=108, ncol=5)) #JMS 9/22/20
 colnames(final_df) <- c("month", "year", "bif_kg_placer", "bif_kg_pgc", "bif_kgha_pgc")
 
 # fill 
@@ -38,7 +38,7 @@ final_df$bif_kgha_pgc <- final_df$bif_kg_pgc/urban_ha
 
 # subset desired cols, write out
 final_output <- final_df[, c("month", "year", "bif_kg_pgc", "bif_kgha_pgc")]
-write.csv(final_output, file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/app_rates_09-17_pgc.csv", row.names=F)
+write.csv(final_output, file=paste0(mypath,"app_rates_09-17_pgc.csv"), row.names=F) #JMS 9/22/20
 
 
 

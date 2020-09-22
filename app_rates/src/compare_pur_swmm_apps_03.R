@@ -8,8 +8,10 @@ library(gtable)
 library(lubridate)
 library(dplyr)
 
-figs <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/figures/"
-dir_weather <- "C:/Users/echelsvi/git/chelsvig_urban_pesticides/probabilistic_python/weather/"
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
+
+figs <- paste0(mypath,"app_rates/figures/") #JMS 9/22/20
+dir_weather <- paste0(mypath,"probabilistic_python/weather/") #JMS 9/22/20
 
 
 # ------------------------------------------------------
@@ -19,7 +21,7 @@ pdf(paste(figs,"find_bug_kg_urban.pdf",sep=""),width=11,height=8, onefile=TRUE)
 for(i in 1:113){
 
   # read in data
-  data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
+  data <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
   data$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   
   # create a few new cols to analyze
@@ -85,7 +87,7 @@ pdf(paste(figs, "find_bug_kg_urban_with_precip.pdf", sep=""),width=11, height=8,
 for(i in 1:113){
   
   # read in data
-  data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
+  data <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
   data$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   
   # create a few new cols to analyze
@@ -137,7 +139,7 @@ all_subs_swmm <- data.frame(matrix(ncol = 1, nrow = dim(data)[1]))
 for(i in 1:113){
   
   # read in data
-  data <- read.csv(file=paste0('C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/output/bug_values_sub', i, '.csv', sep=''))
+  data <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
   
   # create a few new cols to analyze
   data$sub_develop_ha <- data$sub_area_ha*data$sub_perc_develop # hectares of developed land use in the subcatchment

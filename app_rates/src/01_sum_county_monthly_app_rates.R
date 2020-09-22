@@ -2,21 +2,21 @@
 # compute monthly bifenthrin application rates (kg) for our placer county
 # ------------------------------------------------------------------------------
 
-
+mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/app_rates/calpip/" #JMS 9/22/20
 
 # ------------------------------------------------------------------------------
 # placer county
 # ------------------------------------------------------------------------------
 
 # filelist = list of all of the CALPIP data
-filelist <- list.files(path="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/", pattern="*.csv", full.names=TRUE)
+filelist <- list.files(path=mypath, pattern="^\\w*.csv", full.names=TRUE) #JMS 9/22/20
 
 # monthlist (1-12)
 monthlist <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
 
 
 for (myfile in filelist){
-  this_year <- substr(myfile, 73, 76)
+  this_year <- substr(myfile, nchar(myfile)-7, nchar(myfile)-4) #JMS 9/22/20
   
   #read in file
   this_data <- read.csv(file=myfile, header=TRUE,sep=",")
@@ -41,20 +41,20 @@ for (myfile in filelist){
     year_output[row_pointer,2] <- this_year
     year_output[row_pointer,1] <- row_pointer
   }
-  file_part1 <- substr(myfile, 1, 76)
+  file_part1 <- substr(myfile, 1, nchar(myfile)-4) #JMS 9/22/20
   write.csv(year_output, file=paste0(file_part1, "_month.csv", sep=""), row.names=F)
 }
 
 
 
 # filelist = list of all of the year's monthly sums
-filelist02 <- list.files(path="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/", pattern="*_month.csv", full.names=TRUE)
+filelist02 <- list.files(path=mypath, pattern="*_month.csv", full.names=TRUE) #JMS 9/22/20
 
 # combine all years
 combined_yearsums <- do.call('rbind', lapply(filelist02, read.csv, header=TRUE))
 
 # write out file
-write.csv(combined_yearsums, file="C:/Users/echelsvi/git/chelsvig_urban_pesticides/app_rates/calpip/placer_09-17.csv", row.names=F)
+write.csv(combined_yearsums, file=paste0(mypath,"placer_09-17.csv"), row.names=F) #JMS 9/22/20
 
 
 
