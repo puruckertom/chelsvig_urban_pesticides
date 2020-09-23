@@ -6,9 +6,9 @@ mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #
 
 # -----------------------------------------------------------
 # read in daily application rates (kg/ha)
-apps <- read.table(paste0(mypath,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),
-                       sep="\t", skip=3, col.names=c("date", "hour", "app_daily_kgha")) #JMS 9/22/20
-
+apps <- read.table(paste0(mypath,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),  #JMS 9/22/20
+                       sep="\t", skip=0, col.names=c("date", "hour", "app_daily_kgha")) #JMS 9/23/20
+## Why does it skip the first three days???? -JMS 9/23/20
 
 # compute daily applications (kg)
 apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use in PGC
@@ -23,7 +23,7 @@ apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use
 # -----------------------------------------------------------
 # read in swmm subcatchment areas (ha)
 subcatch_areas <- read.table(paste0(mypath,'app_rates/io/swmm_sub_list_areas.txt'), 
-                             sep=" ", header=F, col.names="area_ha") #JMS 9/20/22
+                             sep=" ", header=F, col.names="area_ha") #JMS 9/22/20
 # -----------------------------------------------------------
 
 
@@ -33,16 +33,16 @@ subcatch_areas <- read.table(paste0(mypath,'app_rates/io/swmm_sub_list_areas.txt
 # -----------------------------------------------------------
 # need to get from .inp file
 subcatch_landuse <- read.csv(paste0(mypath,'app_rates/io/sub_list_landuse.csv'),sep=",", header=T) #JMS 9/22/20
-
-
+## Only the first 113 rows in this table are used. Why is it full of empty rows? Can (what I presume are) the "other" rows not be removed?
+subcatch_landuse <- subcatch_landuse[1:113,] #JMS 9/23/20
 
 # -----------------------------------------------------------
 # read in swmm runoff output (generated in .rpt), units = cms
-swmm_rpt_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_runf.csv'),sep=",", header=T) #JMS 9/20/22
+swmm_rpt_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_runf.csv'),sep=",", header=T) #JMS 9/22/20
 swmm_rpt_runf <- swmm_rpt_runf[,-1 ]
 
 # read in swmm bif output (generated in .rpt), units = ug/l
-swmm_rpt_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_bif.csv'),sep=",", header=T)
+swmm_rpt_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_bif.csv'),sep=",", header=T)  #JMS 9/22/20
 swmm_rpt_bif <- swmm_rpt_bif[,-1 ]
 # -----------------------------------------------------------
 
@@ -53,20 +53,19 @@ swmm_conv_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_runf.cs
 swmm_conv_runf <- swmm_conv_runf[,-1 ]
 
 # read in swmm converted bif values (to be input into vvwm), units = g/ha/day
-swmm_conv_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_bif.csv'),sep=",", header=T)
+swmm_conv_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_bif.csv'),sep=",", header=T)  #JMS 9/22/20
 swmm_conv_bif <- swmm_conv_bif[,-1 ]
 # -----------------------------------------------------------
 
 
 # -----------------------------------------------------------
-# create output files that contain all relative runf,bif values for each subcatchment
+# create output files that contain all relative runf, bif values for each subcatchment
 # for each subcatchment
 for (sub in 1:113){
-  # create blank df
-  output_df <- data.frame(matrix(ncol = 1, nrow = dim(swmm_rpt_runf)[1]))
+  # create df: start with date column -JMS 9/23/20
+  output_df <- data.frame(dates = seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")) #JMS 9/23/20
   
-  # fill blank df with needed cols
-  output_df$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
+  # add other columns needed -JMS 9/23/20
   output_df$pur_app_kg <- apps$app_daily_kg
   output_df$pur_app_kgha <- apps$app_daily_kgha
   output_df$rpt_runf_cms <- swmm_rpt_runf[,sub]
@@ -81,8 +80,6 @@ for (sub in 1:113){
   output_df$sub_area_ha <- rep(subcatch_areas[sub,1], times=dim(swmm_rpt_runf)[1])
   output_df$sub_perc_develop <- rep(subcatch_landuse[sub,1], times=dim(swmm_rpt_runf)[1])
   
-  output_df <- output_df[,-1]
-
   write.csv(output_df, file=paste0(file= paste0(mypath,'app_rates/output/'), "bug_values_sub", sub, ".csv", sep=""), row.names=F) #JMS 9/22/20
    
 }
