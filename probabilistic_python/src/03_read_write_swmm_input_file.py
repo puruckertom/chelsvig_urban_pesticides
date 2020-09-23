@@ -26,6 +26,35 @@ lhs_design = lhs_design.round(
      "Por": 3, "WP": 3, "FC": 3, "Ksat": 3, "Rough": 4, "Kdecay": 3, "BCoeff2": 3, "WCoeff2": 3})
 print(lhs_design.head())
 
+'''
+Helper function of edit_file:
+Create new line of .inp file with lhs simulated versions of values and text in old .inp file
+ Inputs: fileline <str> -line from original .inp file-
+  sim <float> -the simulated value to repace the old (observed) one with-
+ Output: newline <str> -custom version of line for new file-
+'''
+def edit1line(fileline, Col, sim):
+    listline = " ".join(fileline.split()).split()
+    listline[Col] = str(sim)
+    newline = ' '.join([str(item) for item in listline]) + "\n"
+    return(newline)
+
+'''
+Edit the new file to be cleaner
+ Inputs: Num <int> -Number of rows to clean-
+   row_0 <int> -Number of rows to skip-
+   parameter <str> -name of lhs design parameter (will become name of column in the .csv  file)-
+   Col <int> -column in the .inp file that contains the info you want to preserve and clean- 
+   flines <list of str> -lines of the file to clean up-
+ Output: cleaned up lines of file given
+'''
+def editted_lines(Ite, Num, row_0, parameter, Col, flines):# = filelines):
+    # value of "parameter" in current lhs simulation
+    sim = lhs_design.loc[Ite - 1, parameter]
+    print(sim)
+    return([edit1line(flines[row_0 + i], Col, sim) for i in range(Num)])
+
+
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
     newfol = "input_" + str(Ite)
@@ -52,345 +81,74 @@ for Ite in range(1, nsims+1):
     filelines = new_swmm5.readlines()
 
     # edit the new file
+
     # ---------------------------
+    # 113 = number of subcatchments
+    
     # parameter = NImperv
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 172
-    NImperv = lhs_design.loc[Ite - 1, "NImperv"]
-    print(NImperv)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[1] = str(NImperv)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
+    filelines[172:(172 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 172, parameter = "NImperv", Col = 1, flines = filelines)
+    
     # parameter = NPerv
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 172
-    NPerv = lhs_design.loc[Ite - 1, "NPerv"]
-    print(NPerv)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[2] = str(NPerv)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
+    filelines[172:(172 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 172, parameter = "NPerv", Col = 2, flines = filelines)
+    
     # parameter = SImperv
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 172
-    SImperv = lhs_design.loc[Ite - 1, "SImperv"]
-    print(SImperv)
+    filelines[172:(172 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 172, parameter = "SImperv", Col = 3, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[3] = str(SImperv)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = SPerv
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 172
-    SPerv = lhs_design.loc[Ite - 1, "SPerv"]
-    print(SPerv)
+    filelines[172:(172 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 172, parameter = "SPerv", Col = 4, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(SPerv)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = PctZero
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 172
-    PctZero = lhs_design.loc[Ite - 1, "PctZero"]
-    print(PctZero)
+    filelines[172:(172 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 172, parameter = "PctZero", Col = 5, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[5] = str(PctZero)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = MaxRate
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 289
-    MaxRate = lhs_design.loc[Ite - 1, "MaxRate"]
-    print(MaxRate)
+    filelines[289:(289 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 289, parameter = "MaxRate", Col = 1, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[1] = str(MaxRate)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = MinRate
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 289
-    MinRate = lhs_design.loc[Ite - 1, "MinRate"]
-    print(MinRate)
+    filelines[289:(289 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 289, parameter = "MinRate", Col = 2, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[2] = str(MinRate)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = Decay
-    # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 289
-    Decay = lhs_design.loc[Ite - 1, "Decay"]
-    print(Decay)
+    filelines[289:(289 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 289, parameter = "Decay", Col = 3, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[3] = str(Decay)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = DryTime
+    filelines[289:(289 + 113)] = editted_lines(Ite = Ite, Num = 113, row_0 = 289, parameter = "DryTime", Col = 4, flines = filelines)
     # ---------------------------
-    Num = 113  # number of subcatchments
-    row_0 = 289
-    DryTime = lhs_design.loc[Ite - 1, "DryTime"]
-    print(DryTime)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(DryTime)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
+    
     # ---------------------------
+    # 1 = number of aquifers
+    
     # parameter = Por
-    # ---------------------------
-    Num = 1  # number of aquifers
-    row_0 = 406
-    Por = lhs_design.loc[Ite - 1, "Por"]
-    print(Por)
+    filelines[406:(406 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 406, parameter = "Por", Col = 1, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
+    # parameter = WP
+    filelines[406:(406 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 406, parameter = "WP", Col = 2, flines = filelines)
 
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[1] = str(Por)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
-    #   parameter = WP
-    # ---------------------------
-    Num = 1  # number of aquifers
-    row_0 = 406
-    WP = lhs_design.loc[Ite - 1, "WP"]
-    print(WP)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[2] = str(WP)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = FC
-    # ---------------------------
-    Num = 1  # number of aquifers
-    row_0 = 406
-    FC = lhs_design.loc[Ite - 1, "FC"]
-    print(FC)
+    filelines[406:(406 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 406, parameter = "FC", Col = 3, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[3] = str(FC)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = Ksat
+    filelines[406:(406 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 406, parameter = "Ksat", Col = 4, flines = filelines)
     # ---------------------------
-    Num = 1  # number of aquifers
-    row_0 = 406
-    Ksat = lhs_design.loc[Ite - 1, "Ksat"]
-    print(Ksat)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(Ksat)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # # ---------------------------
+    
+    # ---------------------------
+    # 195 = number of conduits
+    
     # # parameter = Rough
-    # # ---------------------------
-    # Num = 195  # number of conduits
-    # row_0 = 734
-    # Rough = lhs_design.loc[Ite - 1, "Rough"]
-    # print(Rough)
-    #
-    # for i in range(1, Num + 1):
-    #     row_t = row_0 + (i - 1)
-    #     oldline = filelines[row_t]
-    #
-    #     fixline = " ".join(oldline.split())
-    #     listline = fixline.split()
-    #     listline[4] = str(Rough)
-    #     listTOstring = ' '.join([str(item) for item in listline])
-    #
-    #     newline = listTOstring + "\n"
-    #     filelines[row_t] = newline
-
+    # filelines[734:(734 + 195)] = editted_lines(Ite = Ite, Num = 195, row_0 = 734, parameter = "Rough", Col = 4, flines = filelines)
     # ---------------------------
+    
+    # ---------------------------
+    # 1 = number of pollutants
+
     # parameter = Kdecay
-    # ---------------------------
-    Num = 1  # number of pollutants
-    row_0 = 1125
-    Kdecay = lhs_design.loc[Ite - 1, "Kdecay"]
-    print(Kdecay)
+    filelines[1125:(1125 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 1125, parameter = "Kdecay", Col = 5, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[5] = str(Kdecay)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = BCoeff2
-    # ---------------------------
-    Num = 1  # number of pollutants
-    row_0 = 1371
-    BCoeff2 = lhs_design.loc[Ite - 1, "BCoeff2"]
-    print(BCoeff2)
+    filelines[1371:(1371 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 1371, parameter = "BCoeff2", Col = 4, flines = filelines)
 
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(BCoeff2)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
-    # ---------------------------
     # parameter = WCoeff2
+    filelines[1377:(1377 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 1377, parameter = "WCoeff2", Col = 4, flines = filelines)
     # ---------------------------
-    Num = 1  # number of pollutants
-    row_0 = 1377
-    WCoeff2 = lhs_design.loc[Ite - 1, "WCoeff2"]
-    print(WCoeff2)
-
-    for i in range(1, Num + 1):
-        row_t = row_0 + (i - 1)
-        oldline = filelines[row_t]
-
-        fixline = " ".join(oldline.split())
-        listline = fixline.split()
-        listline[4] = str(WCoeff2)
-        listTOstring = ' '.join([str(item) for item in listline])
-
-        newline = listTOstring + "\n"
-        filelines[row_t] = newline
-
+    
 
     # copy, write out file
     new_swmm5 = open(new_file, "w")
