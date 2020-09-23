@@ -4,60 +4,53 @@
 
 # setup
 import shutil
+mypath = r'C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides' #JMS 9/23/20
 
 # specify locations
-dir_path = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python'
+dir_path = mypath + r'\probabilistic_python' #JMS 9/23/20
 
 swmm_path = dir_path + r'\input\swmm'
-print(swmm_path)
+print(r'swmm_path:  ', swmm_path) #JMS 9/23/20
 swmm_file = swmm_path + r'\NPlesantCreek.rpt'
-print(swmm_file)
+print(r'swmm_file:  ', swmm_file) #JMS 9/23/20
 inp_file = swmm_path + r'\NPlesantCreek.inp'
-print(inp_file)
+print(r'inp_file:  ', inp_file) #JMS 9/23/20
 vvwm_path = dir_path + r'\input\vvwm'
-print(vvwm_path)
+print(r'vvwm_path:  ', vvwm_path) #JMS 9/23/20
 
 outfalls = ['\outfall_31_26']
 
 # read in the .inp file subcatchment areas (to use later in script)
 # read the .inp file
-file = open(inp_file, "r")
-
-# create blank list to hold subcatchment areas
-sub_list_area = []
+ipfile = open(inp_file, "r") #JMS 9/23/20
 
 # skip x lines
-lines1 = file.readlines()[55:]
+lines1 = ipfile.readlines()[55:] #JMS 9/23/20
 
-for thissub in range(0, 113):
-    # grab the area
-    thisline = lines1[thissub]
-    fixline = " ".join(thisline.split())
-    listline = fixline.split()
-    area = listline[3]
-    area = float(area)
+# close .inp file
+close(ipfile) #JMS 9/23/20
 
-    # insert into blank list
-    sub_list_area.append(area)
+# make a list of subcatchment areas
+sub_list_area = [lines1[thissub].split()[3] for thissub in range(113)]  #JMS 9/23/20
 
-with open(r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\io\swmm_sub_list_areas.txt', 'w') as f:
-    for item in sub_list_area:
-        f.write("%s\n" % item)
+# write list to .txt file for later use
+with open(mypath + r'\app_rates\io\swmm_sub_list_areas.txt', 'w') as f: #JMS 9/23/20
+    f.write("\n".join(sub_list_area)) #JMS 9/23/20
 
 # grab the previously computed daily averages of swmm outputs
-original = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\swmm\swmm_output_davg_runf.csv'
-target = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\io\swmm_output_davg_runf.csv'
+original = mypath + r'\probabilistic_python\input\swmm\swmm_output_davg_runf.csv' #JMS 9/23/20
+target = mypath + r'\app_rates\io\swmm_output_davg_runf.csv' #JMS 9/23/20
 shutil.copyfile(original, target)
 
-original = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\swmm\swmm_output_davg_bif.csv'
-target = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\io\swmm_output_davg_bif.csv'
+original = mypath + r'\probabilistic_python\input\swmm\swmm_output_davg_bif.csv' #JMS 9/23/20
+target = mypath + r'\app_rates\io\swmm_output_davg_bif.csv' #JMS 9/23/20
 shutil.copyfile(original, target)
 
 # grab the previously computed converted daily averages of swmm outputs
-original = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\swmm\swmm_conv_to_vvwm_runf.csv'
-target = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\io\swmm_conv_to_vvwm_runf.csv'
+original = mypath + r'\probabilistic_python\input\swmm\swmm_conv_to_vvwm_runf.csv' #JMS 9/23/20
+target = mypath + r'\app_rates\io\swmm_conv_to_vvwm_runf.csv' #JMS 9/23/20
 shutil.copyfile(original, target)
 
-original = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\probabilistic_python\input\swmm\swmm_conv_to_vvwm_bif.csv'
-target = r'C:\Users\echelsvi\git\chelsvig_urban_pesticides\app_rates\io\swmm_conv_to_vvwm_bif.csv'
+original = mypath + r'\probabilistic_python\input\swmm\swmm_conv_to_vvwm_bif.csv' #JMS 9/23/20
+target = mypath + r'\app_rates\io\swmm_conv_to_vvwm_bif.csv' #JMS 9/23/20
 shutil.copyfile(original, target)
