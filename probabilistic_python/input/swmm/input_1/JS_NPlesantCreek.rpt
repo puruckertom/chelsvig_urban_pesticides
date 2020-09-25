@@ -1,0 +1,408 @@
+
+  EPA STORM WATER MANAGEMENT MODEL - VERSION 5.1 (Build 5.3.0.dev0)
+  --------------------------------------------------------------
+
+  
+  Access violation in module swmm_open at step 0, hour 0 --- execution halted.
+  
+  ERROR 209: undefined object swmm_wet at line 40 of [RAINGAGE] section:
+  swmm_wet	VOLUME	   1:00	    1.0	     FILE	"C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\probabilistic_python\weather\swmm_wet.txt"  swmm_wet	 MM
+
+  
+  ERROR 209: undefined object S1 at line 45 of [SUBCATCHMENT] section:
+  S1               swmm_wet         j1               57.8000  8.31     183.46   11.64    0                        
+
+  
+  ERROR 209: undefined object S2 at line 46 of [SUBCATCHMENT] section:
+  S2               swmm_wet         j3               40.6289  17.43    139.91   11.61    0                        
+
+  
+  ERROR 209: undefined object S3 at line 47 of [SUBCATCHMENT] section:
+  S3               swmm_wet         j5               227.6490 15.40    320.15   14.40    0                        
+
+  
+  ERROR 209: undefined object S4 at line 48 of [SUBCATCHMENT] section:
+  S4               swmm_wet         j4               10.2923  16.47    71.29    11.47    0                        
+
+  
+  ERROR 209: undefined object S5 at line 49 of [SUBCATCHMENT] section:
+  S5               swmm_wet         j6               158.7419 25.49    326.50   14.60    0                        
+
+  
+  ERROR 209: undefined object S6 at line 50 of [SUBCATCHMENT] section:
+  S6               swmm_wet         j8               30.2337  17.16    94.13    8.04     0                        
+
+  
+  ERROR 209: undefined object S7 at line 51 of [SUBCATCHMENT] section:
+  S7               swmm_wet         j8               53.5458  44.33    189.30   7.17     0                        
+
+  
+  ERROR 209: undefined object S8 at line 52 of [SUBCATCHMENT] section:
+  S8               swmm_wet         j9               43.0476  32.77    152.64   14.68    0                        
+
+  
+  ERROR 209: undefined object S9 at line 53 of [SUBCATCHMENT] section:
+  S9               swmm_wet         j10              56.2647  36.79    155.83   7.08     0                        
+
+  
+  ERROR 209: undefined object S10 at line 54 of [SUBCATCHMENT] section:
+  S10              swmm_wet         j12              72.3722  18.55    136.86   7.90     0                        
+
+  
+  ERROR 209: undefined object S11 at line 55 of [SUBCATCHMENT] section:
+  S11              swmm_wet         j14              39.4796  27.18    138.67   5.25     0                        
+
+  
+  ERROR 209: undefined object S12 at line 56 of [SUBCATCHMENT] section:
+  S12              swmm_wet         j13              31.7947  28.57    112.08   5.65     0                        
+
+  
+  ERROR 209: undefined object S13 at line 57 of [SUBCATCHMENT] section:
+  S13              swmm_wet         j16              87.9050  8.25     241.55   2.19     0                        
+
+  
+  ERROR 209: undefined object S14 at line 58 of [SUBCATCHMENT] section:
+  S14              swmm_wet         j17              280.1313 28.87    301.77   3.33     0                        
+
+  
+  ERROR 209: undefined object S15 at line 59 of [SUBCATCHMENT] section:
+  S15              swmm_wet         j21              40.5260  41.49    117.53   12.27    0                        
+
+  
+  ERROR 209: undefined object S16 at line 60 of [SUBCATCHMENT] section:
+  S16              swmm_wet         j19              39.5054  0.03     180.04   2.13     0                        
+
+  
+  ERROR 209: undefined object S17 at line 61 of [SUBCATCHMENT] section:
+  S17              swmm_wet         j18              5.5064   0.40     61.74    2.83     0                        
+
+  
+  ERROR 209: undefined object S18 at line 62 of [SUBCATCHMENT] section:
+  S18              swmm_wet         j22              60.9305  38.10    170.97   14.39    0                        
+
+  
+  ERROR 209: undefined object S19 at line 63 of [SUBCATCHMENT] section:
+  S19              swmm_wet         j23              25.9281  56.95    90.34    5.60     0                        
+
+  
+  ERROR 209: undefined object S20 at line 64 of [SUBCATCHMENT] section:
+  S20              swmm_wet         j24              92.8453  38.28    305.61   9.73     0                        
+
+  
+  ERROR 209: undefined object S21 at line 65 of [SUBCATCHMENT] section:
+  S21              swmm_wet         j197             104.4928 29.95    213.58   6.02     0                        
+
+  
+  ERROR 209: undefined object S22 at line 66 of [SUBCATCHMENT] section:
+  S22              swmm_wet         j25              53.7259  40.53    149.17   3.31     0                        
+
+  
+  ERROR 209: undefined object S23 at line 67 of [SUBCATCHMENT] section:
+  S23              swmm_wet         j26              23.6466  2.09     93.43    3.55     0                        
+
+  
+  ERROR 209: undefined object S24 at line 68 of [SUBCATCHMENT] section:
+  S24              swmm_wet         j28              44.3771  24.00    126.86   5.44     0                        
+
+  
+  ERROR 209: undefined object S25 at line 69 of [SUBCATCHMENT] section:
+  S25              swmm_wet         j27              23.1835  38.07    71.25    8.65     0                        
+
+  
+  ERROR 209: undefined object S26 at line 70 of [SUBCATCHMENT] section:
+  S26              swmm_wet         j29              56.0074  30.97    154.90   2.66     0                        
+
+  
+  ERROR 209: undefined object S27 at line 71 of [SUBCATCHMENT] section:
+  S27              swmm_wet         j30              46.8043  41.66    138.64   5.62     0                        
+
+  
+  ERROR 209: undefined object S28 at line 72 of [SUBCATCHMENT] section:
+  S28              swmm_wet         j31              135.3097 37.39    248.38   3.42     0                        
+
+  
+  ERROR 209: undefined object S29 at line 73 of [SUBCATCHMENT] section:
+  S29              swmm_wet         j32              154.5049 41.72    242.79   5.26     0                        
+
+  
+  ERROR 209: undefined object S30 at line 74 of [SUBCATCHMENT] section:
+  S30              swmm_wet         j31              35.8344  36.66    102.59   2.90     0                        
+
+  
+  ERROR 209: undefined object S31 at line 75 of [SUBCATCHMENT] section:
+  S31              swmm_wet         j33              26.8544  22.67    138.20   2.99     0                        
+
+  
+  ERROR 209: undefined object S32 at line 76 of [SUBCATCHMENT] section:
+  S32              swmm_wet         j34              48.1595  47.65    124.33   2.54     0                        
+
+  
+  ERROR 209: undefined object S33 at line 77 of [SUBCATCHMENT] section:
+  S33              swmm_wet         j35              57.5169  36.64    143.93   7.04     0                        
+
+  
+  ERROR 209: undefined object S34 at line 78 of [SUBCATCHMENT] section:
+  S34              swmm_wet         j37              51.7446  42.54    176.75   3.59     0                        
+
+  
+  ERROR 209: undefined object S35 at line 79 of [SUBCATCHMENT] section:
+  S35              swmm_wet         j39              50.3809  17.07    151.64   2.43     0                        
+
+  
+  ERROR 209: undefined object S36 at line 80 of [SUBCATCHMENT] section:
+  S36              swmm_wet         j41              6.6471   3.74     51.01    2.80     0                        
+
+  
+  ERROR 209: undefined object S37 at line 81 of [SUBCATCHMENT] section:
+  S37              swmm_wet         j42              66.2397  25.04    148.69   3.32     0                        
+
+  
+  ERROR 209: undefined object S38 at line 82 of [SUBCATCHMENT] section:
+  S38              swmm_wet         j44              74.9281  21.35    189.22   2.80     0                        
+
+  
+  ERROR 209: undefined object S39 at line 83 of [SUBCATCHMENT] section:
+  S39              swmm_wet         j46              8.4997   25.03    83.21    2.74     0                        
+
+  
+  ERROR 209: undefined object S40 at line 84 of [SUBCATCHMENT] section:
+  S40              swmm_wet         j48              36.0574  41.50    137.84   2.84     0                        
+
+  
+  ERROR 209: undefined object S41 at line 85 of [SUBCATCHMENT] section:
+  S41              swmm_wet         j51              21.0993  35.17    122.42   2.34     0                        
+
+  
+  ERROR 209: undefined object S42 at line 86 of [SUBCATCHMENT] section:
+  S42              swmm_wet         j55              79.0193  36.80    251.42   2.82     0                        
+
+  
+  ERROR 209: undefined object S43 at line 87 of [SUBCATCHMENT] section:
+  S43              swmm_wet         j31              69.2587  42.23    168.77   5.85     0                        
+
+  
+  ERROR 209: undefined object S44 at line 88 of [SUBCATCHMENT] section:
+  S44              swmm_wet         j57              80.0571  58.15    174.60   3.34     0                        
+
+  
+  ERROR 209: undefined object S45 at line 89 of [SUBCATCHMENT] section:
+  S45              swmm_wet         j58              2.6503   29.07    39.78    4.41     0                        
+
+  
+  ERROR 209: undefined object S46 at line 90 of [SUBCATCHMENT] section:
+  S46              swmm_wet         j60              24.0068  29.06    104.19   4.76     0                        
+
+  
+  ERROR 209: undefined object S47 at line 91 of [SUBCATCHMENT] section:
+  S47              swmm_wet         j61              4.9489   7.41     59.05    4.12     0                        
+
+  
+  ERROR 209: undefined object S48 at line 92 of [SUBCATCHMENT] section:
+  S48              swmm_wet         j62              74.4821  53.18    186.00   3.64     0                        
+
+  
+  ERROR 209: undefined object S49 at line 93 of [SUBCATCHMENT] section:
+  S49              swmm_wet         j64              90.2294  41.94    287.68   3.50     0                        
+
+  
+  ERROR 209: undefined object S50 at line 94 of [SUBCATCHMENT] section:
+  S50              swmm_wet         j66              113.4728 35.47    232.94   2.18     0                        
+
+  
+  ERROR 209: undefined object S51 at line 95 of [SUBCATCHMENT] section:
+  S51              swmm_wet         j68              41.9241  50.97    128.87   2.81     0                        
+
+  
+  ERROR 209: undefined object S52 at line 96 of [SUBCATCHMENT] section:
+  S52              swmm_wet         j69              94.3120  2.15     221.05   2.57     0                        
+
+  
+  ERROR 209: undefined object S53 at line 97 of [SUBCATCHMENT] section:
+  S53              swmm_wet         j75              25.7480  16.94    108.18   3.33     0                        
+
+  
+  ERROR 209: undefined object S54 at line 98 of [SUBCATCHMENT] section:
+  S54              swmm_wet         j77              40.3802  45.65    104.40   3.13     0                        
+
+  
+  ERROR 209: undefined object S55 at line 99 of [SUBCATCHMENT] section:
+  S55              swmm_wet         j80              108.5240 57.71    222.81   2.98     0                        
+
+  
+  ERROR 209: undefined object S56 at line 100 of [SUBCATCHMENT] section:
+  S56              swmm_wet         j83              79.8684  3.37     236.08   4.22     0                        
+
+  
+  ERROR 209: undefined object S57 at line 101 of [SUBCATCHMENT] section:
+  S57              swmm_wet         j85              147.9950 33.88    190.73   2.21     0                        
+
+  
+  ERROR 209: undefined object S58 at line 102 of [SUBCATCHMENT] section:
+  S58              swmm_wet         j87              75.8030  12.31    259.11   2.86     0                        
+
+  
+  ERROR 209: undefined object S59 at line 103 of [SUBCATCHMENT] section:
+  S59              swmm_wet         j88              6.8701   0.00     63.72    4.88     0                        
+
+  
+  ERROR 209: undefined object S60 at line 104 of [SUBCATCHMENT] section:
+  S60              swmm_wet         j90              127.1102 41.26    187.13   3.18     0                        
+
+  
+  ERROR 209: undefined object S61 at line 105 of [SUBCATCHMENT] section:
+  S61              swmm_wet         j92              19.5039  70.13    83.86    3.40     0                        
+
+  
+  ERROR 209: undefined object S62 at line 106 of [SUBCATCHMENT] section:
+  S62              swmm_wet         j86              4.4085   11.36    42.37    4.50     0                        
+
+  
+  ERROR 209: undefined object S63 at line 107 of [SUBCATCHMENT] section:
+  S63              swmm_wet         j94              60.8105  60.72    162.56   2.86     0                        
+
+  
+  ERROR 209: undefined object S64 at line 108 of [SUBCATCHMENT] section:
+  S64              swmm_wet         j99              68.6669  40.12    141.29   2.41     0                        
+
+  
+  ERROR 209: undefined object S65 at line 109 of [SUBCATCHMENT] section:
+  S65              swmm_wet         j93              0.8234   0.00     26.36    11.36    0                        
+
+  
+  ERROR 209: undefined object S66 at line 110 of [SUBCATCHMENT] section:
+  S66              swmm_wet         j103             127.5304 45.98    162.95   3.19     0                        
+
+  
+  ERROR 209: undefined object S67 at line 111 of [SUBCATCHMENT] section:
+  S67              swmm_wet         j104             111.2343 46.69    189.91   2.58     0                        
+
+  
+  ERROR 209: undefined object S68 at line 112 of [SUBCATCHMENT] section:
+  S68              swmm_wet         j107             147.8492 32.30    212.77   3.63     0                        
+
+  
+  ERROR 209: undefined object S69 at line 113 of [SUBCATCHMENT] section:
+  S69              swmm_wet         j108             25.7394  13.13    116.49   4.53     0                        
+
+  
+  ERROR 209: undefined object S70 at line 114 of [SUBCATCHMENT] section:
+  S70              swmm_wet         j106             7.6849   5.13     76.82    4.56     0                        
+
+  
+  ERROR 209: undefined object S71 at line 115 of [SUBCATCHMENT] section:
+  S71              swmm_wet         j111             53.5630  23.85    186.29   3.13     0                        
+
+  
+  ERROR 209: undefined object S72 at line 116 of [SUBCATCHMENT] section:
+  S72              swmm_wet         j113             125.2147 38.87    182.31   2.98     0                        
+
+  
+  ERROR 209: undefined object S73 at line 117 of [SUBCATCHMENT] section:
+  S73              swmm_wet         j116             43.7166  26.99    167.98   3.67     0                        
+
+  
+  ERROR 209: undefined object S74 at line 118 of [SUBCATCHMENT] section:
+  S74              swmm_wet         j119             49.0343  29.55    170.28   2.88     0                        
+
+  
+  ERROR 209: undefined object S75 at line 119 of [SUBCATCHMENT] section:
+  S75              swmm_wet         j121             24.0411  21.08    136.21   3.49     0                        
+
+  
+  ERROR 209: undefined object S76 at line 120 of [SUBCATCHMENT] section:
+  S76              swmm_wet         j122             33.2442  11.31    146.64   3.43     0                        
+
+  
+  ERROR 209: undefined object S77 at line 121 of [SUBCATCHMENT] section:
+  S77              swmm_wet         j124             514.3245 44.47    320.42   5.46     0                        
+
+  
+  ERROR 209: undefined object S78 at line 122 of [SUBCATCHMENT] section:
+  S78              swmm_wet         j125             134.0832 49.25    254.64   3.79     0                        
+
+  
+  ERROR 209: undefined object S79 at line 123 of [SUBCATCHMENT] section:
+  S79              swmm_wet         j129             58.8378  19.78    175.68   3.81     0                        
+
+  
+  ERROR 209: undefined object S80 at line 124 of [SUBCATCHMENT] section:
+  S80              swmm_wet         j130             88.2481  30.36    226.47   2.51     0                        
+
+  
+  ERROR 209: undefined object S81 at line 125 of [SUBCATCHMENT] section:
+  S81              swmm_wet         j131             2.9848   45.68    38.12    5.48     0                        
+
+  
+  ERROR 209: undefined object S82 at line 126 of [SUBCATCHMENT] section:
+  S82              swmm_wet         j136             43.0648  51.16    146.36   3.28     0                        
+
+  
+  ERROR 209: undefined object S83 at line 127 of [SUBCATCHMENT] section:
+  S83              swmm_wet         j138             140.7132 50.45    262.90   2.94     0                        
+
+  
+  ERROR 209: undefined object S84 at line 128 of [SUBCATCHMENT] section:
+  S84              swmm_wet         j139             4.5801   47.57    49.79    3.32     0                        
+
+  
+  ERROR 209: undefined object S85 at line 129 of [SUBCATCHMENT] section:
+  S85              swmm_wet         j141             106.5427 55.04    245.47   2.96     0                        
+
+  
+  ERROR 209: undefined object S86 at line 130 of [SUBCATCHMENT] section:
+  S86              swmm_wet         j144             42.6016  55.96    158.15   4.44     0                        
+
+  
+  ERROR 209: undefined object S87 at line 131 of [SUBCATCHMENT] section:
+  S87              swmm_wet         j147             264.6327 33.09    271.74   2.02     0                        
+
+  
+  ERROR 209: undefined object S88 at line 132 of [SUBCATCHMENT] section:
+  S88              swmm_wet         j148             60.7247  46.96    161.92   2.57     0                        
+
+  
+  ERROR 209: undefined object S89 at line 133 of [SUBCATCHMENT] section:
+  S89              swmm_wet         j150             75.6829  34.31    180.20   4.01     0                        
+
+  
+  ERROR 209: undefined object S90 at line 134 of [SUBCATCHMENT] section:
+  S90              swmm_wet         j152             24.2899  23.75    100.20   4.24     0                        
+
+  
+  ERROR 209: undefined object S91 at line 135 of [SUBCATCHMENT] section:
+  S91              swmm_wet         j154             163.5621 43.50    284.31   5.09     0                        
+
+  
+  ERROR 209: undefined object S92 at line 136 of [SUBCATCHMENT] section:
+  S92              swmm_wet         j156             26.2883  43.43    92.69    5.09     0                        
+
+  
+  ERROR 209: undefined object S93 at line 137 of [SUBCATCHMENT] section:
+  S93              swmm_wet         j157             15.8159  32.61    98.33    5.33     0                        
+
+  
+  ERROR 209: undefined object S94 at line 138 of [SUBCATCHMENT] section:
+  S94              swmm_wet         j159             17.7199  34.10    78.14    2.78     0                        
+
+  
+  ERROR 209: undefined object S95 at line 139 of [SUBCATCHMENT] section:
+  S95              swmm_wet         j161             40.0629  59.60    115.56   2.29     0                        
+
+  
+  ERROR 209: undefined object S96 at line 140 of [SUBCATCHMENT] section:
+  S96              swmm_wet         j163             15.1126  36.59    89.21    4.68     0                        
+
+  
+  ERROR 209: undefined object S97 at line 141 of [SUBCATCHMENT] section:
+  S97              swmm_wet         j168             34.2992  14.16    154.60   3.94     0                        
+
+  
+  ERROR 209: undefined object S98 at line 142 of [SUBCATCHMENT] section:
+  S98              swmm_wet         j167             61.3251  21.93    183.45   3.68     0                        
+
+  
+  ERROR 209: undefined object S99 at line 143 of [SUBCATCHMENT] section:
+  S99              swmm_wet         j170             40.6289  19.82    122.13   3.52     0                        
+
+  
+  Maximum error count exceeded.d.
