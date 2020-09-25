@@ -7,7 +7,7 @@ from pyswmm import Simulation
 import os
 
 # nsims
-nsims = 1
+nsims = 2
 
 # specify location
 print(os.path.abspath(os.curdir))
