@@ -5,13 +5,13 @@
 # setup
 import pytest_shutil, shutil, os, pandas, regex as re
 
-# specify location
-print(os.path.abspath(os.curdir))
-os.chdir("..")
-dir_path = os.path.abspath(os.curdir)
+# save absolute path of input folder location
+# these strings are how we will locate where to find or create the folder we will be copying information to and from
+dir_path = os.path.abspath("..")
 print(dir_path)
-
-input_path = dir_path + r'\input\swmm'
+main_path = os.path.abspath("../..")
+print(main_path)
+input_path = os.path.abspath("../input/swmm")
 print(input_path)
 
 # nsims
@@ -34,7 +34,8 @@ Create new line of .inp file with lhs simulated versions of values and text in o
  Output: newline <str> -custom version of line for new file-
 '''
 def edit1line(fileline, Col, sim):
-    listline = " ".join(fileline.split()).split()
+    #listline = " ".join(fileline.split()).split()
+    listline = fileline.split()
     listline[Col] = str(sim)
     newline = ' '.join([str(item) for item in listline]) + "\n"
     return(newline)
@@ -79,8 +80,42 @@ for Ite in range(1, nsims+1):
     # start reading the new file
     new_swmm5 = open(new_file, "r")
     filelines = new_swmm5.readlines()
+    new_swmm5.close()
 
     # edit the new file
+
+    # -----------------------------
+    # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
+
+    # the first absolute path to correct, listified
+    path1cols = filelines[50].split()
+    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # so instead, make a new list using the first five, a space holder, and the last two elements of the original list
+    path1cols = path1cols[:5] + [""] + path1cols[-2:]
+    # the corrected element of the listified line
+    path1cols[5] = '"'+os.path.join(dir_path,"weather\swmm_wet.txt")+'"'
+    # insert the correction and unlistify!
+    filelines[50] = "\t".join(path1cols) + "\n"
+
+    # the second absolute path to correct, listified
+    path2cols = filelines[1384].split()
+    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # so instead, make a new list using the first 2 elements of the original list and a space holder
+    path2cols = path2cols[:2] + [""]
+    # the corrected element of the listified line
+    path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
+    # insert the correction and unlistify!
+    filelines[1384] = "\t".join(path2cols) + "\n"
+    
+    # the third absolute path to correct, listified
+    path3cols = filelines[9306].split()
+    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # so instead, make a new list using the first element of the original list and a space holder
+    path3cols = path3cols[:1] + [""]
+    # the corrected element of the listified line
+    path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
+    # insert the correction and unlistify!
+    filelines[9306] = "\t".join(path3cols) + "\n"
 
     # ---------------------------
     # 113 = number of subcatchments
