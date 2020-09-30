@@ -48,7 +48,7 @@ DRY_ONLY         NO
 [RAINGAGES]
 ;;Name           Format    Interval SCF      Source    
 ;;-------------- --------- ------ ------ ----------
-swmm_wet	VOLUME	   1:00	    1.0	     FILE	"C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\probabilistic_python\weather\swmm_wet.txt"  swmm_wet	 MM
+swmm_wet	VOLUME	1:00	1.0	FILE	"C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\probabilistic_python\weather\swmm_wet.txt"	swmm_wet	MM
 
 [SUBCATCHMENTS]
 ;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack        
@@ -1382,7 +1382,7 @@ Other	         Bifenthrin       EXP        1.0        1.0        0.0        0.0
 [TIMESERIES]
 ;;Name 			  Source		File Name													 
 ;;--------------------    -----------------     ------------------------------------------------------------------------------------------------	
-bifenthrin_timeseries	  FILE		        "C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\app_rates\calpip\app_rate_output_for_swmm.txt"	
+bifenthrin_timeseries	FILE	"C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\app_rates\calpip\app_rate_output_for_swmm_48rain.txt"
 
 
 [REPORT]
@@ -9304,5 +9304,5 @@ P1602            643829.769         4299961.195
 
 
 [BACKDROP]
-FILE       "C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\probabilistic_python\input\swmm\nplesant.jpg"
+FILE	"C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides\probabilistic_python\input\swmm\nplesant.jpg"
 DIMENSIONS 639449.366 4291311.440 654102.034 4302180.045

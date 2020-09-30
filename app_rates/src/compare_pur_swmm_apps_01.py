@@ -3,8 +3,8 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import shutil
-mypath = r'C:\Users\Julia Stelman\Desktop\Watershed\chelsvig_urban_pesticides' #JMS 9/23/20
+import shutil, os
+mypath = os.path.abspath("../..") #JMS 9/30/20
 
 # specify locations
 dir_path = mypath + r'\probabilistic_python' #JMS 9/23/20

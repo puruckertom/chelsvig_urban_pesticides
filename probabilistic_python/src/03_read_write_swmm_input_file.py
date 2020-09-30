@@ -8,11 +8,8 @@ import pytest_shutil, shutil, os, pandas, regex as re
 # save absolute path of input folder location
 # these strings are how we will locate where to find or create the folder we will be copying information to and from
 dir_path = os.path.abspath("..")
-print(dir_path)
 main_path = os.path.abspath("../..")
-print(main_path)
 input_path = os.path.abspath("../input/swmm")
-print(input_path)
 
 # nsims
 nsims = 5
