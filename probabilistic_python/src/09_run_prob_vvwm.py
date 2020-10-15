@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas, os, shutil, subprocess
+import os, shutil, subprocess
 
 # specify location
 print(os.path.abspath(os.curdir))
@@ -55,6 +55,7 @@ for o in outfalls:
         # read the new file, and update file pathways
         this_vvwm = open(new_file, "r")
         filelines = this_vvwm.readlines()
+        this_vvwm.close()
 
         filelines[0] = sim_folder + r'\output' + "\n"
 

@@ -46,7 +46,7 @@ Edit the new file to be cleaner
    flines <list of str> -lines of the file to clean up-
  Output: cleaned up lines of file given
 '''
-def editted_lines(Ite, Num, row_0, parameter, Col, flines):# = filelines):
+def editted_lines(Ite, Num, row_0, parameter, Col, flines):
     # value of "parameter" in current lhs simulation
     sim = lhs_design.loc[Ite - 1, parameter]
     print(sim)

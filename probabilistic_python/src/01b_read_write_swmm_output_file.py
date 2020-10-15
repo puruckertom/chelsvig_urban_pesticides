@@ -62,10 +62,8 @@ del swmmout_bif['Unnamed: 0']
 
 # create pandas datetime col
 df = pd.DataFrame(
-        {'datetime': pd.date_range('2009-01-01', '2018-01-01', freq='1H', closed='left')}
+        {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
      )
-df = df.drop(0)
-df = df.reset_index(drop=True)
 
 # combine to swmm output with datetime
 runf_stack = pd.concat([swmmout_runf, df], axis=1)
@@ -94,21 +92,22 @@ bif_df_cols = len(bif_to_conv.columns)
 bif_df_rows = len(bif_to_conv)
 
 # read in the .inp file subcatchment areas
-file = open(inp_file, "r")
+ipfile = open(inp_file, "r") #JMS 10-15-20
 
 # create blank list to hold subcatchment areas
 sub_list_area = []
 
 # skip x lines
-lines1 = file.readlines()[55:]
+lines1 = ipfile.readlines()[55:] #JMS 10-15-20
+
+# close file 
+ipfile.close() #JMS 10-15-20
 
 for thissub in range(0, 113):
     # grab the area
     thisline = lines1[thissub]
-    fixline = " ".join(thisline.split())
-    listline = fixline.split()
-    area = listline[3]
-    area = float(area)
+    listline = thisline.split()
+    area = float(listline[3]) #JMS 10-15-20
 
     # insert into blank list
     sub_list_area.append(area)

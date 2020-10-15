@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------
 
 # setup environment
-import os, pandas
+import os, pandas as pd
 from pyDOE import *
 from scipy.stats import uniform
 
@@ -17,7 +17,7 @@ print(dir_path)
 nsims = 5
 
 # import parameter ranges table
-param_ranges = pandas.read_csv(dir_path + r'\input\lhs\lhs_param_ranges_vvwm.csv')
+param_ranges = pd.read_csv(dir_path + r'\input\lhs\lhs_param_ranges_vvwm.csv')
 print(param_ranges)
 
 # create list of input parameter names
@@ -33,7 +33,7 @@ print("Uniformly Sampled from LHS Design: ", "\n", lhs_design)
 
 
 # convert to data frame
-lhs_df = pandas.DataFrame(lhs_design, columns=param_names)
+lhs_df = pd.DataFrame(lhs_design, columns=param_names)
 print(lhs_df)
 
 # write out

@@ -3,7 +3,7 @@
 # -----------------------------------------
 
 # setup
-import shutil, os, pandas
+import shutil, os, pandas as pd
 
 # specify location
 print(os.path.abspath(os.curdir))
@@ -21,7 +21,7 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 nsims = 5
 
 # read in lhs_sampled_params
-lhs_design = pandas.read_csv(dir_path+r'\io\lhs_sampled_params_vvwm.csv')
+lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params_vvwm.csv')
 
 # round lhs decimals
 lhs_design = lhs_design.round(

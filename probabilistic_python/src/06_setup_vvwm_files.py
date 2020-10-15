@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas, os, glob
+import pandas as pd, os, glob
 
 # specify location
 print(os.path.abspath(os.curdir))
@@ -29,10 +29,12 @@ for o in outfalls:
         input_folder = outfall_path + folder
 
         # grab bif and runf .csv files
-        text_files = glob.glob(input_folder + "\*.csv", recursive=True)
+        # text_files = glob.glob(input_folder + "\*.csv", recursive=True)
+        # bif_df = pd.read_csv(text_files[0])
+        # runf_df = pd.read_csv(text_files[2]) # todo will need to change to '2' after run vvwm which will create another .csv
 
-        bif_df = pandas.read_csv(text_files[0])
-        runf_df = pandas.read_csv(text_files[2]) # todo will need to change to '2' after run vvwm which will create another .csv
+        bif_df = pd.read_csv(glob.glob(input_folder + "\bif_*.csv", recursive=True)[0])
+        runf_df = pd.read_csv(glob.glob(input_folder + "\runf_*.csv", recursive=True)[0])
 
         # vvwm .zts file format:
         # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
@@ -48,13 +50,10 @@ for o in outfalls:
         bif_sub = bif_df.loc[:, ["bif_sum", "MEp"]]
 
         # combine
-        vvwm_df = pandas.concat([runf_sub, bif_sub], axis=1)
+        vvwm_df = pd.concat([runf_sub, bif_sub], axis=1)
 
         # read out into comma-delimited .txt file
         vvwm_df.to_csv(input_folder + r'\output.zts', header=False, index=False, sep=',')
-
-        # insert blank lines for vvwm formatting, as well as 01/01/2009
-        blanks = ['\n', '\n', '\n']
 
         # define locations
         file_name = input_folder + r'\output.zts'
@@ -63,8 +62,7 @@ for o in outfalls:
         # open original zts in read, dummy in write
         with open(file_name, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
             # write blanks to dummy file
-            for line in blanks:
-                write_obj.write(line)
+            write_obj.write('\n\n\n')
             # read lines from original and append to dummy file
             for line in read_obj:
                 write_obj.write(line)
