@@ -21,16 +21,16 @@ print(inp_dir_prefix)
 
 # run swmm, for each sim
 for i in range(1, nsims+1):
-    sim_folder = inp_dir_prefix + str(i)
-    sim_file = os.path.join(sim_folder, "JS_NPlesantCreek.inp")
+    sim_dir = inp_dir_prefix + str(i)
+    sim_path = os.path.join(sim_dir, "JS_NPlesantCreek.inp")
 
-    sim_bin = sim_folder + r'\JS_NPlesantCreek.out'
+    sim_bin_path = sim_dir + r'\JS_NPlesantCreek.out'
 
     # delete pre-existing .out in order to run swmm
-    if os.path.exists(sim_bin):
+    if os.path.exists(sim_bin_path):
         print("Deleting current copy of <JS_NPlesantCreek.out> so new copy can be created.")
-        os.remove(sim_bin)
+        os.remove(sim_bin_path)
 
     # load the model - no interaction, write out binary file
-    sim = Simulation(inputfile=sim_file, reportfile=None, outputfile=sim_bin)
+    sim = Simulation(inputfile=sim_path, reportfile=None, outputfile=sim_bin_path)
     sim.execute()

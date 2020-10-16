@@ -24,18 +24,17 @@ nsims = 5
 for o in outfalls:
 
     # set pathways
-    outfall_path = vvwm_path + o
+    outfall_dir = vvwm_path + o
     for Ite in range(1, nsims + 1):
-        folder = r'\input_' + str(Ite)
-        input_folder = outfall_path + folder
+        input_dir = outfall_dir + r'\input_' + str(Ite)
 
         # grab bif and runf .csv files
-        # text_files = glob.glob(input_folder + "\*.csv", recursive=True)
+        # text_files = glob.glob(input_dir + "\*.csv", recursive=True)
         # bif_df = pd.read_csv(text_files[0])
         # runf_df = pd.read_csv(text_files[2]) # todo will need to change to '2' after run vvwm which will create another .csv
 
-        bif_df = pd.read_csv(glob.glob(input_folder + "\bif_*.csv", recursive=True)[0])
-        runf_df = pd.read_csv(glob.glob(input_folder + "\runf_*.csv", recursive=True)[0])
+        bif_df = pd.read_csv(glob.glob(input_dir + "\bif_*.csv", recursive=True)[0])
+        runf_df = pd.read_csv(glob.glob(input_dir + "\runf_*.csv", recursive=True)[0])
 
         # vvwm .zts file format:
         # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
@@ -54,21 +53,21 @@ for o in outfalls:
         vvwm_df = pd.concat([runf_sub, bif_sub], axis=1)
 
         # read out into comma-delimited .txt file
-        vvwm_df.to_csv(input_folder + r'\output.zts', header=False, index=False, sep=',')
+        vvwm_df.to_csv(input_dir + r'\output.zts', header=False, index=False, sep=',')
 
         # define locations
-        file_name = input_folder + r'\output.zts'
-        dummy_file = input_folder + r'\temp.zts'
+        swmm_out_path = input_dir + r'\output.zts'
+        temp_path = input_dir + r'\temp.zts'
 
         # open original zts in read, dummy in write
-        with open(file_name, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+        with open(swmm_out_path, 'r') as read_file, open(temp_path, 'w') as write_file:
             # write blanks to dummy file
-            write_obj.write('\n\n\n')
+            write_file.write('\n\n\n')
             # read lines from original and append to dummy file
-            for line in read_obj:
-                write_obj.write(line)
+            for line in read_file:
+                write_file.write(line)
 
         # remove original file
-        os.remove(file_name)
+        os.remove(swmm_out_path)
         # rename dummy file as original file
-        os.rename(dummy_file, file_name)
+        os.rename(temp_path, swmm_out_path)

@@ -93,18 +93,18 @@ bif_df_cols = len(bif_to_conv.columns)
 bif_df_rows = len(bif_to_conv)
 
 # read in the .inp file subcatchment areas
-ipfile = open(inp_path, 'r') #JMS 10-15-20
+ip_file = open(inp_path, 'r') #JMS 10-15-20
 
 # create blank list to hold subcatchment areas
 sub_list_area = []
 
 # skip x lines
-lines1 = ipfile.readlines()[55:] #JMS 10-15-20
+lines1 = ip_file.readlines()[55:] #JMS 10-15-20
 
 # close file 
-ipfile.close() #JMS 10-15-20
+ip_file.close() #JMS 10-15-20
 
-for thissub in range(0, 113):
+for thissub in range(0, runf_df_cols):
     # grab the area
     thisline = lines1[thissub]
     listline = thisline.split()
@@ -145,13 +145,13 @@ bif_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_bif.csv')
 # subset subcatchment outputs for each vvwm
 for o in outfalls:
     # set pathways
-    outfall_path = vvwm_path + o
-    determ_inputs = outfall_path + r'\determ'
-    outfall_file = outfall_path + o + r'.csv'
+    outfall_dir = vvwm_path + o
+    determ_dir = outfall_dir + r'\determ'
+    outfall_path = outfall_dir + o + r'.csv'
 
     # declare which columns need to be subset for the respective outfall
-    sub_file = pd.read_csv(outfall_file)
-    sublist = sub_file['Subcatchment_ID'].tolist()
+    sub_df = pd.read_csv(outfall_path)
+    sublist = sub_df['Subcatchment_ID'].tolist()
 
     collist = [x - 1 for x in sublist]  # columns to subset from df
 
@@ -177,9 +177,9 @@ for o in outfalls:
     bif_sub['day'] = bif_sub['date'].dt.day
 
     # write out dataframes
-    substring = outfall_file[102: 111:]
-    runf_out = determ_inputs + r'\runf_for_vvwm_' + substring
-    bif_out = determ_inputs + r'\bif_for_vvwm_' + substring
+    substring = outfall_path[102: 111:]
+    runf_out = determ_dir + r'\runf_for_vvwm_' + substring
+    bif_out = determ_dir + r'\bif_for_vvwm_' + substring
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
 

@@ -49,29 +49,28 @@ print(array_vvwm.shape) #3287, 4, 5
 # loop
 for o in outfalls:
     # set pathways
-    outfall_path = vvwm_path + o
+    outfall_dir = vvwm_path + o
     for Ite in range(1, nsims + 1):
-        folder = r'\input_' + str(Ite)
-        input_folder = outfall_path + folder
+        input_dir = outfall_dir + r'\input_' + str(Ite)
 
         # swmm output time series file (vvwm input .zts)
-        swmm_df = pd.read_table(input_folder + r'\output.zts', header=None, sep=",", skiprows=3,
+        swmm_df = pd.read_table(input_dir + r'\output.zts', header=None, sep=",", skiprows=3,
                                 names=['year', 'month', 'day', 'runf_cmha', 'solids', 'runf_bif_gha', 'eros_bif_gha'])
         array_swmm[0:nrows_swmm, 0:ncols_swmm, Ite - 1] = swmm_df
 
         # vvwm output time series file (vvwm .csv)
-        vvwm_df = pd.read_table(input_folder + r'\output_NPlesant_Custom_parent_daily.csv', header=None, sep=",",
+        vvwm_df = pd.read_table(input_dir + r'\output_NPlesant_Custom_parent_daily.csv', header=None, sep=",",
                                     skiprows=5, names=['depth', 'conc_h20', 'conc_benth', 'conc_peak'])
         array_vvwm[0:nrows_vvwm, 0:ncols_vvwm, Ite - 1] = vvwm_df
 
     # subset desired output variables (#shape = days*nsims)
     conc_runf = array_swmm[:, 3, :]
-    np.savetxt(outfall_path + r'\prob_runf.txt', conc_runf, delimiter=',')
+    np.savetxt(outfall_dir + r'\prob_runf.txt', conc_runf, delimiter=',')
 
     conc_h20 = array_vvwm[:, 1, :]  # bifenthrin concentration in water column kg/m3
     conc_h20 = conc_h20 * 1000000  # ug/L
-    np.savetxt(outfall_path + r'\prob_conc_h20.txt', conc_h20, delimiter=',')
+    np.savetxt(outfall_dir + r'\prob_conc_h20.txt', conc_h20, delimiter=',')
 
     conc_benth = array_vvwm[:, 2, :]  # bifenthrin concentration in benthic zone kg/m3
     conc_benth = conc_benth * 1000000  # ug/L
-    np.savetxt(outfall_path + r'\prob_conc_benth.txt', conc_benth, delimiter=',')
+    np.savetxt(outfall_dir + r'\prob_conc_benth.txt', conc_benth, delimiter=',')

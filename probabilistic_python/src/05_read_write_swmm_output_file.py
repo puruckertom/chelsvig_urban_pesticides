@@ -17,7 +17,7 @@ nsims = 5
 # dir_path = os.path.abspath(os.curdir)
 # print(dir_path)
 
-# inp_dir_prefix = dir_path + r'\input\swmm\input_'
+inp_dir_prefix = dir_path + r'\input\swmm\input_'
 # swmm_path = dir_path + r'\input\swmm'
 # vvwm_path = dir_path + r'\input\vvwm'
 
@@ -28,37 +28,36 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 # the loop!
 for o in outfalls:
     # set pathways
-    outfall_path = vvwm_path + o
+    outfall_dir = vvwm_path + o
 
     # create vvwm prob. sim. input folders
     for Ite in range(1, nsims + 1):
-        newfol = r'\input_' + str(Ite)
-        newdir = outfall_path + newfol
+        new_dir = outfall_dir + r'\input_' + str(Ite)
 
-    if not os.path.exists(newdir):
-        os.mkdir(newdir)
+    if not os.path.exists(new_dir):
+        os.mkdir(new_dir)
         print("Folder ", Ite, " created")
     else:
         print("Folder ", Ite, "already exists")
-    os.getcwd()
-    os.chdir(newdir)
+    # os.getcwd()
+    # os.chdir(new_dir)
 
     # read in the .inp file subcatchment areas (to use later in script)
     for rpt in range(1, nsims+1):
         sim_dir = inp_dir_prefix + str(rpt)
 
         # read the .inp file
-        sim_inp = sim_dir + r'\NPlesantCreek.inp'
-        ipfile = open(sim_inp, "r")
+        sim_path = sim_dir + r'\NPlesantCreek.inp'
+        ip_file = open(sim_path, "r")
 
         # create blank list to hold subcatchment areas
         sub_list_area = []
 
         # skip x lines
-        lines1 = ipfile.readlines()[55:]
+        lines1 = ip_file.readlines()[55:]
 
         # close file
-        ipfile.close() #JMS 10-15-20
+        ip_file.close() #JMS 10-15-20
 
         for thissub in range(0, 113):
             # grab the area
@@ -70,13 +69,13 @@ for o in outfalls:
             sub_list_area.append(area)
 
         # binary output file
-        sim_bin = sim_dir + r'\NPlesantCreek.out'
+        sim_bin_path = sim_dir + r'\NPlesantCreek.out'
 
         # extract swmm outputs with swmmtoolbox
         lab1 = 'subcatchment,,Runoff_rate'
         lab2 = 'subcatchment,,Bifenthrin'
-        extract_runf = swmmtoolbox.extract(sim_bin, lab1)
-        extract_bif = swmmtoolbox.extract(sim_bin, lab2)
+        extract_runf = swmmtoolbox.extract(sim_bin_path, lab1)
+        extract_bif = swmmtoolbox.extract(sim_bin_path, lab2)
 
         # write out swmm outputs
         extract_runf.to_csv(sim_dir + r'\swmm_output_runf.csv')
@@ -149,11 +148,11 @@ for o in outfalls:
         bif_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
 
         # subset subcatchment outputs for each vvwm
-        outfall_file = outfall_path + '\\' + o + r'.csv'
+        outfall_path = outfall_dir + '\\' + o + r'.csv'
 
         # declare which columns need to be subset
-        sub_file = pd.read_csv(outfall_file)
-        sublist = sub_file['Subcatchment_ID'].tolist()
+        sub_df = pd.read_csv(outfall_path)
+        sublist = sub_df['Subcatchment_ID'].tolist()
 
         collist = [x - 1 for x in sublist]  # columns to subset from df
 
@@ -179,10 +178,9 @@ for o in outfalls:
         bif_sub['day'] = bif_sub['date'].dt.day
 
         # write out dataframes
-        substring = outfall_file[103: 112:]
-        out_folder = outfall_path + r'\input_' + str(rpt)
-        runf_out = out_folder + r'\runf_for_vvwm' + substring
-        bif_out = out_folder + r'\bif_for_vvwm' + substring
+        substring = outfall_path[103: 112:]
+        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + substring
+        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + substring
         runf_sub.to_csv(runf_out)
         bif_sub.to_csv(bif_out)
 

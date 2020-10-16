@@ -35,30 +35,30 @@ print(lhs_design.head())
 for o in outfalls:
 
     # set pathways
-    outfall_path = vvwm_path + o
+    outfall_dir = vvwm_path + o
 
     # do for each simulation...
     for Ite in range(1, nsims + 1):
 
         # create new input folder for sim
-        newfol = r'\input_' + str(Ite)
-        newdir = outfall_path + newfol
-        if not os.path.exists(newdir):
-            os.mkdir(newdir)
+        new_dir = outfall_dir + r'\input_' + str(Ite)
+        if not os.path.exists(new_dir):
+            os.mkdir(new_dir)
             print("Folder ", Ite, " created", "\n")
         else:
             print("Folder ", Ite, "already exists")
-        os.getcwd()
-        os.chdir(newdir)
+        # os.getcwd()
+        # os.chdir(new_dir)
 
         # copy base file into new file location
-        old_file = vvwm_path + r'\vvwmTransfer.txt'
-        new_file = newdir + r'\vvwmTransfer.txt'
-        shutil.copyfile(old_file, new_file)
+        old_path = vvwm_path + r'\vvwmTransfer.txt'
+        new_path = new_dir + r'\vvwmTransfer.txt'
+        shutil.copyfile(old_path, new_path)
 
         # start reading the new file
-        new = open(new_file, "r")
-        filelines = new.readlines()
+        new_file = open(new_path, "r")
+        filelines = new_file.readlines()
+        new_file.close()
 
         # edit the new file
         # parameter = kd
@@ -157,6 +157,6 @@ for o in outfalls:
         filelines[row_0] = str(var) + "\n"
 
         # copy, write out file
-        new = open(new_file, "w")
-        new.writelines(filelines)
-        new.close()
+        new_file = open(new_path, "w")
+        new_file.writelines(filelines)
+        new_file.close()

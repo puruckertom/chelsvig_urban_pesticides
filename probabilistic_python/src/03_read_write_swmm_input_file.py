@@ -55,29 +55,26 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
 
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
-    newfol = "input_" + str(Ite)
-    print(newfol)
+    new_dir = swmm_path + r'\input_' + str(Ite)
 
-    newdir = os.path.join(swmm_path, newfol)
-
-    if not os.path.exists(newdir):
-        os.mkdir(newdir)
+    if not os.path.exists(new_dir):
+        os.mkdir(new_dir)
         print("Folder ", Ite, " created", "\n")
     else:
         print("Folder ", Ite, "already exists")
 
-    os.getcwd()
-    os.chdir(newdir)
+    # os.getcwd()
+    # os.chdir(new_dir)
 
     # copy base file into new file location
-    old_swmm5 = os.path.join(swmm_path, "NPlesantCreek.inp")
-    new_file = os.path.join(newdir, "NPlesantCreek.inp")
-    shutil.copyfile(old_swmm5, new_file)
+    old_path = os.path.join(swmm_path, "NPlesantCreek.inp")
+    new_path = os.path.join(new_dir, "NPlesantCreek.inp")
+    shutil.copyfile(old_path, new_path)
 
     # start reading the new file
-    new_swmm5 = open(new_file, "r")
-    filelines = new_swmm5.readlines()
-    new_swmm5.close()
+    new_file = open(new_path, "r")
+    filelines = new_file.readlines()
+    new_file.close()
 
     # edit the new file
 
@@ -183,9 +180,9 @@ for Ite in range(1, nsims+1):
     
 
     # copy, write out file
-    new_swmm5 = open(new_file, "w")
-    new_swmm5.writelines(filelines)
-    new_swmm5.close()
+    new_file = open(new_path, "w")
+    new_file.writelines(filelines)
+    new_file.close()
 
 # ----------------------------------------------
 # the end
