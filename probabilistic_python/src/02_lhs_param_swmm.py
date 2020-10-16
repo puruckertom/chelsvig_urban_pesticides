@@ -6,12 +6,13 @@
 import os, pandas
 from pyDOE import *
 from scipy.stats import uniform
+from path_names import dir_path
 
 # specify location
-print(os.path.abspath(os.curdir))
-os.chdir("..")
-dir_path = os.path.abspath(os.curdir)
-print(dir_path)
+# print(os.path.abspath(os.curdir))
+# os.chdir("..")
+# dir_path = os.path.abspath(os.curdir)
+# print(dir_path)
 
 # number of simulations
 nsims = 5

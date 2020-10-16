@@ -6,20 +6,20 @@
 import pandas as pd, os, numpy as np
 from datetime import date
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
+from path_names import vvwm_path
 
 # nsims
 nsims = 5
 
 # specify location
-print(os.path.abspath(os.curdir))
-os.chdir("..")
-dir_path = os.path.abspath(os.curdir)
-print(dir_path)
+# print(os.path.abspath(os.curdir))
+# os.chdir("..")
+# dir_path = os.path.abspath(os.curdir)
+# print(dir_path)
 
-input_path = dir_path + r'\input\swmm\input_'
-output_path = dir_path + r'\input\vvwm\input_'
-swmm_path = dir_path + r'\input\swmm'
-vvwm_path = dir_path + r'\input\vvwm'
+# inp_dir_prefix = dir_path + r'\input\swmm\input_'
+# swmm_path = dir_path + r'\input\swmm'
+# vvwm_path = dir_path + r'\input\vvwm'
 
 # outfalls
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
@@ -45,11 +45,11 @@ for o in outfalls:
 
     # read in the .inp file subcatchment areas (to use later in script)
     for rpt in range(1, nsims+1):
-        folder_path = input_path + str(rpt)
+        sim_dir = inp_dir_prefix + str(rpt)
 
         # read the .inp file
-        inp_file = folder_path + r'\NPlesantCreek.inp'
-        ipfile = open(inp_file, "r")
+        sim_inp = sim_dir + r'\NPlesantCreek.inp'
+        ipfile = open(sim_inp, "r")
 
         # create blank list to hold subcatchment areas
         sub_list_area = []
@@ -70,22 +70,22 @@ for o in outfalls:
             sub_list_area.append(area)
 
         # binary output file
-        bin_file = folder_path + r'\NPlesantCreek.out'
+        sim_bin = sim_dir + r'\NPlesantCreek.out'
 
         # extract swmm outputs with swmmtoolbox
         lab1 = 'subcatchment,,Runoff_rate'
         lab2 = 'subcatchment,,Bifenthrin'
-        extract_runf = swmmtoolbox.extract(bin_file, lab1)
-        extract_bif = swmmtoolbox.extract(bin_file, lab2)
+        extract_runf = swmmtoolbox.extract(sim_bin, lab1)
+        extract_bif = swmmtoolbox.extract(sim_bin, lab2)
 
         # write out swmm outputs
-        extract_runf.to_csv(folder_path + r'\swmm_output_runf.csv')
-        extract_bif.to_csv(folder_path + r'\swmm_output_bif.csv')
+        extract_runf.to_csv(sim_dir + r'\swmm_output_runf.csv')
+        extract_bif.to_csv(sim_dir + r'\swmm_output_bif.csv')
 
         # read file back in, delete first col
-        swmmout_runf = pd.read_csv(folder_path + r'\swmm_output_runf.csv')
+        swmmout_runf = pd.read_csv(sim_dir + r'\swmm_output_runf.csv')
         del swmmout_runf['Unnamed: 0']
-        swmmout_bif = pd.read_csv(folder_path + r'\swmm_output_bif.csv')
+        swmmout_bif = pd.read_csv(sim_dir + r'\swmm_output_bif.csv')
         del swmmout_bif['Unnamed: 0']
 
         # create pandas datetime col
@@ -106,8 +106,8 @@ for o in outfalls:
         bif_davg = bif_stack.resample('D').mean()
 
         # write out swmm daily outputs
-        runf_davg.to_csv(folder_path + r'\swmm_output_davg_runf.csv')
-        bif_davg.to_csv(folder_path + r'\swmm_output_davg_bif.csv')
+        runf_davg.to_csv(sim_dir + r'\swmm_output_davg_runf.csv')
+        bif_davg.to_csv(sim_dir + r'\swmm_output_davg_bif.csv')
 
         # copy
         runf_to_conv = runf_davg.copy()
@@ -130,7 +130,7 @@ for o in outfalls:
             runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / this_area
 
         # write out converted swmm outputs
-        runf_to_conv.to_csv(folder_path + r'\swmm_conv_to_vvwm_runf.csv')
+        runf_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
 
         # conversion for bifenthrin conc.
         for c in range(0, bif_df_cols):
@@ -146,7 +146,7 @@ for o in outfalls:
                 bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
 
         # write out converted swmm outputs
-        bif_to_conv.to_csv(folder_path + r'\swmm_conv_to_vvwm_bif.csv')
+        bif_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
 
         # subset subcatchment outputs for each vvwm
         outfall_file = outfall_path + '\\' + o + r'.csv'

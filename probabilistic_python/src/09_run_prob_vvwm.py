@@ -4,19 +4,18 @@
 
 # setup
 import os, shutil, subprocess
+from path_names import exe_path, vwmm_path, wet_path
 
 # specify location
-print(os.path.abspath(os.curdir))
-os.chdir("..")
-dir_path = os.path.abspath(os.curdir)
-print(dir_path)
+# print(os.path.abspath(os.curdir))
+# os.chdir("..")
+# dir_path = os.path.abspath(os.curdir)
+# print(dir_path)
 
-swmm_path = dir_path + r'\input\swmm'
-swmm_file = swmm_path + r'\NPlesantCreek.rpt'
-inp_file = swmm_path + r'\NPlesantCreek.inp'
-vvwm_path = dir_path + r'\input\vvwm'
-exe_path = dir_path + r'\exe'
-wet_path = dir_path + r'\weather'
+# swmm_path = dir_path + r'\input\swmm'
+# vvwm_path = dir_path + r'\input\vvwm'
+# exe_path = dir_path + r'\exe'
+# wet_path = dir_path + r'\weather'
 
 # nsims
 nsims = 5

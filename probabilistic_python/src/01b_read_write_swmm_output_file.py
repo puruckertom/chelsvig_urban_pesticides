@@ -3,23 +3,24 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pytest_shutil, shutil, os, pandas as pd, regex as re
+#import pytest_shutil, shutil, os, pandas as pd, regex as re
+import os, pandas as pd
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
-
+from path_names import swmm_path, inp_path, bin_path, vwmm_path
 # specify locations
-print(os.path.abspath(os.curdir))
-os.chdir("..")
-dir_path = os.path.abspath(os.curdir)
-print(dir_path)
+# print(os.path.abspath(os.curdir))
+# os.chdir("..")
+# dir_path = os.path.abspath(os.curdir)
+# print(dir_path)
 
-swmm_path = dir_path + r'\input\swmm'
-print(swmm_path)
-bin_file = swmm_path + r'\NPlesantCreek.out'
-print(bin_file)
-inp_file = swmm_path + r'\NPlesantCreek.inp'
-print(inp_file)
-vvwm_path = dir_path + r'\input\vvwm'
-print(vvwm_path)
+# swmm_path = dir_path + r'\input\swmm'
+# print(swmm_path)
+# bin_path = swmm_path + r'\NPlesantCreek.out'
+# print(bin_path)
+# inp_path = swmm_path + r'\NPlesantCreek.inp'
+# print(inp_path)
+# vvwm_path = dir_path + r'\input\vvwm'
+# print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
@@ -30,13 +31,13 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 # list the catalog of objects in output file
 # list all available labels for the extract function
 # swmmtoolbox.catalog(filename, itemtype='', header='default')
-#swmmtoolbox.catalog(bin_file, itemtype='', header='default')
+#swmmtoolbox.catalog(bin_path, itemtype='', header='default')
 
 # list variables available for each type
 # use this info for the 'var' portion of the 'extract' function parameter
 # this shows the variable name and its index
 # swmmtoolbox.listvariables(filename, header='default')
-#swmmtoolbox.listvariables(bin_file, header='default')
+#swmmtoolbox.listvariables(bin_path, header='default')
 
 # get the time series data for a particular object and variable
 #swmmtoolbox.extract(filename, *labels)
@@ -47,8 +48,8 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 #   will return all labels that match all other parts.
 lab1 = 'subcatchment,,Runoff_rate'
 lab2 = 'subcatchment,,Bifenthrin'
-extract_runf = swmmtoolbox.extract(bin_file, lab1)
-extract_bif = swmmtoolbox.extract(bin_file, lab2)
+extract_runf = swmmtoolbox.extract(bin_path, lab1)
+extract_bif = swmmtoolbox.extract(bin_path, lab2)
 
 # write out swmm outputs
 extract_runf.to_csv(swmm_path + r'\swmm_output_runf.csv')
@@ -92,7 +93,7 @@ bif_df_cols = len(bif_to_conv.columns)
 bif_df_rows = len(bif_to_conv)
 
 # read in the .inp file subcatchment areas
-ipfile = open(inp_file, "r") #JMS 10-15-20
+ipfile = open(inp_path, "r") #JMS 10-15-20
 
 # create blank list to hold subcatchment areas
 sub_list_area = []

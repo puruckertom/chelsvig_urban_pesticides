@@ -4,12 +4,13 @@
 
 # setup
 import pytest_shutil, shutil, os, pandas, regex as re
+from path_names import main_path, dir_path, swmm_path
 
 # save absolute path of input folder location
 # these strings are how we will locate where to find or create the folder we will be copying information to and from
-dir_path = os.path.abspath("..")
-main_path = os.path.abspath("../..")
-input_path = os.path.abspath("../input/swmm")
+# dir_path = os.path.abspath("..")
+# main_path = os.path.abspath("../..")
+# swmm_path = dir_path + r'\input\swmm'
 
 # nsims
 nsims = 5
@@ -31,7 +32,6 @@ Create new line of .inp file with lhs simulated versions of values and text in o
  Output: newline <str> -custom version of line for new file-
 '''
 def edit1line(fileline, Col, sim):
-    #listline = " ".join(fileline.split()).split()
     listline = fileline.split()
     listline[Col] = str(sim)
     newline = ' '.join([str(item) for item in listline]) + "\n"
@@ -58,7 +58,7 @@ for Ite in range(1, nsims+1):
     newfol = "input_" + str(Ite)
     print(newfol)
 
-    newdir = os.path.join(input_path, newfol)
+    newdir = os.path.join(swmm_path, newfol)
 
     if not os.path.exists(newdir):
         os.mkdir(newdir)
@@ -70,7 +70,7 @@ for Ite in range(1, nsims+1):
     os.chdir(newdir)
 
     # copy base file into new file location
-    old_swmm5 = os.path.join(input_path, "NPlesantCreek.inp")
+    old_swmm5 = os.path.join(swmm_path, "NPlesantCreek.inp")
     new_file = os.path.join(newdir, "NPlesantCreek.inp")
     shutil.copyfile(old_swmm5, new_file)
 
