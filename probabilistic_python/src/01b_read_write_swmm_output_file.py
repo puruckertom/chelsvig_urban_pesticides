@@ -6,10 +6,10 @@
 #import pytest_shutil, shutil, os, pandas as pd, regex as re
 import os, pandas as pd
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
-from path_names import swmm_path, inp_path, bin_path, vwmm_path
+from path_names import swmm_path, inp_path, bin_path, vvwm_path
 # specify locations
 # print(os.path.abspath(os.curdir))
-# os.chdir("..")
+# os.chdir('..')
 # dir_path = os.path.abspath(os.curdir)
 # print(dir_path)
 
@@ -93,7 +93,7 @@ bif_df_cols = len(bif_to_conv.columns)
 bif_df_rows = len(bif_to_conv)
 
 # read in the .inp file subcatchment areas
-ipfile = open(inp_path, "r") #JMS 10-15-20
+ipfile = open(inp_path, 'r') #JMS 10-15-20
 
 # create blank list to hold subcatchment areas
 sub_list_area = []
@@ -115,7 +115,7 @@ for thissub in range(0, 113):
 
 # conversion for runf
 for c in range(0, runf_df_cols):
-    col_name = "subcatchment_S" + str(c + 1) + "_Runoff_rate"
+    col_name = 'subcatchment_S' + str(c + 1) + '_Runoff_rate'
 
     # define subcatchment's area
     this_area = sub_list_area[c]
@@ -160,8 +160,8 @@ for o in outfalls:
     bif_sub = bif_to_conv.iloc[:, collist]
 
     # add a total sum column
-    runf_sub["runf_sum"] = runf_sub.sum(axis=1)
-    bif_sub["bif_sum"] = bif_sub.sum(axis=1)
+    runf_sub['runf_sum'] = runf_sub.sum(axis=1)
+    bif_sub['bif_sum'] = bif_sub.sum(axis=1)
 
     # add a date column
     runf_sub['date'] = pd.date_range(start='1/1/2009', periods=len(runf_sub), freq='D')
