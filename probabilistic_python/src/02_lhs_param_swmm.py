@@ -28,8 +28,8 @@ param_names = param_ranges["Parameter"].to_list()
 # por >= fc, fc >= wp,
 
 # conduct lhs sampling
-lhs_design = lhs(n=len(param_names), samples=nsims)
-lhs_design[:,11] = lhs_design[:,10] #JMS 10-20-20
+lhs_design = lhs(n=len(param_names), samples=3*nsims)
+lhs_design = lhs_design[np.where(lhs_design[:,11]<lhs_design[:,10])[0][:5]] #JMS 10-20-20
 print("LHS Design w Uniform: ","\n",lhs_design.round(2)) #JMS 10-20-20
 
 # uniformly sample
