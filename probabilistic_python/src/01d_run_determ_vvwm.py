@@ -73,9 +73,5 @@ for o in outfalls:
 
     # todo get the executable to work with python code
     # run vvwm.exe (vvwm.exe 'inputfilename')
-    command = [new_exe_path, new_path]
-    #command = re.sub(' ', '\\ ', new_exe_path) + ' ' + re.sub(' ', '\\ ', new_path)
-    print(command)
-    #subprocess.call(command)
-    #subprocess.call([new_exe_path, new_path])
-    subprocess.call([r'..\input\vvwm\outfall_31_42\determ\VVWM.exe', r'..\input\vvwm\outfall_31_42\determ\vvwmTransfer.txt'])
+    subprocess.call([new_exe_path, new_path])
+    
