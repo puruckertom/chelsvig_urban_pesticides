@@ -16,7 +16,7 @@ from path_names import swmm_path, vvwm_path
 # vvwm_path = dir_path + r'\input\vvwm'
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 for o in outfalls:
     for o in outfalls:
@@ -29,7 +29,7 @@ for o in outfalls:
         # swmm output time series file (vvwm input .zts)
         swmm_df = pd.read_table(swmm_out_path, header=None,
                                 names=['year', 'month', 'day', 'runf_cmha', 'solids', 'runf_bif_gha', 'eros_bif_gha'],
-                                sep=",", skiprows=3)
+                                sep=","), skiprows=3) 
         # 3 = daily water/field area that flows into water body (cm/ha/day)
         # 5 = mass of pesticide/field area entering water body by runoff (g/ha/day)
         swmm_df.loc[:, 'date'] = pd.Series(pd.date_range(start='1/1/2009', periods=len(swmm_df), freq='D'))

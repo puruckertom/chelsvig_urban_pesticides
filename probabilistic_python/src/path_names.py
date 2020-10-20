@@ -18,11 +18,11 @@ bin_path = dir_path + r'\input\swmm\NPlesantCreek.out'
 vvwm_path = dir_path + r'\input\vvwm'
 wet_path = dir_path + r'\weather'
 
-# print(main_path)
-# print(dir_path)
-# print(exe_path)
-# print(swmm_path)
-# print(inp_path)
-# print(bin_path)
-# print(vvwm_path)
-# print(wet_path)
+print("main_path  ",main_path)
+print("dir_path   ",dir_path)
+print("exe_path   ",exe_path)
+print("swmm_path  ",swmm_path)
+print("inp_path   ",inp_path)
+print("bin_path   ",bin_path)
+print("vvwm_path  ",vvwm_path)
+print("wet_path   ",wet_path)

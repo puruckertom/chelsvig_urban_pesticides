@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import os, shutil, subprocess
+import os, shutil, subprocess, re
 from path_names import exe_path, vvwm_path, wet_path
 
 # specify location
@@ -18,7 +18,7 @@ from path_names import exe_path, vvwm_path, wet_path
 # wet_path = dir_path + r'\weather'
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 for o in outfalls:
     # set pathways
@@ -73,6 +73,9 @@ for o in outfalls:
 
     # todo get the executable to work with python code
     # run vvwm.exe (vvwm.exe 'inputfilename')
-    command = new_exe_path + ' ' + new_path
+    command = [new_exe_path, new_path]
+    #command = re.sub(' ', '\\ ', new_exe_path) + ' ' + re.sub(' ', '\\ ', new_path)
     print(command)
-    subprocess.call(command)
+    #subprocess.call(command)
+    #subprocess.call([new_exe_path, new_path])
+    subprocess.call([r'..\input\vvwm\outfall_31_42\determ\VVWM.exe', r'..\input\vvwm\outfall_31_42\determ\vvwmTransfer.txt'])

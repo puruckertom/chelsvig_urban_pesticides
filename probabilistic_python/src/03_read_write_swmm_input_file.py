@@ -3,7 +3,7 @@
 # -----------------------------------------
 
 # setup
-import pytest_shutil, shutil, os, pandas, regex as re
+import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
 
 # save absolute path of input folder location
@@ -16,7 +16,7 @@ from path_names import main_path, dir_path, swmm_path
 nsims = 5
 
 # read in lhs_sampled_params
-lhs_design = pandas.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
+lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
 
 # round lhs decimals
 lhs_design = lhs_design.round(

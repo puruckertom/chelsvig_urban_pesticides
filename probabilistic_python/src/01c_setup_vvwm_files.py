@@ -16,7 +16,7 @@ from path_names import vvwm_path
 # print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 # loop through each outfall to create its vvwm.zts input file
 for o in outfalls:
@@ -30,8 +30,8 @@ for o in outfalls:
     # # bif_df = pd.read_csv(text_files[0])
     # # runf_df = pd.read_csv(text_files[2]) # changed to 2 after running 01d, since that adds another .csv file
 
-    bif_df = pd.read_csv(glob.glob(determ_dir + '\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
-    runf_df = pd.read_csv(glob.glob(determ_dir + '\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
+    bif_df = pd.read_csv(glob.glob(determ_dir + r'\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
+    runf_df = pd.read_csv(glob.glob(determ_dir + r'\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
 
     # vvwm .zts file format:
     # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
@@ -39,8 +39,6 @@ for o in outfalls:
     # cols of zero
     runf_df.loc[:, 'B'] = 0
     bif_df.loc[:, 'MEp'] = 0
-
-    runf_df.head()
 
     # subset the desired cols from df's and join together
     runf_sub = runf_df.loc[:, ['year', 'month', 'day', 'runf_sum', 'B']]

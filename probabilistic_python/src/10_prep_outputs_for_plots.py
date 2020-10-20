@@ -16,12 +16,12 @@ from path_names import vvwm_path
 # print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 nsims = 5
 
 # swmm output time series file (vvwm input .zts)
-df_swmm = pd.read_table(vvwm_path+r'\outfall_31_26\input_1\output.zts', header=None, sep=",", skiprows=3)
+df_swmm = pd.read_table(vvwm_path+r'\outfall_31_26\input_1\output.zts', header=None, sep=","), skiprows=3) 
 
 # obtain structural dimensions
 nrows_swmm = len(df_swmm)

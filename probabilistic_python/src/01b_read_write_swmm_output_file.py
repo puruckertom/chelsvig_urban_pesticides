@@ -23,7 +23,7 @@ from path_names import swmm_path, inp_path, bin_path, vvwm_path
 # print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 # displays version number and system info
 #swmmtoolbox.about()
@@ -48,31 +48,33 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 #   will return all labels that match all other parts.
 lab1 = 'subcatchment,,Runoff_rate'
 lab2 = 'subcatchment,,Bifenthrin'
-extract_runf = swmmtoolbox.extract(bin_path, lab1)
-extract_bif = swmmtoolbox.extract(bin_path, lab2)
+# extract_runf = swmmtoolbox.extract(bin_path, lab1)
+# extract_bif = swmmtoolbox.extract(bin_path, lab2)
+runf_stack = swmmtoolbox.extract(bin_path, lab1)
+bif_stack = swmmtoolbox.extract(bin_path, lab2)
 
 # write out swmm outputs
-extract_runf.to_csv(swmm_path + r'\swmm_output_runf.csv')
-extract_bif.to_csv(swmm_path + r'\swmm_output_bif.csv')
+# extract_runf.to_csv(swmm_path + r'\swmm_output_runf.csv')
+# extract_bif.to_csv(swmm_path + r'\swmm_output_bif.csv')
 
-# read file back in, delete first col
-swmmout_runf = pd.read_csv(swmm_path + r'\swmm_output_runf.csv')
-del swmmout_runf['Unnamed: 0']
-swmmout_bif = pd.read_csv(swmm_path + r'\swmm_output_bif.csv')
-del swmmout_bif['Unnamed: 0']
+# # read file back in, delete first col
+# swmmout_runf = pd.read_csv(swmm_path + r'\swmm_output_runf.csv')
+# del swmmout_runf['Unnamed: 0']
+# swmmout_bif = pd.read_csv(swmm_path + r'\swmm_output_bif.csv')
+# del swmmout_bif['Unnamed: 0']
 
-# create pandas datetime col
-df = pd.DataFrame(
-        {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
-     )
+# # create pandas datetime col
+# df = pd.DataFrame(
+#         {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
+#      )
 
-# combine to swmm output with datetime
-runf_stack = pd.concat([swmmout_runf, df], axis=1)
-bif_stack = pd.concat([swmmout_bif, df], axis=1)
+# # combine to swmm output with datetime
+# runf_stack = pd.concat([swmmout_runf, df], axis=1)
+# bif_stack = pd.concat([swmmout_bif, df], axis=1)
 
-# set datetime as DatetimeIndex
-runf_stack = runf_stack.set_index('datetime')
-bif_stack = bif_stack.set_index('datetime')
+# # set datetime as DatetimeIndex
+# runf_stack = runf_stack.set_index('datetime')
+# bif_stack = bif_stack.set_index('datetime')
 
 # resample to daily average and save as new dataframe
 runf_davg = runf_stack.resample('D').mean()
@@ -109,35 +111,29 @@ for thissub in range(0, runf_df_cols):
     thisline = lines1[thissub]
     listline = thisline.split()
     area = float(listline[3]) #JMS 10-15-20
-
     # insert into blank list
     sub_list_area.append(area)
 
 # conversion for runf
 for c in range(0, runf_df_cols):
     col_name = 'subcatchment_S' + str(c + 1) + '_Runoff_rate'
-
-    # define subcatchment's area
-    this_area = sub_list_area[c]
-
+    ## # define subcatchment's area
+    ## this_area = sub_list_area[c]
     # perform conversion
-    runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / this_area
+    runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / sub_list_area[c]
 
 # write out converted swmm outputs
 runf_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_runf.csv')
 
 # conversion for bifenthrin conc.
 for c in range(0, bif_df_cols):
-
-    # define subcatchment's area
-    this_area = sub_list_area[c]
-
+    ## # define subcatchment's area
+    ## this_area = sub_list_area[c]
     for r in range(0, bif_df_rows):
         # define the runoff value (m3/day)
         this_runf = runf_davg.iloc[r, c] * 864000
-
         # compute g/ha/day
-        bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
+        bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * sub_list_area[c])
 
 # write out converted swmm outputs
 bif_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_bif.csv')
@@ -156,30 +152,30 @@ for o in outfalls:
     collist = [x - 1 for x in sublist]  # columns to subset from df
 
     # subset
-    runf_sub = runf_to_conv.iloc[:, collist]
-    bif_sub = bif_to_conv.iloc[:, collist]
+    runf_sub = runf_to_conv.iloc[:, collist].copy()
+    bif_sub = bif_to_conv.iloc[:, collist].copy()
 
     # add a total sum column
-    runf_sub['runf_sum'] = runf_sub.sum(axis=1)
-    bif_sub['bif_sum'] = bif_sub.sum(axis=1)
+    runf_sub.loc[:,'runf_sum'] = runf_sub.sum(axis=1)
+    bif_sub.loc[:,'bif_sum'] = bif_sub.sum(axis=1)
 
     # add a date column
-    runf_sub['date'] = pd.date_range(start='1/1/2009', periods=len(runf_sub), freq='D')
-    bif_sub['date'] = pd.date_range(start='1/1/2009', periods=len(bif_sub), freq='D')
+    runf_sub.loc[:,'date'] = pd.date_range(start='1/1/2009', periods=len(runf_sub), freq='D')
+    bif_sub.loc[:,'date'] = pd.date_range(start='1/1/2009', periods=len(bif_sub), freq='D')
 
     # separate date column too
-    runf_sub['year'] = runf_sub['date'].dt.year
-    runf_sub['month'] = runf_sub['date'].dt.month
-    runf_sub['day'] = runf_sub['date'].dt.day
+    runf_sub.loc[:,'year'] = runf_sub['date'].dt.year
+    runf_sub.loc[:,'month'] = runf_sub['date'].dt.month
+    runf_sub.loc[:,'day'] = runf_sub['date'].dt.day
 
-    bif_sub['year'] = bif_sub['date'].dt.year
-    bif_sub['month'] = bif_sub['date'].dt.month
-    bif_sub['day'] = bif_sub['date'].dt.day
+    bif_sub.loc[:,'year'] = bif_sub['date'].dt.year
+    bif_sub.loc[:,'month'] = bif_sub['date'].dt.month
+    bif_sub.loc[:,'day'] = bif_sub['date'].dt.day
 
     # write out dataframes
-    substring = outfall_path[102: 111:]
-    runf_out = determ_dir + r'\runf_for_vvwm_' + substring
-    bif_out = determ_dir + r'\bif_for_vvwm_' + substring
+    sfx_o = outfall_path[-9:] #JMS 10-19-20
+    runf_out = determ_dir + r'\runf_for_vvwm_' + sfx_o
+    bif_out = determ_dir + r'\bif_for_vvwm_' + sfx_o
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
 

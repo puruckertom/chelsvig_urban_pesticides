@@ -22,7 +22,7 @@ nsims = 5
 
 # vvwm zones
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42',]
+            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 # loop through each outfall to create its vvwm.zts input file
 for o in outfalls:
