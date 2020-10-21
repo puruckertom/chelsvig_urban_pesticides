@@ -59,8 +59,9 @@ for o in outfalls:
         # write blanks to dummy file
         write_file.write('\n\n\n') #JMS 10-15-20
         # read lines from original and append to dummy file
-        for line in read_file:
-            write_file.write(line)
+        # for line in read_file:
+        #     write_file.write(line)
+        write_file.writelines(read_file) #JMS 10-21-20
 
     # remove original file
     os.remove(swmm_out_path)
