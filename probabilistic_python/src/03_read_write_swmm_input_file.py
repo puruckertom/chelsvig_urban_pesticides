@@ -17,6 +17,7 @@ nsims = 5
 
 # read in lhs_sampled_params
 lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
+del (lhs_design['Unnamed: 0'])
 
 # round lhs decimals
 lhs_design = lhs_design.round(

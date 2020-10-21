@@ -61,8 +61,7 @@ for o in outfalls:
 
         for thissub in range(0, 113):
             # grab the area
-            thisline = lines1[thissub]
-            listline = thisline.split()
+            listline = lines1[thissub].split()
             area = float(listline[3]) #JMS 10-15-20
 
             # insert into blank list
@@ -74,37 +73,39 @@ for o in outfalls:
         # extract swmm outputs with swmmtoolbox
         lab1 = 'subcatchment,,Runoff_rate'
         lab2 = 'subcatchment,,Bifenthrin'
-        extract_runf = swmmtoolbox.extract(sim_bin_path, lab1)
-        extract_bif = swmmtoolbox.extract(sim_bin_path, lab2)
+        # extract_runf = swmmtoolbox.extract(sim_bin_path, lab1)
+        # extract_bif = swmmtoolbox.extract(sim_bin_path, lab2)
+        runf_stack = swmmtoolbox.extract(sim_bin_path, lab1)
+        bif_stack = swmmtoolbox.extract(sim_bin_path, lab2)
 
-        # write out swmm outputs
-        extract_runf.to_csv(sim_dir + r'\swmm_output_runf.csv')
-        extract_bif.to_csv(sim_dir + r'\swmm_output_bif.csv')
+        # # write out swmm outputs
+        # extract_runf.to_csv(sim_dir + r'\swmm_output_runf.csv')
+        # extract_bif.to_csv(sim_dir + r'\swmm_output_bif.csv')
 
-        # read file back in, delete first col
-        swmmout_runf = pd.read_csv(sim_dir + r'\swmm_output_runf.csv')
-        del swmmout_runf['Unnamed: 0']
-        swmmout_bif = pd.read_csv(sim_dir + r'\swmm_output_bif.csv')
-        del swmmout_bif['Unnamed: 0']
+        # # read file back in, delete first col
+        # swmmout_runf = pd.read_csv(sim_dir + r'\swmm_output_runf.csv')
+        # del swmmout_runf['Unnamed: 0']
+        # swmmout_bif = pd.read_csv(sim_dir + r'\swmm_output_bif.csv')
+        # del swmmout_bif['Unnamed: 0']
 
-        # create pandas datetime col
-        df = pd.DataFrame(
-            {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
-        )
+        # # create pandas datetime col
+        # df = pd.DataFrame(
+        #     {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
+        # )
 
-        # combine to swmm output with datetime
-        runf_stack = pd.concat([swmmout_runf, df], axis=1)
-        bif_stack = pd.concat([swmmout_bif, df], axis=1)
+        # # combine to swmm output with datetime
+        # runf_stack = pd.concat([swmmout_runf, df], axis=1)
+        # bif_stack = pd.concat([swmmout_bif, df], axis=1)
 
-        # set datetime as DatetimeIndex
-        runf_stack = runf_stack.set_index('datetime')
-        bif_stack = bif_stack.set_index('datetime')
+        # # set datetime as DatetimeIndex
+        # runf_stack = runf_stack.set_index('datetime')
+        # bif_stack = bif_stack.set_index('datetime')
 
         # resample to daily average and save as new dataframe
         runf_davg = runf_stack.resample('D').mean()
         bif_davg = bif_stack.resample('D').mean()
 
-        # write out swmm daily outputs
+        # write out swmm daily average outputs
         runf_davg.to_csv(sim_dir + r'\swmm_output_davg_runf.csv')
         bif_davg.to_csv(sim_dir + r'\swmm_output_davg_bif.csv')
 
@@ -121,34 +122,31 @@ for o in outfalls:
         # conversion for runf
         for c in range(0, runf_df_cols):
             col_name = "subcatchment_S" + str(c + 1) + "_Runoff_rate"
-
             # define subcatchment's area
-            this_area = sub_list_area[c]
-
+            #this_area = sub_list_area[c]
             # perform conversion
-            runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / this_area
+            runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / sub_list_area[c]
 
         # write out converted swmm outputs
         runf_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
 
         # conversion for bifenthrin conc.
         for c in range(0, bif_df_cols):
-
             # define subcatchment's area
-            this_area = sub_list_area[c]
-
+            #this_area = sub_list_area[c]
             for r in range(0, bif_df_rows):
                 # define the runoff value (m3/day)
                 this_runf = runf_davg.iloc[r, c] * 864000
 
                 # compute g/ha/day
-                bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * this_area)
+                bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * sub_list_area[c])
 
         # write out converted swmm outputs
         bif_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
 
         # subset subcatchment outputs for each vvwm
-        outfall_path = outfall_dir + '\\' + o + r'.csv'
+        #outfall_path = outfall_dir + '\\' + o + r'.csv'
+        outfall_path = outfall_dir + o + r'.csv'
 
         # declare which columns need to be subset
         sub_df = pd.read_csv(outfall_path)
@@ -157,8 +155,8 @@ for o in outfalls:
         collist = [x - 1 for x in sublist]  # columns to subset from df
 
         # subset
-        runf_sub = runf_to_conv.iloc[:, collist]
-        bif_sub = bif_to_conv.iloc[:, collist]
+        runf_sub = runf_to_conv.iloc[:, collist].copy()
+        bif_sub = bif_to_conv.iloc[:, collist].copy()
 
         # add a total sum column
         runf_sub["runf_sum"] = runf_sub.sum(axis=1)
@@ -178,9 +176,9 @@ for o in outfalls:
         bif_sub['day'] = bif_sub['date'].dt.day
 
         # write out dataframes
-        substring = outfall_path[103: 112:]
-        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + substring
-        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + substring
+        sfx_o = outfall_path[:-9]
+        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
+        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
         runf_sub.to_csv(runf_out)
         bif_sub.to_csv(bif_out)
 
