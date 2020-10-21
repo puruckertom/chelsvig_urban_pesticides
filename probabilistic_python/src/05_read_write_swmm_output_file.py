@@ -34,11 +34,11 @@ for o in outfalls:
     for Ite in range(1, nsims + 1):
         new_dir = outfall_dir + r'\input_' + str(Ite)
 
-    if not os.path.exists(new_dir):
-        os.mkdir(new_dir)
-        print("Folder ", Ite, " created")
-    else:
-        print("Folder ", Ite, "already exists")
+        if not os.path.exists(new_dir):
+            os.mkdir(new_dir)
+            print("Folder ", Ite, " created")
+        else:
+            print("Folder ", Ite, "already exists")
     # os.getcwd()
     # os.chdir(new_dir)
 
@@ -110,8 +110,8 @@ for o in outfalls:
         bif_davg.to_csv(sim_dir + r'\swmm_output_davg_bif.csv')
 
         # copy
-        runf_to_conv = runf_davg.copy()
-        bif_to_conv = bif_davg.copy()
+        runf_to_conv = runf_davg#.copy()
+        bif_to_conv = bif_davg#.copy()
 
         # specify loop variables
         runf_df_cols = len(runf_to_conv.columns)  # 113
@@ -136,10 +136,10 @@ for o in outfalls:
             #this_area = sub_list_area[c]
             for r in range(0, bif_df_rows):
                 # define the runoff value (m3/day)
-                this_runf = runf_davg.iloc[r, c] * 864000
-
+                #this_runf = runf_davg.iloc[r, c] * 864000
                 # compute g/ha/day
-                bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * sub_list_area[c])
+                #bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * sub_list_area[c])
+                bif_to_conv.iloc[r, c] = bif_to_conv.iloc[r, c] * runf_to_conv.iloc[r, c]
 
         # write out converted swmm outputs
         bif_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
@@ -149,14 +149,13 @@ for o in outfalls:
         outfall_path = outfall_dir + o + r'.csv'
 
         # declare which columns need to be subset
-        sub_df = pd.read_csv(outfall_path)
-        sublist = sub_df['Subcatchment_ID'].tolist()
-
-        collist = [x - 1 for x in sublist]  # columns to subset from df
-
+        sub_ids = (pd.read_csv(outfall_path, header = 0, usecols=['Subcatchment_ID']) - 1)['Subcatchment_ID'].tolist()
+        
         # subset
-        runf_sub = runf_to_conv.iloc[:, collist].copy()
-        bif_sub = bif_to_conv.iloc[:, collist].copy()
+        runf_sub = runf_to_conv.iloc[:, sub_ids].copy()
+        del runf_to_conv
+        bif_sub = bif_to_conv.iloc[:, sub_ids].copy()
+        del bif_to_conv
 
         # add a total sum column
         runf_sub["runf_sum"] = runf_sub.sum(axis=1)
@@ -176,7 +175,7 @@ for o in outfalls:
         bif_sub['day'] = bif_sub['date'].dt.day
 
         # write out dataframes
-        sfx_o = outfall_path[:-9]
+        sfx_o = outfall_path[-9:]
         runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
         bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
         runf_sub.to_csv(runf_out)
