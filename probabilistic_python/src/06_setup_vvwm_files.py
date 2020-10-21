@@ -43,7 +43,7 @@ for o in outfalls:
         runf_df.loc[:, 'B'] = 0
         bif_df.loc[:, "MEp"] = 0
 
-        runf_df.head()
+        print(runf_df.head(3))
 
         # subset the desired cols from df's and join together
         runf_sub = runf_df.loc[:, ["year", "month", "day", "runf_sum", "B"]]
@@ -64,8 +64,9 @@ for o in outfalls:
             # write blanks to dummy file
             write_file.write('\n\n\n')
             # read lines from original and append to dummy file
-            for line in read_file:
-                write_file.write(line)
+            # for line in read_file:
+            #     write_file.write(line)
+            write_file.writelines(read_file) #JMS 10-21-20
 
         # remove original file
         os.remove(swmm_out_path)
