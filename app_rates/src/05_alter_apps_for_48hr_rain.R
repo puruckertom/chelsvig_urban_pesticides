@@ -3,11 +3,11 @@
 # ---------------------------------------------------------------
 library(tidyr)
 
-mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
+source("path_names_ar.R")
 
 # set up
-dir_weather <- paste0(mypath,"probabilistic_python/weather/") #JMS 9/22/20
-dir_apps <- paste0(mypath,"app_rates/") #JMS 9/22/20
+dir_weather <- paste0(main_dir,"probabilistic_python/weather/") #JMS 9/22/20
+dir_apps <- paste0(main_dir,"app_rates/") #JMS 9/22/20
 
 # read in apps and precip files
 daily_apps <- read.table(paste0(dir_apps, "calpip/app_rate_output_for_swmm.txt", sep=''),skip = 3, header=F)

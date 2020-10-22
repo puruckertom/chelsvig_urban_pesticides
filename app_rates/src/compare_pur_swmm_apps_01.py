@@ -4,6 +4,11 @@
 
 # setup
 import shutil, os
+
+if any([os.path.basename(os.path.abspath(os.curdir)) != 'src', os.path.basename(os.path.dirname(os.path.abspath(os.curdir))) != 'app_rates']):
+    print("Error! You must first navigate to <chelsvig_urban_pesticides/app_rates/src> in order to run this file.")
+    exit()
+
 mypath = os.path.abspath("../..") #JMS 9/30/20
 
 # specify locations

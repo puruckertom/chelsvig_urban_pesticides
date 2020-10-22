@@ -8,10 +8,10 @@ library(gtable)
 library(lubridate)
 library(dplyr)
 
-mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
+source("path_names_ar.R")
 
-figs <- paste0(mypath,"app_rates/figures/") #JMS 9/22/20
-dir_weather <- paste0(mypath,"probabilistic_python/weather/") #JMS 9/22/20
+figs <- paste0(main_dir,"app_rates/figures/") #JMS 9/22/20
+dir_weather <- paste0(main_dir,"probabilistic_python/weather/") #JMS 9/22/20
 
 
 # -------------------------------------------------
@@ -19,7 +19,7 @@ dir_weather <- paste0(mypath,"probabilistic_python/weather/") #JMS 9/22/20
 #--------------------------------------------------
 make_cumsum_plot <- function(i){
   # read in data
-  data <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
+  data <- read.csv(file=paste0(main_dir,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
   data$dates <- seq(from=as.Date("2009-01-01"), to = as.Date("2017-12-31"), by = "day")
   
   # create a few new cols to analyze
@@ -115,7 +115,7 @@ all_subs_swmm <- data.frame(matrix(ncol = 1, nrow = dim(data)[1]))
 for(i in 1:113){
   
   # read in data
-  data <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
+  data <- read.csv(file=paste0(main_dir,'app_rates/output/bug_values_sub', i, '.csv', sep='')) #JMS 9/22/20
   
   # create a few new cols to analyze
   data$sub_develop_ha <- data$sub_area_ha*data$sub_perc_develop # hectares of developed land use in the subcatchment

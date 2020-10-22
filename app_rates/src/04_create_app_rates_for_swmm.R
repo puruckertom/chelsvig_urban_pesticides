@@ -2,14 +2,13 @@
 # create *.txt file with 2192 app rates
 # ---------------------------------------------------------------
 
-mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/app_rates/calpip/" #JMS 9/22/20
-
+source("path_names_ar.R")
 
 # ---------------------------------------------------------------
 # set up the file for the 30-day moving average
 # ---------------------------------------------------------------
 # read in *.csv
-placer <- read.csv(file=paste0(mypath,"app_rates_09-17_pgc_inputs.csv"), header=TRUE) #JMS 9/22/20
+placer <- read.csv(file=paste0(calpip_dir,"app_rates_09-17_pgc_inputs.csv"), header=TRUE) #JMS 9/22/20
 
 # check/name variables
 nrow(placer)
@@ -17,7 +16,7 @@ days <- placer$days
 
 
 # create output text file containing each day's app rate
-sink(file=paste0(mypath,"app_rate_oi_for_swmm.txt"), append=TRUE) #JMS 9/22/20
+sink(file=paste0(calpip_dir,"app_rate_oi_for_swmm.txt"), append=TRUE) #JMS 9/22/20
 
 
 # for every day in each month, write a line regarding the application rate variables for SWMM .inp
@@ -47,8 +46,8 @@ sink()
 
 
 # read file back in to apply a 30-day moving average
-ma_placer <- read.table(file=paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
-con_ma_placer <- file(paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
+ma_placer <- read.table(file=paste0(calpip_dir,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
+con_ma_placer <- file(paste0(calpip_dir,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
 
 a_old=readLines(con_ma_placer)
 a=readLines(con_ma_placer)
@@ -84,7 +83,7 @@ ma_vec <- as.character(ma_vec)
 
 # insert the app rates back into the file
 #???? This just reads what's already in it. It doesn't insert anything new #JMS 9/22/20
-con2_ma_placer <- file(paste0(mypath,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
+con2_ma_placer <- file(paste0(calpip_dir,"app_rate_oi_for_swmm.txt")) #JMS 9/22/20
 
 b_old=readLines(con2_ma_placer)
 b=readLines(con2_ma_placer)
@@ -98,7 +97,7 @@ for(l in 1:length(ma_vec)){
 
 
 # write out file
-out_file <- paste(paste0(mypath,"app_rate_oi2_for_swmm"),".txt", sep="") #JMS 9/22/20
+out_file <- paste(paste0(calpip_dir,"app_rate_oi2_for_swmm"),".txt", sep="") #JMS 9/22/20
 file.exists(out_file)
 file.create(out_file) # why did we check if we are just going to create it no matter what? #JMS 9/22/20
 file.exists(out_file)
@@ -112,7 +111,7 @@ close(con_apps)
 # --------------------------------------------------------
 
 # read file 
-read_oi2 <- read.table(file=paste0(mypath,"app_rate_oi2_for_swmm.txt")) #JMS 9/22/20
+read_oi2 <- read.table(file=paste0(calpip_dir,"app_rate_oi2_for_swmm.txt")) #JMS 9/22/20
 
 # columns should be:  date  time  value
 to_format <- read_oi2
@@ -123,7 +122,7 @@ to_format$time <- rep("08:00", times=3287)
 
 to_output <- to_format[, c("date", "time", "value")]
 
-write.table(to_output, file=paste0(mypath,"app_rate_output_for_swmm.txt"),
+write.table(to_output, file=paste0(calpip_dir,"app_rate_output_for_swmm.txt"),
            sep="\t", row.names=F, col.names=F, quote=F) #JMS 9/22/20
 
 

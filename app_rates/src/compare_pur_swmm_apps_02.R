@@ -2,11 +2,11 @@
 # trying to find the runoff and bifenthrin concentration bug (swmm -> vvwm)
 # ------------------------------------------------------------------------------
 
-mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/" #JMS 9/22/20
+source("path_names_ar.R")
 
 # -----------------------------------------------------------
 # read in daily application rates (kg/ha)
-apps <- read.table(paste0(mypath,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),  #JMS 9/22/20
+apps <- read.table(paste0(main_dir,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),  #JMS 9/22/20
                        sep="\t", skip=0, col.names=c("date", "hour", "app_daily_kgha")) #JMS 9/23/20
 ## Why does it skip the first three days???? -JMS 9/23/20
 
@@ -22,7 +22,7 @@ apps$app_daily_kg <- apps$app_daily_kgha*6485.67 # <- hectares of urban land use
 
 # -----------------------------------------------------------
 # read in swmm subcatchment areas (ha)
-subcatch_areas <- read.table(paste0(mypath,'app_rates/io/swmm_sub_list_areas.txt'), 
+subcatch_areas <- read.table(paste0(main_dir,'app_rates/io/swmm_sub_list_areas.txt'), 
                              sep=" ", header=F, col.names="area_ha") #JMS 9/22/20
 # -----------------------------------------------------------
 
@@ -32,28 +32,28 @@ subcatch_areas <- read.table(paste0(mypath,'app_rates/io/swmm_sub_list_areas.txt
 # read in subcatchment land use percentages
 # -----------------------------------------------------------
 # need to get from .inp file
-subcatch_landuse <- read.csv(paste0(mypath,'app_rates/io/sub_list_landuse.csv'),sep=",", header=T) #JMS 9/22/20
+subcatch_landuse <- read.csv(paste0(main_dir,'app_rates/io/sub_list_landuse.csv'),sep=",", header=T) #JMS 9/22/20
 ## Only the first 113 rows in this table are used. Why is it full of empty rows? Can (what I presume are) the "other" rows not be removed?
 subcatch_landuse <- subcatch_landuse[1:113,] #JMS 9/23/20
 
 # -----------------------------------------------------------
 # read in swmm runoff output (generated in .rpt), units = cms
-swmm_rpt_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_runf.csv'),sep=",", header=T) #JMS 9/22/20
+swmm_rpt_runf <- read.csv(paste0(main_dir,'app_rates/io/swmm_output_davg_runf.csv'),sep=",", header=T) #JMS 9/22/20
 swmm_rpt_runf <- swmm_rpt_runf[,-1 ]
 
 # read in swmm bif output (generated in .rpt), units = ug/l
-swmm_rpt_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_output_davg_bif.csv'),sep=",", header=T)  #JMS 9/22/20
+swmm_rpt_bif <- read.csv(paste0(main_dir,'app_rates/io/swmm_output_davg_bif.csv'),sep=",", header=T)  #JMS 9/22/20
 swmm_rpt_bif <- swmm_rpt_bif[,-1 ]
 # -----------------------------------------------------------
 
 
 # -----------------------------------------------------------
 # read in swmm converted runoff values (to be input into vvwm), units = cm/ha/day
-swmm_conv_runf <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_runf.csv'),sep=",", header=T) #JMS 9/22/20
+swmm_conv_runf <- read.csv(paste0(main_dir,'app_rates/io/swmm_conv_to_vvwm_runf.csv'),sep=",", header=T) #JMS 9/22/20
 swmm_conv_runf <- swmm_conv_runf[,-1 ]
 
 # read in swmm converted bif values (to be input into vvwm), units = g/ha/day
-swmm_conv_bif <- read.csv(paste0(mypath,'app_rates/io/swmm_conv_to_vvwm_bif.csv'),sep=",", header=T)  #JMS 9/22/20
+swmm_conv_bif <- read.csv(paste0(main_dir,'app_rates/io/swmm_conv_to_vvwm_bif.csv'),sep=",", header=T)  #JMS 9/22/20
 swmm_conv_bif <- swmm_conv_bif[,-1 ]
 # -----------------------------------------------------------
 
@@ -80,7 +80,7 @@ for (sub in 1:113){
   output_df$sub_area_ha <- rep(subcatch_areas[sub,1], times=dim(swmm_rpt_runf)[1])
   output_df$sub_perc_develop <- rep(subcatch_landuse[sub,1], times=dim(swmm_rpt_runf)[1])
   
-  write.csv(output_df, file=paste0(file= paste0(mypath,'app_rates/output/'), "bug_values_sub", sub, ".csv", sep=""), row.names=F) #JMS 9/22/20
+  write.csv(output_df, file=paste0(file= paste0(main_dir,'app_rates/output/'), "bug_values_sub", sub, ".csv", sep=""), row.names=F) #JMS 9/22/20
    
 }
 # -----------------------------------------------------------
@@ -92,7 +92,7 @@ for (sub in 1:113){
 # analyze the data
 
 # !! this is *just* looking at a random subcatchment (85)
-df <- read.csv(file=paste0(mypath,'app_rates/output/bug_values_sub85.csv'), header=T) # JMS 9/22/20
+df <- read.csv(file=paste0(main_dir,'app_rates/output/bug_values_sub85.csv'), header=T) # JMS 9/22/20
 toobig <- df[which(df$totl_bif_n_runf_kg > df$pur_app_kg),]
 dim(toobig)
 

@@ -2,14 +2,14 @@
 # compute monthly bifenthrin application rates (kg) for our placer county
 # ------------------------------------------------------------------------------
 
-mypath = "C:/Users/Julia Stelman/Desktop/Watershed/chelsvig_urban_pesticides/app_rates/calpip/" #JMS 9/22/20
+source("path_names_ar.R")
 
 # ------------------------------------------------------------------------------
 # placer county
 # ------------------------------------------------------------------------------
 
 # filelist = list of all of the CALPIP data
-filelist <- list.files(path=mypath, pattern="^\\w*.csv", full.names=TRUE) #JMS 9/22/20
+filelist <- list.files(path=calpip_dir, pattern="^\\w*.csv", full.names=TRUE) #JMS 9/22/20
 
 # monthlist (1-12)
 monthlist <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
@@ -48,13 +48,13 @@ for (myfile in filelist){
 
 
 # filelist = list of all of the year's monthly sums
-filelist02 <- list.files(path=mypath, pattern="*_month.csv", full.names=TRUE) #JMS 9/22/20
+filelist02 <- list.files(path=calpip_dir, pattern="*_month.csv", full.names=TRUE) #JMS 9/22/20
 
 # combine all years
 combined_yearsums <- do.call('rbind', lapply(filelist02, read.csv, header=TRUE))
 
 # write out file
-write.csv(combined_yearsums, file=paste0(mypath,"placer_09-17.csv"), row.names=F) #JMS 9/22/20
+write.csv(combined_yearsums, file=paste0(calpip_dir,"placer_09-17.csv"), row.names=F) #JMS 9/22/20
 
 
 
