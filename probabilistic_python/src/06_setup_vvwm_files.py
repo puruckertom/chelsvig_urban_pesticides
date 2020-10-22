@@ -33,8 +33,8 @@ for o in outfalls:
         # bif_df = pd.read_csv(text_files[0])
         # runf_df = pd.read_csv(text_files[2]) # todo will need to change to '2' after run vvwm which will create another .csv
 
-        bif_df = pd.read_csv(glob.glob(input_dir + r'\bif_*.csv', recursive=True)[0])
-        runf_df = pd.read_csv(glob.glob(input_dir + r'\runf_*.csv', recursive=True)[0])
+        bif_df = pd.read_csv(glob.glob(input_dir + r'\bif_for*.csv', recursive=True)[0])
+        runf_df = pd.read_csv(glob.glob(input_dir + r'\runf_for*.csv', recursive=True)[0])
 
         # vvwm .zts file format:
         # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0

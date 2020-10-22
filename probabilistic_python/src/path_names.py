@@ -5,7 +5,7 @@
 
 import os
 
-if os.path.basename(os.path.abspath(os.curdir)) != 'src':
+if any([os.path.basename(os.path.abspath(os.curdir)) != 'src', os.path.basename(os.path.dirname(os.path.abspath(os.curdir))) != 'probabilistic_python']):
     print("Error! You must first navigate to <chelsvig_urban_pesticides/probabilistic_python/src> in order to run this file.")
     exit()
 

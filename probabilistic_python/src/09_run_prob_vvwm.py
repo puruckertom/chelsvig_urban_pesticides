@@ -4,7 +4,7 @@
 
 # setup
 import os, shutil, subprocess
-from path_names import exe_path, vwmm_path, wet_path
+from path_names import exe_path, vvwm_path, wet_path
 
 # specify location
 # print(os.path.abspath(os.curdir))
@@ -84,6 +84,7 @@ for o in outfalls:
         # run vvwm.exe (vvwm.exe 'inputfilename')
         command = new_exe_path + ' ' + new_path
         print(command)
-        subprocess.call(command)
-
+        # # subprocess.call(command)
+        #subprocess.call([new_exe_path, new_path])
+        subprocess.check_call(command)
 
