@@ -6,12 +6,6 @@
 import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
 
-# save absolute path of input folder location
-# these strings are how we will locate where to find or create the folder we will be copying information to and from
-# dir_path = os.path.abspath("..")
-# main_path = os.path.abspath("../..")
-# swmm_path = dir_path + r'\input\swmm'
-
 # nsims
 nsims = 5
 
@@ -63,9 +57,6 @@ for Ite in range(1, nsims+1):
         print("Folder ", Ite, " created", "\n")
     else:
         print("Folder ", Ite, "already exists")
-
-    # os.getcwd()
-    # os.chdir(new_dir)
 
     # copy base file into new file location
     old_path = os.path.join(swmm_path, "NPlesantCreek.inp")

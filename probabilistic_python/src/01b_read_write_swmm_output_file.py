@@ -3,24 +3,10 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-#import pytest_shutil, shutil, os, pandas as pd, regex as re
 import os, pandas as pd
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import swmm_path, inp_path, bin_path, vvwm_path
-# specify locations
-# print(os.path.abspath(os.curdir))
-# os.chdir('..')
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
 
-# swmm_path = dir_path + r'\input\swmm'
-# print(swmm_path)
-# bin_path = swmm_path + r'\NPlesantCreek.out'
-# print(bin_path)
-# inp_path = swmm_path + r'\NPlesantCreek.inp'
-# print(inp_path)
-# vvwm_path = dir_path + r'\input\vvwm'
-# print(vvwm_path)
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
@@ -48,33 +34,8 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 #   will return all labels that match all other parts.
 lab1 = 'subcatchment,,Runoff_rate'
 lab2 = 'subcatchment,,Bifenthrin'
-# extract_runf = swmmtoolbox.extract(bin_path, lab1)
-# extract_bif = swmmtoolbox.extract(bin_path, lab2)
 runf_stack = swmmtoolbox.extract(bin_path, lab1)
 bif_stack = swmmtoolbox.extract(bin_path, lab2)
-
-# write out swmm outputs
-# extract_runf.to_csv(swmm_path + r'\swmm_output_runf.csv')
-# extract_bif.to_csv(swmm_path + r'\swmm_output_bif.csv')
-
-# # read file back in, delete first col
-# swmmout_runf = pd.read_csv(swmm_path + r'\swmm_output_runf.csv')
-# del swmmout_runf['Unnamed: 0']
-# swmmout_bif = pd.read_csv(swmm_path + r'\swmm_output_bif.csv')
-# del swmmout_bif['Unnamed: 0']
-
-# # create pandas datetime col
-# df = pd.DataFrame(
-#         {'datetime': pd.date_range('2009-01-01 01:00:00', '2018-01-01', freq='1H', closed='left')} #JMS 10-15-20
-#      )
-
-# # combine to swmm output with datetime
-# runf_stack = pd.concat([swmmout_runf, df], axis=1)
-# bif_stack = pd.concat([swmmout_bif, df], axis=1)
-
-# # set datetime as DatetimeIndex
-# runf_stack = runf_stack.set_index('datetime')
-# bif_stack = bif_stack.set_index('datetime')
 
 # resample to daily average and save as new dataframe
 runf_davg = runf_stack.resample('D').mean()
@@ -117,8 +78,6 @@ for thissub in range(0, runf_df_cols):
 # conversion for runf
 for c in range(0, runf_df_cols):
     col_name = 'subcatchment_S' + str(c + 1) + '_Runoff_rate'
-    ## # define subcatchment's area
-    ## this_area = sub_list_area[c]
     # perform conversion
     runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / sub_list_area[c]
 
@@ -127,8 +86,6 @@ runf_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_runf.csv')
 
 # conversion for bifenthrin conc.
 for c in range(0, bif_df_cols):
-    ## # define subcatchment's area
-    ## this_area = sub_list_area[c]
     for r in range(0, bif_df_rows):
         # define the runoff value (m3/day)
         this_runf = runf_davg.iloc[r, c] * 864000

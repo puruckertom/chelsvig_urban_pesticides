@@ -8,12 +8,6 @@ from pyDOE import *
 from scipy.stats import uniform
 from path_names import dir_path
 
-# specify location
-# print(os.path.abspath(os.curdir))
-# os.chdir("..")
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
-
 # number of simulations
 nsims = 5
 
@@ -29,7 +23,6 @@ lhs_design = lhs(n=len(param_names), samples=nsims)
 print("LHS Design w/o Uniform: ","\n",lhs_design.round(2))
 
 for i in range(0,len(param_names)):
-    #lhs_design[:,i] = uniform.rvs(loc=param_ranges.loc[i,"Min"], scale=param_ranges.loc[i,"Range"], size=nsims)
     lhs_design[:,i] = param_ranges.loc[i,"Min"] + (lhs_design[:,i])*(param_ranges.loc[i,"Range"]) #JMS 10-20-20
 print("Uniformly Sampled from LHS Design: ", "\n", lhs_design)
 

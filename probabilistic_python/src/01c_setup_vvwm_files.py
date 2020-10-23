@@ -6,15 +6,6 @@
 import pandas as pd, os, glob
 from path_names import vvwm_path
 
-# specify location
-# print(os.path.abspath(os.curdir))
-# os.chdir('..')
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
-
-# vvwm_path = dir_path + r'\input\vvwm'
-# print(vvwm_path)
-
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
@@ -25,11 +16,6 @@ for o in outfalls:
     determ_dir = outfall_dir + r'\determ'
 
     # grab bif and runf .csv files
-
-    # # text_files = glob.glob(determ_dir + '\*.csv', recursive=True)
-    # # bif_df = pd.read_csv(text_files[0])
-    # # runf_df = pd.read_csv(text_files[2]) # changed to 2 after running 01d, since that adds another .csv file
-
     bif_df = pd.read_csv(glob.glob(determ_dir + r'\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
     runf_df = pd.read_csv(glob.glob(determ_dir + r'\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
 
@@ -59,8 +45,6 @@ for o in outfalls:
         # write blanks to dummy file
         write_file.write('\n\n\n') #JMS 10-15-20
         # read lines from original and append to dummy file
-        # for line in read_file:
-        #     write_file.write(line)
         write_file.writelines(read_file) #JMS 10-21-20
 
     # remove original file

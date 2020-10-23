@@ -6,15 +6,6 @@
 import pandas as pd, os
 from path_names import swmm_path, vvwm_path
 
-# specify location
-# print(os.path.abspath(os.curdir))
-# os.chdir("..")
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
-
-# swmm_path = dir_path + r'\input\swmm'
-# vvwm_path = dir_path + r'\input\vvwm'
-
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 

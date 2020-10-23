@@ -10,12 +10,6 @@ from path_names import dir_path
 # nsims
 nsims = 5
 
-# specify location
-# print(os.path.abspath(os.curdir))
-# os.chdir('..')
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
-
 inp_dir_prefix = dir_path + r'\input\swmm\input_'
 print(inp_dir_prefix)
 

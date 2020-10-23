@@ -6,15 +6,6 @@
 import shutil, os, pandas as pd
 from path_names import dir_path, vvwm_path
 
-# specify location
-# print(os.path.abspath(os.curdir))
-# os.chdir("..")
-# dir_path = os.path.abspath(os.curdir)
-# print(dir_path)
-
-# vvwm_path = dir_path + r'\input\vvwm'
-# print(vvwm_path)
-
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
@@ -47,8 +38,6 @@ for o in outfalls:
             print("Folder ", Ite, " created", "\n")
         else:
             print("Folder ", Ite, "already exists")
-        # os.getcwd()
-        # os.chdir(new_dir)
 
         # copy base file into new file location
         old_path = vvwm_path + r'\vvwmTransfer.txt'
