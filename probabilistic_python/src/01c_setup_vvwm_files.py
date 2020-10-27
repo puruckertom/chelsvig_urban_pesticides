@@ -5,17 +5,20 @@
 # setup
 import pandas as pd, os, glob
 from path_names import vvwm_path
+from prpy_bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 # loop through each outfall to create its vvwm.zts input file
+logging.info("Looping thru outfalls for navigating to each vwmm folder where its .zts file will be created.")
 for o in outfalls:
     # set pathways
     outfall_dir = vvwm_path + o
     determ_dir = outfall_dir + r'\determ'
 
     # grab bif and runf .csv files
+    logging.info("Looking for <runf_for_vvwm_" + o[-5:] + ".csv> and <bif_for_vvwm_" + o[-5:] + ".csv> files and reading to data frames.")
     bif_df = pd.read_csv(glob.glob(determ_dir + r'\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
     runf_df = pd.read_csv(glob.glob(determ_dir + r'\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
 
@@ -31,6 +34,7 @@ for o in outfalls:
     bif_sub = bif_df.loc[:, ['bif_sum', 'MEp']]
 
     # combine
+    logging.info("Combining the bif and runf dfs into one and exporting it into a .zts file.")
     vvwm_df = pd.concat([runf_sub, bif_sub], axis=1)
 
     # read out into comma-delimited .txt file
@@ -41,6 +45,7 @@ for o in outfalls:
     temp_path = determ_dir + r'\temp.zts'
 
     # open original zts in read, dummy in write
+    logging.info("Adding 3 blank lines to the top of the .zts file.")
     with open(swmm_out_path, 'r') as read_file, open(temp_path, 'w') as write_file:
         # write blanks to dummy file
         write_file.write('\n\n\n') #JMS 10-15-20
