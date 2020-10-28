@@ -35,17 +35,17 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 #   will return all labels that match all other parts.
 lab1 = 'subcatchment,,Runoff_rate'
 lab2 = 'subcatchment,,Bifenthrin'
-logging.info("Getting the time series data for runoff rate and bifenthrin using swmmtoolbox's extract function.")
+logging.info("01b: Getting the time series data for runoff rate and bifenthrin using swmmtoolbox's extract function.")
 runf_stack = swmmtoolbox.extract(bin_path, lab1)
 bif_stack = swmmtoolbox.extract(bin_path, lab2)
 
 # resample to daily average and save as new dataframe
-logging.info("Calculating the daily averages from the hourly timeseries of runoff rate and bifenthrin.")
+logging.info("01b: Calculating the daily averages from the hourly timeseries of runoff rate and bifenthrin.")
 runf_davg = runf_stack.resample('D').mean()
 bif_davg = bif_stack.resample('D').mean()
 
 # write out swmm daily outputs
-logging.info("Writing daily average data to csv files.")
+logging.info("01b: Writing daily average data to csv files.")
 runf_davg.to_csv(swmm_path + r'\swmm_output_davg_runf.csv')
 bif_davg.to_csv(swmm_path + r'\swmm_output_davg_bif.csv')
 
@@ -60,21 +60,21 @@ bif_df_cols = len(bif_to_conv.columns)
 bif_df_rows = len(bif_to_conv)
 
 # read in the .inp file subcatchment areas
-logging.info("Opening the input file <" + inp_path + "> to read.")
+logging.info("01b: Opening the input file <" + inp_path + "> to read.")
 ip_file = open(inp_path, 'r') #JMS 10-15-20
 
 # create blank list to hold subcatchment areas
 sub_list_area = []
 
 # skip x lines
-logging.info("Reading lines from file")
+logging.info("01b: Reading lines from file")
 lines1 = ip_file.readlines()[55:] #JMS 10-15-20
 
 # close file 
-logging.info("Closing file.")
+logging.info("01b: Closing file.")
 ip_file.close() #JMS 10-15-20
 
-logging.info("Looping thru lines in file and saving subcatchment area information into a list.")
+logging.info("01b: Looping thru lines in file and saving subcatchment area information into a list.")
 for thissub in range(0, runf_df_cols):
     # grab the area
     thisline = lines1[thissub]
@@ -84,18 +84,18 @@ for thissub in range(0, runf_df_cols):
     sub_list_area.append(area)
 
 # conversion for runf
-logging.info("Looping through runoff data frame and replacing the runoff value with it's post-conversion value.")
+logging.info("01b: Looping through runoff data frame and replacing the runoff value with it's post-conversion value.")
 for c in range(0, runf_df_cols):
     col_name = 'subcatchment_S' + str(c + 1) + '_Runoff_rate'
     # perform conversion
     runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / sub_list_area[c]
 
 # write out converted swmm outputs
-logging.info("Writing the table with the converted runoff values to a csv.")
+logging.info("01b: Writing the table with the converted runoff values to a csv.")
 runf_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_runf.csv')
 
 # conversion for bifenthrin conc.
-logging.info("Looping through bifenthrin data frame and replacing the bifenthrin value with it's post-conversion value.")
+logging.info("01b: Looping through bifenthrin data frame and replacing the bifenthrin value with it's post-conversion value.")
 for c in range(0, bif_df_cols):
     for r in range(0, bif_df_rows):
         # define the runoff value (m3/day)
@@ -104,11 +104,11 @@ for c in range(0, bif_df_cols):
         bif_to_conv.iloc[r, c] = ((bif_to_conv.iloc[r, c]) * 1000 * this_runf) / (1.0e6 * sub_list_area[c])
 
 # write out converted swmm outputs
-logging.info("Writing the table with the converted bifenthrin values to a csv.")
+logging.info("01b: Writing the table with the converted bifenthrin values to a csv.")
 bif_to_conv.to_csv(swmm_path + r'\swmm_conv_to_vvwm_bif.csv')
 
 # subset subcatchment outputs for each vvwm
-logging.info("Looping thru outfalls for subset the subcatchments for each vwmm folder.")
+logging.info("01b: Looping thru outfalls for subset the subcatchments for each vwmm folder.")
 for o in outfalls:
     # set pathways
     outfall_dir = vvwm_path + o
@@ -116,7 +116,7 @@ for o in outfalls:
     outfall_path = outfall_dir + o + r'.csv'
 
     # declare which columns need to be subset for the respective outfall
-    logging.info("Reading in <" + r'\determ' + o + r'.csv' + "> to data frame.")
+    logging.info("01b: Reading in <" + r'\determ' + o + r'.csv' + "> to data frame.")
     sub_df = pd.read_csv(outfall_path)
     sublist = sub_df['Subcatchment_ID'].tolist()
 
@@ -147,7 +147,7 @@ for o in outfalls:
     sfx_o = outfall_path[-9:] #JMS 10-19-20
     runf_out = determ_dir + r'\runf_for_vvwm_' + sfx_o
     bif_out = determ_dir + r'\bif_for_vvwm_' + sfx_o
-    logging.info("Writing final data to <" + runf_out + "> and <" + bif_out + ">.")
+    logging.info("01b: Writing final data to <" + runf_out + "> and <" + bif_out + ">.")
     runf_sub.to_csv(runf_out)
     bif_sub.to_csv(bif_out)
 

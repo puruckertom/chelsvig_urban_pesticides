@@ -5,10 +5,12 @@
 # setup
 import os, shutil, subprocess, re
 from path_names import exe_path, vvwm_path, wet_path
+from bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
+logging.info("01d: Looping thru outfalls for navigating to each vwmm folder where its .zts file will be created.")
 for o in outfalls:
     # set pathways
     outfall_dir = vvwm_path + o
@@ -19,6 +21,7 @@ for o in outfalls:
     print(old_wet_path)
     new_wet_path = determ_dir + r'\vvwm_wet.dvf'
     print(new_wet_path)
+    logging.info("01d: Copying weather, exe, and vvwmTransfer files into" + o[1:] + " determ folder.")
     shutil.copyfile(old_wet_path, new_wet_path)
 
     # copy exe into new file location
@@ -32,8 +35,10 @@ for o in outfalls:
     shutil.copyfile(old_path, new_path)
 
     # read the new file, and update file pathways
+    logging.info("01d: Opening file <" + new_path + "> to read content out of.")
     this_vvwm_file = open(new_path, 'r')
     filelines = this_vvwm_file.readlines()
+    logging.info("01d: Closing file <" + new_path + ">.")
     this_vvwm_file.close()
 
     filelines[0] = determ_dir + r'\output' + '\n'
@@ -56,11 +61,14 @@ for o in outfalls:
     filelines[82] = determ_dir + r'\output_NPlesant_Custom_deg2_esa.txt' + '\n'
 
     # copy, write out file
+    logging.info("01d: Opening file <" + new_path + "> to overwrite with edited content.")
     this_vvwm_file = open(new_path, 'w')
     this_vvwm_file.writelines(filelines)
+    logging.info("01d: Closing file <" + new_path + ">.")
     this_vvwm_file.close()
 
     # todo get the executable to work with python code
     # run vvwm.exe (vvwm.exe 'inputfilename')
+    logging.info("01d. Running <vvwm.exe> on <" + new_path + ">.")
     subprocess.call([new_exe_path, new_path])
     
