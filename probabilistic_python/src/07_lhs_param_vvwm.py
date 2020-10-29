@@ -7,11 +7,13 @@ import os, pandas as pd
 from pyDOE import *
 from scipy.stats import uniform
 from path_names import dir_path
+from bookkeeping import *
 
 # number of simulations
 nsims = 5
 
 # import parameter ranges table
+logging.info("07: Reading in lhs parameter range data from <" + dir_path + "\input\lhs\lhs_param_ranges_vvwm.csv>.")
 param_ranges = pd.read_csv(dir_path + r'\input\lhs\lhs_param_ranges_vvwm.csv')
 print(param_ranges)
 
@@ -31,4 +33,5 @@ lhs_df = pd.DataFrame(lhs_design, columns=param_names)
 print(round(lhs_df,3))
 
 # write out
+logging.info("07: Writing simulated parameter data to <" + dir_path + "\io\lhs_sampled_params_vvwm.csv>.")
 lhs_df.to_csv(dir_path + r'\io\lhs_sampled_params_vvwm.csv')

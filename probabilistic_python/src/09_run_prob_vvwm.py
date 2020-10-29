@@ -5,6 +5,7 @@
 # setup
 import os, shutil, subprocess
 from path_names import exe_path, vvwm_path, wet_path
+from bookkeeping import *
 
 # nsims
 nsims = 5
@@ -13,13 +14,15 @@ nsims = 5
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
-# loop through each outfall to create its vvwm.zts input file
+# loop through each outfall to create its vvwmTransfer.txt file
+logging.info("09: Looping thru outfalls for navigating to each vwmm folder and then each of its " + nsims + " input folders.")
 for o in outfalls:
 
     # set pathways
     outfall_dir = vvwm_path + o
 
     # run vvwm, for each sim
+    logging.info("09: Looping thru simulations of " + o[1:] + " to create each simulation's vvwmTransfer.txt file.")
     for i in range(1, nsims + 1):
         sim_dir = outfall_dir + r'\input_' + str(i)
 

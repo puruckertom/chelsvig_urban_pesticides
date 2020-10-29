@@ -5,10 +5,12 @@
 # setup
 import pandas as pd, os
 from path_names import swmm_path, vvwm_path
+from bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
+logging.info("01e: Looping thru outfalls for navigating to each vwmm\determ folder where 3 files will be created/recreated.")
 for o in outfalls:
     for o in outfalls:
         # set pathways
@@ -18,6 +20,7 @@ for o in outfalls:
         swmm_out_path = determ_dir + r'\output.zts'
 
         # swmm output time series file (vvwm input .zts)
+        logging.info("01e: Reading in data from swmm output time series file <" + swmm_out_path + ">.")
         swmm_df = pd.read_table(swmm_out_path, header=None,
                                 names=['year', 'month', 'day', 'runf_cmha', 'solids', 'runf_bif_gha', 'eros_bif_gha'],
                                 sep=",", skiprows=3) 
@@ -27,9 +30,11 @@ for o in outfalls:
 
         # subset desired cols, write out
         runf = swmm_df.loc[:, ['runf_cmha', 'date']]
+        logging.info("01e: Writing to <" + outfall_dir + "\determ_runf.txt>.")
         runf.to_csv(outfall_dir + r'\determ_runf.txt', index=False)
 
         # vvwm output time series file (vvwm .csv)
+        logging.info("01e: Reading in data from vvwm output time series file <" + vvwm_out_path + ">.")
         vvwm_df = pd.read_table(vvwm_out_path, header=None, names=['depth', 'conc_h20', 'conc_benth', 'conc_peak'], sep=",",
                                 skiprows=5)
         # 1 = bifenthrin concentration in water column (kg/m3)
@@ -39,10 +44,12 @@ for o in outfalls:
         # subset desired cols, write out
         conc_h20 = vvwm_df.loc[:, ['conc_h20', 'date']]
         conc_h20['conc_h20'] = conc_h20['conc_h20'].apply(lambda x: x * 1000000)  # ug/L
+        logging.info("01e: Writing to <" + outfall_dir + "\determ_conc_h20.txt>.")
         conc_h20.to_csv(outfall_dir + r'\determ_conc_h20.txt', index=False)
 
         conc_benth = vvwm_df.loc[:, ['conc_benth', 'date']]
         conc_benth['conc_benth'] = conc_benth['conc_benth'].apply(lambda x: x * 1000000)  # ug/L
+        logging.info("01e: Writing to <" + outfall_dir + "\determ_conc_benth.txt>.")
         conc_benth.to_csv(outfall_dir + r'\determ_conc_benth.txt', index=False)
 
 

@@ -7,6 +7,7 @@ import pandas as pd, os, numpy as np
 from datetime import date
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import vvwm_path, dir_path
+from bookkeeping import *
 
 # nsims
 nsims = 5
@@ -18,11 +19,13 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
 # the loop!
+logging.info("05: Looping thru outfalls for navigating to each vwmm folder where its " + nsims + " input folders will be created.")
 for o in outfalls:
     # set pathways
     outfall_dir = vvwm_path + o
 
     # create vvwm prob. sim. input folders
+    logging.info("05: Looping thru simulations of " + o[1:] + " to run swmmtoolbox on data and gather and munge output.")
     for Ite in range(1, nsims + 1):
         new_dir = outfall_dir + r'\input_' + str(Ite)
 

@@ -5,6 +5,7 @@
 # setup
 import shutil, os, pandas as pd
 from path_names import dir_path, vvwm_path
+from bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
@@ -13,6 +14,7 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 nsims = 5
 
 # read in lhs_sampled_params
+logging.info("08: Reading in lhs sampled parameters from <" + dir_path + "\io\lhs_sampled_params_vvwm.csv>.")
 lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params_vvwm.csv')
 
 # round lhs decimals
@@ -23,12 +25,14 @@ lhs_design = lhs_design.round(
 print(lhs_design.head())
 
 # do the following for each outfall...replace inputs with lhs inputs
+logging.info("08: Looping thru outfalls for navigating to each vwmm folder and then each of its " + nsims + " input folders.")
 for o in outfalls:
 
     # set pathways
     outfall_dir = vvwm_path + o
 
     # do for each simulation...
+    logging.info("08: Looping thru simulations of " + o[1:] + " to replace inputs with lhs inputs.")
     for Ite in range(1, nsims + 1):
 
         # create new input folder for sim

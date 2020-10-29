@@ -5,11 +5,13 @@
 # setup
 import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
+from bookkeeping import *
 
 # nsims
 nsims = 5
 
 # read in lhs_sampled_params
+logging.info("03: Reading in data from file <" + dir_path + r'\io\lhs_sampled_params.csv>.')
 lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
 del (lhs_design['Unnamed: 0'])
 
@@ -50,6 +52,7 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
 
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
+    logging.info("03: Simmulation " + Ite + " of " + nsims)
     new_dir = swmm_path + r'\input_' + str(Ite)
 
     if not os.path.exists(new_dir):
@@ -61,11 +64,14 @@ for Ite in range(1, nsims+1):
     # copy base file into new file location
     old_path = os.path.join(swmm_path, "NPlesantCreek.inp")
     new_path = os.path.join(new_dir, "NPlesantCreek.inp")
+    logging.info("03: Copying base swmm input file <" + old_path + "> into <" + new_dir + ">.")
     shutil.copyfile(old_path, new_path)
 
     # start reading the new file
+    logging.info("03: Opening file <" + new_path + "> to read.")
     new_file = open(new_path, "r")
     filelines = new_file.readlines()
+    logging.info("03: Closing file <" + new_path + "> after reading lines into list.")
     new_file.close()
 
     # edit the new file
@@ -172,8 +178,10 @@ for Ite in range(1, nsims+1):
     
 
     # copy, write out file
+    logging.info("03: Opening file <" + new_path + "> to overwrite with edited content.")
     new_file = open(new_path, "w")
     new_file.writelines(filelines)
+    logging.info("03: Closing file <" + new_path + ">.")
     new_file.close()
 
 # ----------------------------------------------
