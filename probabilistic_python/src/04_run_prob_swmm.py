@@ -6,7 +6,7 @@
 from pyswmm import Simulation
 import os
 from path_names import dir_path
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 # nsims
 nsims = 5
@@ -16,7 +16,7 @@ print(inp_dir_prefix)
 
 # run swmm, for each sim
 for i in range(1, nsims+1):
-    logging.info("04: Simmulation " + i + " of " + nsims)
+    logging.info("04: Simmulation " + str(i) + " of " + str(nsims))
     sim_dir = inp_dir_prefix + str(i)
     sim_path = os.path.join(sim_dir, 'NPlesantCreek.inp')
 

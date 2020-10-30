@@ -6,7 +6,7 @@
 import pandas as pd, os, numpy as np
 from path_names import vvwm_path
 import datetime as date
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
@@ -25,7 +25,7 @@ array_vvwm = np.zeros((ndays, 2, nsims))
 print(array_vvwm.shape) #3287, 2, 5
 
 # loop
-logging.info("10: Looping thru outfalls for navigating to each vwmm folder and then each of its " + nsims + " input folders.")
+logging.info("10: Looping thru outfalls for navigating to each vwmm folder and then each of its " + str(nsims) + " input folders.")
 for o in outfalls:
     # set pathways
     outfall_dir = vvwm_path + o

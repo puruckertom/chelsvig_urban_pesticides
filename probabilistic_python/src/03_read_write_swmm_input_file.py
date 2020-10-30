@@ -5,7 +5,7 @@
 # setup
 import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 # nsims
 nsims = 5
@@ -52,7 +52,7 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
 
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
-    logging.info("03: Simmulation " + Ite + " of " + nsims)
+    logging.info("03: Simmulation " + str(Ite) + " of " + str(nsims))
     new_dir = swmm_path + r'\input_' + str(Ite)
 
     if not os.path.exists(new_dir):

@@ -5,7 +5,7 @@
 # setup
 import pandas as pd, os, glob
 from path_names import vvwm_path
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
@@ -13,7 +13,7 @@ outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_3
 nsims = 5
 
 # loop through each outfall to create its vvwm.zts input file
-logging.info("06: Looping thru outfalls for navigating to each vwmm folder where .zts files will be created in its " + nsims + " simulated input folders.")
+logging.info("06: Looping thru outfalls for navigating to each vwmm folder where .zts files will be created in its " + str(nsims) + " simulated input folders.")
 for o in outfalls:
 
     # set pathways

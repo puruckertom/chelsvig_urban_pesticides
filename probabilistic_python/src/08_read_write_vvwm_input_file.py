@@ -5,7 +5,7 @@
 # setup
 import shutil, os, pandas as pd
 from path_names import dir_path, vvwm_path
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
@@ -25,7 +25,7 @@ lhs_design = lhs_design.round(
 print(lhs_design.head())
 
 # do the following for each outfall...replace inputs with lhs inputs
-logging.info("08: Looping thru outfalls for navigating to each vwmm folder and then each of its " + nsims + " input folders.")
+logging.info("08: Looping thru outfalls for navigating to each vwmm folder and then each of its " + str(nsims) + " input folders.")
 for o in outfalls:
 
     # set pathways

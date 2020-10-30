@@ -7,7 +7,7 @@ import os, pandas as pd
 from pyDOE import *
 from scipy.stats import uniform
 from path_names import dir_path
-from bookkeeping import *
+from prpy_bookkeeping import *
 
 # number of simulations
 nsims = 5
