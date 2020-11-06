@@ -14,13 +14,27 @@ nsims = 5
 
 inp_dir_prefix = dir_path + r'\input\swmm\input_'
 
-def save_and_continue(df,csv):
+def save_and_continue(df,csv,msg = True):
+    if not isinstance (msg,str):
+        if msg == True:
+            bn = os.path.basename(csv)
+            dn = os.path.basename(os.path.dirname(csv))
+            msg = "05: Saving intermediate version of data to <" + bn + "> in <" + dn + ">."
+    if msg:
+        logging.info(msg)
     df.to_csv(csv)
     return(df)
 
-def save_and_finish(df,csv):
+def save_and_finish(df,csv,msg = True):
+    if not isinstance (msg,str):
+        if msg == True:
+            bn = os.path.basename(csv)
+            dn = os.path.basename(os.path.dirname(csv))
+            msg = "05: Saving final version of data to <" + bn + "> in <" + dn + ">."
+    if msg:
+        logging.info(msg)
     df.to_csv(csv)
-    return("Finished " + csv[:-4])
+    return("Finished " + dn)
 
 # save the date columns for the csvs we will be making at the very end. 
 datedf = pd.DataFrame({"date": pd.date_range(start='1/1/2009', periods=3287, freq='D')})
@@ -48,7 +62,6 @@ for o in outfalls:
     outfall_dir = vvwm_path + o
 
     # create vvwm prob. sim. input folders
-    logging.info("05: Looping thru simulations of " + o[1:] + " to run swmmtoolbox on data and gather and munge output.")
     for Ite in range(1, nsims + 1):
         new_dir = outfall_dir + r'\input_' + str(Ite)
 
@@ -58,52 +71,55 @@ for o in outfalls:
         else:
             print("Folder ", Ite, "already exists")
 
-    # read in the .inp file subcatchment areas (to use later in script)
-    for rpt in range(1, nsims+1):
-        sim_dir = inp_dir_prefix + str(rpt)
+#logging.info("05: Looping thru simulations to run swmmtoolbox on data and gather and munge output.")
+# read in the .inp file subcatchment areas (to use later in script)
+for rpt in range(1, nsims+1):
+    sim_dir = inp_dir_prefix + str(rpt)
 
-        # create blank list to hold subcatchment areas
-        sub_list_area = []
-        # read the .inp file
-        sim_path = sim_dir + r'\NPlesantCreek.inp'
-        ip_file = open(sim_path, "r")
-        # skip x lines
-        lines1 = ip_file.readlines()[55:]
-        # close file
-        ip_file.close() #JMS 10-15-20
+    # create blank list to hold subcatchment areas
+    sub_list_area = []
+    # read the .inp file
+    sim_path = sim_dir + r'\NPlesantCreek.inp'
+    ip_file = open(sim_path, "r")
+    # skip x lines
+    lines1 = ip_file.readlines()[55:]
+    # close file
+    ip_file.close() #JMS 10-15-20
 
-        for thissub in range(0, 113):
-            # grab the area
-            listline = lines1[thissub].split()
-            area = float(listline[3]) #JMS 10-15-20
-            # insert into blank list
-            sub_list_area.append(area)
+    for thissub in range(0, 113):
+        # grab the area
+        listline = lines1[thissub].split()
+        area = float(listline[3]) #JMS 10-15-20
+        # insert into blank list
+        sub_list_area.append(area)
 
-        # binary output file
-        sim_bin_path = sim_dir + r'\NPlesantCreek.out'
+    # binary output file
+    sim_bin_path = sim_dir + r'\NPlesantCreek.out'
 
-        # extract swmm outputs with swmmtoolbox
-        lab1 = 'subcatchment,,Runoff_rate'
-        lab2 = 'subcatchment,,Bifenthrin'
-        runf_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab1)
-        bif_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab2)
+    # extract swmm outputs with swmmtoolbox
+    lab1 = 'subcatchment,,Runoff_rate'
+    lab2 = 'subcatchment,,Bifenthrin'
+    runf_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab1)
+    bif_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab2)
 
-        # resample to daily average and save as new dataframe
-        runf_davg = runf_stack.resample('D').mean()
-        bif_davg = bif_stack.resample('D').mean()
+    # resample to daily average and save as new dataframe
+    runf_davg = runf_stack.resample('D').mean()
+    bif_davg = bif_stack.resample('D').mean()
 
-        # write out swmm daily average outputs
-        runf_to_conv = dask.delayed(save_and_continue)(runf_davg, sim_dir + r'\swmm_output_davg_runf.csv')
-        bif_to_conv = dask.delayed(save_and_continue)(bif_davg, sim_dir + r'\swmm_output_davg_bif.csv')
+    # write out swmm daily average outputs
+    runf_to_conv = dask.delayed(save_and_continue)(runf_davg, sim_dir + r'\swmm_output_davg_runf.csv')
+    bif_to_conv = dask.delayed(save_and_continue)(bif_davg, sim_dir + r'\swmm_output_davg_bif.csv')
 
-        # Conversion for runf and bif
-        runf_to_conv = runf_to_conv.mul(86400).mul(0.01).div(sub_list_area)
-        bif_to_conv = bif_to_conv.mul(runf_to_conv.values)
+    # Conversion for runf and bif
+    runf_to_conv = runf_to_conv.mul(86400).mul(0.01).div(sub_list_area)
+    bif_to_conv = bif_to_conv.mul(runf_to_conv.values)
 
-        # Write out converted swmm outputs for runoff and bifenthrin
-        runf_to_conv = dask.delayed(save_and_continue)(runf_to_conv, sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
-        bif_to_conv = dask.delayed(save_and_continue)(bif_to_conv, sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
+    # Write out converted swmm outputs for runoff and bifenthrin
+    runf_to_conv = dask.delayed(save_and_continue)(runf_to_conv, sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
+    bif_to_conv = dask.delayed(save_and_continue)(bif_to_conv, sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
 
+    for o in outfalls:
+        outfall_dir = vvwm_path + o
         # subset subcatchment outputs for each vvwm
         outfall_path = outfall_dir + o + r'.csv'
         # declare which columns need to be subset
@@ -122,8 +138,8 @@ for o in outfalls:
 
         # write out dataframes
         sfx_o = outfall_path[-9:]
-        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\JS_runf_for_vvwm' + sfx_o
-        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\JS_bif_for_vvwm' + sfx_o
+        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
+        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
         
         runf_msg = dask.delayed(save_and_finish)(runf_sub, runf_out)
         bif_msg = dask.delayed(save_and_finish)(bif_sub, bif_out)
