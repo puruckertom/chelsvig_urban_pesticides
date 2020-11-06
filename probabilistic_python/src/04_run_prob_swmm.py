@@ -7,6 +7,7 @@ from pyswmm import Simulation
 import os, dask, shutil, time
 from path_names import dir_path
 from pyswmm.lib import DLL_SELECTION
+from prpy_bookkeeping import *
 
 # nsims
 nsims = 5
@@ -27,6 +28,7 @@ Immediate Output:
 Computable Output:
     <string> -message indicating that the simulation has been completed on the .inp file in the 'i' input folder.-
 '''
+
 # this decorator is the first step in using dask to parallelize swmm simulations
 @dask.delayed
 def delay_job(i):
@@ -36,7 +38,7 @@ def delay_job(i):
     # create .exe file
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
-    sim_folder = input_path + str(i)
+    sim_folder = inp_dir_prefix + str(i)
     # specify the actual file pyswmm needs
     sim_file = os.path.join(sim_folder, r'NPlesantCreek.inp')
     print("Simulation input file found:", sim_file)
@@ -44,7 +46,7 @@ def delay_job(i):
     binary_file = sim_folder + r'\NPlesantCreek.out'
     # delete pre-existing .out, if present, in order to run swmm agreeably
     if os.path.exists(binary_file):
-        logging.info("04: Deleting current copy of <" + sim_bin_path + "> so new copy can be created.")
+        logging.info("04: Deleting current copy of <" + binary_file + "> so new copy can be created.")
         print("Deleting current copy of <NPlesantCreek.out> so new copy can be created.")
         os.remove(binary_file)
     # stagger starting times 1 sec apart
@@ -52,7 +54,7 @@ def delay_job(i):
     # load the model {no interaction, write (binary) results to <JS_NPlesantCreek.out>, use the specified dll}
     sim = Simulation(inputfile=sim_file, reportfile=None, outputfile=binary_file, swmm_lib_path=lib_path)
     # simulate the loaded model
-    logging.info("04: Executing SWMM simmulation with no interaction. Input from <" + sim_path + ">. Will store output in <" + sim_bin_path + ">.")
+    logging.info("04: Executing SWMM simmulation with no interaction. Input from <" + sim_file + ">. Will store output in <" + binary_file + ">.")
     sim.execute()
     # a message to indicate success
     return("file " + str(i) + " simulated!")
@@ -61,4 +63,4 @@ def delay_job(i):
 delayed_tasks = [delay_job(x) for x in range(1, nsims+1)]
 
 # hit go!
-dask.delayed(print)(delayed_jobs).compute()
+dask.delayed(print)(delayed_tasks).compute()
