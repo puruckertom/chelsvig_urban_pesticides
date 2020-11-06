@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------
 
 # setup
-import pandas as pd, os, numpy as np
+import pandas as pd, os, numpy as np, dask
 from datetime import date
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import vvwm_path, dir_path
@@ -14,9 +14,32 @@ nsims = 5
 
 inp_dir_prefix = dir_path + r'\input\swmm\input_'
 
+def save_and_continue(df,csv):
+    df.to_csv(csv)
+    return(df)
+
+def save_and_finish(df,csv):
+    df.to_csv(csv)
+    return("Finished " + csv[:-4])
+
+# save the date columns for the csvs we will be making at the very end. 
+datedf = pd.DataFrame({"date": pd.date_range(start='1/1/2009', periods=3287, freq='D')})
+datedf['year'] = datedf['date'].dt.year
+datedf['month'] = datedf['date'].dt.month
+datedf['day'] = datedf['date'].dt.day
+dates = datedf.date.tolist()
+years = datedf.year.tolist()
+months = datedf.month.tolist()
+days = datedf.day.tolist()
+
+runf_df_cols, runf_df_rows, bif_df_cols, bif_df_rows = 113, 3287, 113, 3287
+
 # outfalls
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
+
+# list for the delayed tasks to be in
+delayed_tasks = []
 
 # the loop!
 logging.info("05: Looping thru outfalls for navigating to each vwmm folder where its " + str(nsims) + " input folders will be created.")
@@ -39,16 +62,13 @@ for o in outfalls:
     for rpt in range(1, nsims+1):
         sim_dir = inp_dir_prefix + str(rpt)
 
+        # create blank list to hold subcatchment areas
+        sub_list_area = []
         # read the .inp file
         sim_path = sim_dir + r'\NPlesantCreek.inp'
         ip_file = open(sim_path, "r")
-
-        # create blank list to hold subcatchment areas
-        sub_list_area = []
-
         # skip x lines
         lines1 = ip_file.readlines()[55:]
-
         # close file
         ip_file.close() #JMS 10-15-20
 
@@ -56,7 +76,6 @@ for o in outfalls:
             # grab the area
             listline = lines1[thissub].split()
             area = float(listline[3]) #JMS 10-15-20
-
             # insert into blank list
             sub_list_area.append(area)
 
@@ -66,79 +85,48 @@ for o in outfalls:
         # extract swmm outputs with swmmtoolbox
         lab1 = 'subcatchment,,Runoff_rate'
         lab2 = 'subcatchment,,Bifenthrin'
-        runf_stack = swmmtoolbox.extract(sim_bin_path, lab1)
-        bif_stack = swmmtoolbox.extract(sim_bin_path, lab2)
+        runf_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab1)
+        bif_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab2)
 
         # resample to daily average and save as new dataframe
         runf_davg = runf_stack.resample('D').mean()
         bif_davg = bif_stack.resample('D').mean()
 
         # write out swmm daily average outputs
-        runf_davg.to_csv(sim_dir + r'\swmm_output_davg_runf.csv')
-        bif_davg.to_csv(sim_dir + r'\swmm_output_davg_bif.csv')
+        runf_to_conv = dask.delayed(save_and_continue)(runf_davg, sim_dir + r'\swmm_output_davg_runf.csv')
+        bif_to_conv = dask.delayed(save_and_continue)(bif_davg, sim_dir + r'\swmm_output_davg_bif.csv')
 
-        # copy
-        runf_to_conv = runf_davg
-        bif_to_conv = bif_davg
+        # Conversion for runf and bif
+        runf_to_conv = runf_to_conv.mul(86400).mul(0.01).div(sub_list_area)
+        bif_to_conv = bif_to_conv.mul(runf_to_conv.values)
 
-        # specify loop variables
-        runf_df_cols = len(runf_to_conv.columns)  # 113
-        runf_df_rows = len(runf_to_conv)  # 3287
-        bif_df_cols = len(bif_to_conv.columns)
-        bif_df_rows = len(bif_to_conv)
-
-        # conversion for runf
-        for c in range(0, runf_df_cols):
-            col_name = "subcatchment_S" + str(c + 1) + "_Runoff_rate"
-            # perform conversion
-            runf_to_conv[col_name] = (runf_to_conv[col_name] * 86400 * 0.01) / sub_list_area[c]
-
-        # write out converted swmm outputs
-        runf_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
-
-        # conversion for bifenthrin conc.
-        for c in range(0, bif_df_cols):
-            for r in range(0, bif_df_rows):
-                # compute g/ha/day
-                bif_to_conv.iloc[r, c] = bif_to_conv.iloc[r, c] * runf_to_conv.iloc[r, c]
-
-        # write out converted swmm outputs
-        bif_to_conv.to_csv(sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
+        # Write out converted swmm outputs for runoff and bifenthrin
+        runf_to_conv = dask.delayed(save_and_continue)(runf_to_conv, sim_dir + r'\swmm_conv_to_vvwm_runf.csv')
+        bif_to_conv = dask.delayed(save_and_continue)(bif_to_conv, sim_dir + r'\swmm_conv_to_vvwm_bif.csv')
 
         # subset subcatchment outputs for each vvwm
         outfall_path = outfall_dir + o + r'.csv'
-
         # declare which columns need to be subset
-        sub_ids = (pd.read_csv(outfall_path, header = 0, usecols=['Subcatchment_ID']) - 1)['Subcatchment_ID'].tolist()
+        sub_ids = (pd.read_csv(outfall_path, header = 0, usecols=['Subcatchment_ID']) - 1).sum(1).tolist()
         
-        # subset
-        runf_sub = runf_to_conv.iloc[:, sub_ids].copy()
-        del runf_to_conv
-        bif_sub = bif_to_conv.iloc[:, sub_ids].copy()
-        del bif_to_conv
+        # Now, to subset:
+        # make list where the elements at included indices are 1s and the other elements are 0s
+        slicer = [(1 if x in sub_ids else np.nan) for x in range(113)]
+        # now multiply it by the df
+        runf_sub = (runf_to_conv * slicer).dropna(1)
+        bif_sub = (bif_to_conv * slicer).dropna(1)
 
-        # add a total sum column
-        runf_sub["runf_sum"] = runf_sub.sum(axis=1)
-        bif_sub["bif_sum"] = bif_sub.sum(axis=1)
-
-        # add a date column
-        runf_sub['date'] = pd.date_range(start='1/1/2009', periods=len(runf_sub), freq='D')
-        bif_sub['date'] = pd.date_range(start='1/1/2009', periods=len(bif_sub), freq='D')
-
-        # separate date column too
-        runf_sub['year'] = runf_sub['date'].dt.year
-        runf_sub['month'] = runf_sub['date'].dt.month
-        runf_sub['day'] = runf_sub['date'].dt.day
-
-        bif_sub['year'] = bif_sub['date'].dt.year
-        bif_sub['month'] = bif_sub['date'].dt.month
-        bif_sub['day'] = bif_sub['date'].dt.day
+        # add a total sum column and date columns
+        runf_sub=runf_sub.assign(sums = runf_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
+        bif_sub=bif_sub.assign(sums = bif_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
 
         # write out dataframes
         sfx_o = outfall_path[-9:]
-        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
-        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
-        runf_sub.to_csv(runf_out)
-        bif_sub.to_csv(bif_out)
+        runf_out = outfall_dir + r'\input_' + str(rpt) + r'\JS_runf_for_vvwm' + sfx_o
+        bif_out = outfall_dir + r'\input_' + str(rpt) + r'\JS_bif_for_vvwm' + sfx_o
+        
+        runf_msg = dask.delayed(save_and_finish)(runf_sub, runf_out)
+        bif_msg = dask.delayed(save_and_finish)(bif_sub, bif_out)
+        delayed_tasks.extend([runf_msg, bif_msg])
 
-
+dask.delayed(print)(delayed_tasks).compute()
