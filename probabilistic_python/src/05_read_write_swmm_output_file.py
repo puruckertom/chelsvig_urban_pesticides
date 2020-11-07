@@ -133,8 +133,8 @@ for rpt in range(1, nsims+1):
         bif_sub = (bif_to_conv * slicer).dropna(1)
 
         # add a total sum column and date columns
-        runf_sub=runf_sub.assign(sums = runf_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
-        bif_sub=bif_sub.assign(sums = bif_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
+        runf_sub=runf_sub.assign(runf_sum = runf_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
+        bif_sub=bif_sub.assign(bif_sum = bif_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
 
         # write out dataframes
         sfx_o = outfall_path[-9:]

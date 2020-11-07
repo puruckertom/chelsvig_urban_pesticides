@@ -11,17 +11,23 @@ from prpy_bookkeeping import *
 outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 
-def save_and_continue(df,csv,msg = "01b: Saving intermediate version of data to <" + bn + "> in <" + dn + ">."):
-    bn = os.path.basename(csv)
-    dn = os.path.basename(os.path.dirname(csv))
+def save_and_continue(df,csv,msg = True):
+    if not isinstance (msg,str):
+        if msg == True:
+            bn = os.path.basename(csv)
+            dn = os.path.basename(os.path.dirname(csv))
+            msg = "05: Saving intermediate version of data to <" + bn + "> in <" + dn + ">."
     if msg:
         logging.info(msg)
     df.to_csv(csv)
     return(df)
 
-def save_and_finish(df,csv,msg = "01b: Saving final version of data to <" + bn + "> in <" + dn + ">."):
-    bn = os.path.basename(csv)
-    dn = os.path.basename(os.path.dirname(csv))
+def save_and_finish(df,csv,msg = True):
+    if not isinstance (msg,str):
+        if msg == True:
+            bn = os.path.basename(csv)
+            dn = os.path.basename(os.path.dirname(csv))
+            msg = "05: Saving final version of data to <" + bn + "> in <" + dn + ">."
     if msg:
         logging.info(msg)
     df.to_csv(csv)
@@ -131,8 +137,8 @@ for o in outfalls:
     bif_sub = (bif_to_conv * slicer).dropna(1)
 
     # add a total sum column and date columns
-    runf_sub=runf_sub.assign(sums = runf_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
-    bif_sub=bif_sub.assign(sums = bif_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
+    runf_sub=runf_sub.assign(runf_sum = runf_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
+    bif_sub=bif_sub.assign(bif_sum = bif_sub.sum(axis=1), date = dates, year = years, month = months, day = days)
 
     # write out dataframes
     sfx_o = outfall_path[-9:] #JMS 10-19-20
