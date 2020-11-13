@@ -3,7 +3,7 @@
 # --------------------------------------------------
 
 # set up
-#from pyswmm import Simulation
+from pyswmm import Simulation
 import os
 from path_names import inp_path, bin_path
 from prpy_bookkeeping import *
@@ -17,9 +17,9 @@ if os.path.exists(bin_path):
 replace_infile_abspaths(inp_path = inp_path, new_path = inp_path, main_path = main_path)
 
 # load the model - no interaction, write out binary file
-#sim = Simulation(inputfile=inp_path, reportfile=None, outputfile=bin_path)
+sim = Simulation(inputfile=inp_path, reportfile=None, outputfile=bin_path)
 logging.info("01a: Executing SWMM simmulation with no interaction. Input from <" + inp_path + ">. Will store output in <" + bin_path + ">.")
-#sim.execute()
+sim.execute()
 
 
 
