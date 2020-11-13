@@ -1,5 +1,7 @@
 ## borrowed from source: "https://docs.python.org/2/howto/logging.html#logging-basic-tutorial"
 import logging, os
+from path_names import main_path
+import __main__ as main
 
 logging.basicConfig(filename='probpy.log', level=logging.INFO)
 
@@ -8,9 +10,15 @@ def log_prefixer(script):
         logging.info(script + ": " + text)
     return(loginfo)
 
-def replace_infile_abspaths(inp_path, new_path, main_path, script = "no script named", Log = True):
+def replace_infile_abspaths(inp_path, main_path, new_path = None, Log = True):
+    try:
+        script = script
+    except NameError:
+        script = os.path.basename(main.__file__)[:3]
     if Log:
-        if not loginfo:
+        try:
+            loginfo = loginfo
+        except NameError:
             loginfo = log_prefixer(script) 
     else:
         loginfo = print
@@ -31,7 +39,8 @@ def replace_infile_abspaths(inp_path, new_path, main_path, script = "no script n
     # so instead, make a new list using the first five, a space holder, and the last two elements of the original list
     path1cols = path1cols[:5] + [""] + path1cols[-2:]
     # the corrected element of the listified line
-    path1cols[5] = '"'+os.path.join(main_path,"probabilistic_python\\weather\\swmm_wet.txt")+'"'
+    #path1cols[5] = '"'+os.path.join(main_path,"probabilistic_python\\weather\\swmm_wet.txt")+'"'
+    path1cols[5] = '"' + main_path + r'probabilistic_python\weather\swmm_wet.txt' + '"'
     # insert the correction and unlistify!
     filelines[50] = "\t".join(path1cols) + "\n"
 
@@ -41,7 +50,8 @@ def replace_infile_abspaths(inp_path, new_path, main_path, script = "no script n
     # so instead, make a new list using the first 2 elements of the original list and a space holder
     path2cols = path2cols[:2] + [""]
     # the corrected element of the listified line
-    path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
+    #path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
+    path2cols[2] = '"' + main_path + r'app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
     # insert the correction and unlistify!
     filelines[1384] = "\t".join(path2cols) + "\n"
 
@@ -51,14 +61,17 @@ def replace_infile_abspaths(inp_path, new_path, main_path, script = "no script n
     # so instead, make a new list using the first element of the original list and a space holder
     path3cols = path3cols[:1] + [""]
     # the corrected element of the listified line
-    path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
+    #path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
+    path3cols[1] = '"' + main_path + r'probabilistic_python\input\swmm\nplesant.jpg' + '"'
     # insert the correction and unlistify!
     filelines[9306] = "\t".join(path3cols) + "\n"
 
-    # copy, write out file
-    loginfo("Opening file <" + new_path + "> to overwrite with edited content.")
-    new_file = open(new_path, 'w')
-    new_file.writelines(filelines)
-    loginfo("Closing file <" + new_path + ">.")
-    new_file.close()
-
+    if new_path:
+        # copy, write out file
+        loginfo("Opening file <" + new_path + "> to overwrite with edited content.")
+        new_file = open(new_path, 'w')
+        new_file.writelines(filelines)
+        loginfo("Closing file <" + new_path + ">.")
+        new_file.close()
+    else: 
+        return filelines

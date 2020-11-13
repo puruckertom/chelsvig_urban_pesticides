@@ -4,10 +4,10 @@
 # --------------------------------------------------
 
 import os
-from prpy_bookkeeping import *
+#from prpy_bookkeeping import *
 
 if any([os.path.basename(os.path.abspath(os.curdir)) != 'src', os.path.basename(os.path.dirname(os.path.abspath(os.curdir))) != 'probabilistic_python']):
-    logging.error("Error! You must first navigate to <chelsvig_urban_pesticides/probabilistic_python/src> in order to run this file.")
+    #logging.error("Error! You must first navigate to <chelsvig_urban_pesticides/probabilistic_python/src> in order to run this file.")
     print("Error! You must first navigate to <chelsvig_urban_pesticides/probabilistic_python/src> in order to run this file.")
     exit()
 

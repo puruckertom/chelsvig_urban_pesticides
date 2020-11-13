@@ -67,47 +67,48 @@ for Ite in range(1, nsims+1):
     logging.info("03: Copying base swmm input file <" + old_path + "> into <" + new_dir + ">.")
     shutil.copyfile(old_path, new_path)
 
-    # start reading the new file
-    logging.info("03: Opening file <" + new_path + "> to read.")
-    new_file = open(new_path, "r")
-    filelines = new_file.readlines()
-    logging.info("03: Closing file <" + new_path + "> after reading lines into list.")
-    new_file.close()
+    filelines = replace_infile_abspaths(inp_path = new_path, main_path = main_path)
+    # # start reading the new file
+    # logging.info("03: Opening file <" + new_path + "> to read.")
+    # new_file = open(new_path, "r")
+    # filelines = new_file.readlines()
+    # logging.info("03: Closing file <" + new_path + "> after reading lines into list.")
+    # new_file.close()
 
-    # edit the new file
+    # # edit the new file
 
-    # -----------------------------
-    # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
+    # # -----------------------------
+    # # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
 
-    # the first absolute path to correct, listified
-    path1cols = filelines[50].split()
-    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # so instead, make a new list using the first five, a space holder, and the last two elements of the original list
-    path1cols = path1cols[:5] + [""] + path1cols[-2:]
-    # the corrected element of the listified line
-    path1cols[5] = '"'+os.path.join(dir_path,"weather\swmm_wet.txt")+'"'
-    # insert the correction and unlistify!
-    filelines[50] = "\t".join(path1cols) + "\n"
+    # # the first absolute path to correct, listified
+    # path1cols = filelines[50].split()
+    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # # so instead, make a new list using the first five, a space holder, and the last two elements of the original list
+    # path1cols = path1cols[:5] + [""] + path1cols[-2:]
+    # # the corrected element of the listified line
+    # path1cols[5] = '"'+os.path.join(dir_path,"weather\swmm_wet.txt")+'"'
+    # # insert the correction and unlistify!
+    # filelines[50] = "\t".join(path1cols) + "\n"
 
-    # the second absolute path to correct, listified
-    path2cols = filelines[1384].split()
-    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # so instead, make a new list using the first 2 elements of the original list and a space holder
-    path2cols = path2cols[:2] + [""]
-    # the corrected element of the listified line
-    path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
-    # insert the correction and unlistify!
-    filelines[1384] = "\t".join(path2cols) + "\n"
+    # # the second absolute path to correct, listified
+    # path2cols = filelines[1384].split()
+    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # # so instead, make a new list using the first 2 elements of the original list and a space holder
+    # path2cols = path2cols[:2] + [""]
+    # # the corrected element of the listified line
+    # path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
+    # # insert the correction and unlistify!
+    # filelines[1384] = "\t".join(path2cols) + "\n"
     
-    # the third absolute path to correct, listified
-    path3cols = filelines[9306].split()
-    # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # so instead, make a new list using the first element of the original list and a space holder
-    path3cols = path3cols[:1] + [""]
-    # the corrected element of the listified line
-    path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
-    # insert the correction and unlistify!
-    filelines[9306] = "\t".join(path3cols) + "\n"
+    # # the third absolute path to correct, listified
+    # path3cols = filelines[9306].split()
+    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
+    # # so instead, make a new list using the first element of the original list and a space holder
+    # path3cols = path3cols[:1] + [""]
+    # # the corrected element of the listified line
+    # path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
+    # # insert the correction and unlistify!
+    # filelines[9306] = "\t".join(path3cols) + "\n"
 
     # ---------------------------
     # 113 = number of subcatchments
