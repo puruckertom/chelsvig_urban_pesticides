@@ -67,18 +67,18 @@ for Ite in range(1, nsims+1):
     logging.info("03: Copying base swmm input file <" + old_path + "> into <" + new_dir + ">.")
     shutil.copyfile(old_path, new_path)
 
-    filelines = replace_infile_abspaths(inp_path = new_path, main_path = main_path)
-    # # start reading the new file
-    # logging.info("03: Opening file <" + new_path + "> to read.")
-    # new_file = open(new_path, "r")
-    # filelines = new_file.readlines()
-    # logging.info("03: Closing file <" + new_path + "> after reading lines into list.")
-    # new_file.close()
+    # start reading the new file
+    logging.info("03: Opening file <" + new_path + "> to read.")
+    new_file = open(new_path, "r")
+    filelines = new_file.readlines()
+    logging.info("03: Closing file <" + new_path + "> after reading lines into list.")
+    new_file.close()
 
-    # # edit the new file
+    # edit the new file
 
-    # # -----------------------------
-    # # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
+    # -----------------------------
+    # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
+    filelines = replace_infile_abspaths(filelines = filelines, main_path = main_path)
 
     # # the first absolute path to correct, listified
     # path1cols = filelines[50].split()
