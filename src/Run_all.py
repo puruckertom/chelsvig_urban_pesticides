@@ -33,4 +33,11 @@ rpv09 = __import__('09_run_prob_vvwm')
 script = "10"
 pofp10 = __import__('10_prep_outputs_for_plots')
 
-print(time.process_time() - start)
+# report runtime
+total_seconds = time.process_time() - start
+hours = total_seconds//3600
+minutes = (total_seconds%3600)//60
+seconds = round(total_seconds%60)
+
+print("Total Runtime:", hours, "hours," minutes, "minutes, and", seconds, "seconds.")
+
