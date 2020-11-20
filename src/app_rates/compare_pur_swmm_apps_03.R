@@ -15,15 +15,16 @@ dir_weather <- paste0(main_dir,"probabilistic_python/weather/") #JMS 9/22/20
 
 
 # -------------------------------------------------
-# function for making cummulative sum plots
+# function for making cumulative sum plots
 #--------------------------------------------------
 make_cumsum_plot <- function(i){
 
   percent_develop1 <- 0
   
-  p <- read.csv(file = paste0(main_dir,'app_rates/output/bug_values_sub', i, '.csv'),
-                colClasses = c("Date",rep("numeric",11))) %>% 
+  p <- read.csv(file = paste0(main_dir,'app_rates/output/bug_values_sub', i, '.csv'), stringsAsFactors = F) %>%
     mutate(
+      # fix 'dates' column type
+      dates = as.Date(dates,"%m/%d/%Y"),
       # hectares of developed land use in the subcatchment
       sub_develop_ha = sub_area_ha * sub_perc_develop,
       # total kg that should be applied to the sub, based on its urban ha

@@ -11,9 +11,9 @@ library(dplyr)
 
 # read in daily application rates (kg/ha)
 apps <- read.table(paste0(main_dir,'app_rates/calpip/app_rate_output_for_swmm_48rain.txt'),
-                   sep="\t", col.names=c("date", "hour", "app_daily_kgha")) %>% 
+                   sep="\t", col.names=c("dates", "hour", "pur_app_kgha")) %>% 
   # compute daily applications (kg)
-  mutate(app_daily_kgha = app_daily_kgha*6485.67)
+  mutate(pur_app_kg = pur_app_kgha*6485.67)
 # } 10/27/20
 
 # # read in daily application rates (kg/ha)
@@ -68,8 +68,9 @@ swmm_conv_bif <- read.csv(paste0(main_dir,'app_rates/io/swmm_conv_to_vvwm_bif.cs
 # -----------------------------------------------------------
 
 
-output_df <- stack(swmm_rpt_runf) %>% transmute(sub=as.integer(ind), rpt_runf_cms=values) %>% 
-  cbind(conv_runf_cmha = stack(swmm_conv_runf)$values,
+output_df <- apps %>% select(-hour) %>% 
+  cbind((stack(swmm_rpt_runf) %>% transmute(sub=as.integer(ind), rpt_runf_cms=values)),
+        conv_runf_cmha = stack(swmm_conv_runf)$values,
         rpt_bif_ugl = stack(swmm_rpt_bif)$values,
         conv_bif_gha = stack(swmm_conv_bif)$values) %>% 
   mutate(runf_cmd = rpt_runf_cms*86400,
@@ -77,15 +78,19 @@ output_df <- stack(swmm_rpt_runf) %>% transmute(sub=as.integer(ind), rpt_runf_cm
          totl_bif_n_runf_kg = rpt_runf_cms*rpt_bif_ugl*0.0864) %>%
   inner_join(data.frame(sub=1:113, 
                         sub_area_ha=subcatch_areas$area_ha, 
-                        sub_perc_develop=subcatch_landuse$developed_pct))
+                        sub_perc_develop=subcatch_landuse$developed_pct)) 
 
 write_sub <- function(i){
-  filter(output_df, sub==i) %>% write.csv(
-    file=paste0(main_dir,"app_rates/JS_output/bug_values_sub",i,".csv"), row.names=F)
+  select(filter(output_df, sub==i), -sub) %>% write.csv(
+    file=paste0(main_dir,"app_rates/output/bug_values_sub",i,".csv"), row.names=F)
   i
 }
-
 sapply(1:113, write_sub)
+
+# for (i in 1:113){
+#   filter(output_df, sub==i) %>% write.csv(
+#     file=paste0(main_dir,"app_rates/output/bug_values_sub",i,".csv"), row.names=F)
+# }
 
 # -----------------------------------------------------------
 # create output files that contain all relative runf, bif values for each subcatchment

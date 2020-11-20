@@ -34,7 +34,7 @@ read.table(paste0(calpip_dir, "app_rate_output_for_swmm.txt"),
          time = '01:00',
          date = format(as.Date(date), "%m/%d/%Y")) %>% 
   select(date, time, apps_update2_imp_kgha) %>% 
-  write.table(paste0(calpip_dir, "JS_app_rate_output_for_swmm_48rain.txt"), 
+  write.table(paste0(calpip_dir, "app_rate_output_for_swmm_48rain.txt"), 
               quote=F, sep="\t", row.names=F, col.names=F)
 
 
