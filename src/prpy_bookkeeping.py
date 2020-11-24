@@ -91,7 +91,7 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     # the corrected element of the listified line
     #path1cols[5] = '"'+os.path.join(main_path,"probabilistic_python\\weather\\swmm_wet.txt")+'"'
     #path1cols[5] = '"' + main_path + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
-    path1cols[5] = '"' + "\\".join(*splitall(main_path)) + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
+    path1cols[5] = '"' + "\\".join(splitall(main_path)) + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
     # insert the correction and unlistify!
     filelines[50] = "\t".join(path1cols) + "\n"
 
@@ -103,7 +103,7 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     # the corrected element of the listified line
     #path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
     #path2cols[2] = '"' + main_path + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
-    path2cols[2] = '"' + "\\".join(*splitall(main_path)) + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
+    path2cols[2] = '"' + "\\".join(splitall(main_path)) + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
     # insert the correction and unlistify!
     filelines[1384] = "\t".join(path2cols) + "\n"
 
@@ -115,7 +115,7 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     # the corrected element of the listified line
     #path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
     #path3cols[1] = '"' + main_path + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
-    path3cols[1] = '"' + "\\".join(*splitall(main_path)) + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
+    path3cols[1] = '"' + "\\".join(splitall(main_path)) + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
     # insert the correction and unlistify!
     filelines[9306] = "\t".join(path3cols) + "\n"
 
