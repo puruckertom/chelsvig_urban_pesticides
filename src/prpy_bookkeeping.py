@@ -37,7 +37,8 @@ def splitall(path):
     while 1:
         parts = os.path.split(path)
         if parts[0] == path:  # sentinel for absolute paths
-            allparts.insert(0, parts[0])
+            if path not in ["/","\\","\\\\"]:
+                allparts.insert(0, parts[0])
             break
         elif parts[1] == path: # sentinel for relative paths
             allparts.insert(0, parts[1])
