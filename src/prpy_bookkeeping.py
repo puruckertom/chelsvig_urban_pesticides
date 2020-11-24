@@ -1,4 +1,4 @@
-import logging, os, __main__ as main
+import logging, os, sys, __main__ as main
 main_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # set up logger
@@ -26,9 +26,31 @@ except NameError:
     loginfo = log_prefixer(script) 
 
 # for 01a and 03
+# Borrowed from "https://www.oreilly.com/library/view/python-cookbook/0596001673/ch04s16.html"
+'''
+Breaks a directory of file path into all its parts
+ Input: path <str> -Path (must be valid) to be split up-
+ Output: <list of str> -a list of the path's components in ancestral order-
+'''
+def splitall(path):
+    allparts = []
+    while 1:
+        parts = os.path.split(path)
+        if parts[0] == path:  # sentinel for absolute paths
+            allparts.insert(0, parts[0])
+            break
+        elif parts[1] == path: # sentinel for relative paths
+            allparts.insert(0, parts[1])
+            break
+        else:
+            path = parts[0]
+            allparts.insert(0, parts[1])
+    return allparts
+
+# for 01a and 03
 '''
 Corrects absolute paths in input file, so the input files work on any computer, not just the author's
- Inputs: inp_path <str> -Path to input file (Optional if filelines provided) -
+ Inputs: inp_path <str> -Path to input file (Optional if filelines provided)-
    filelines <list of str> -Lines of the file to clean up (Optional if inp_path provided. Dominates inp_path)-
    new_path <str> -Path to file to be overwritten with corrected content (Optional*)-
    Log <Bool> -Indicator for whether to write logging messages to log file (True/default), or to print them instead (False)-
@@ -68,7 +90,8 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     path1cols = path1cols[:5] + [""] + path1cols[-2:]
     # the corrected element of the listified line
     #path1cols[5] = '"'+os.path.join(main_path,"probabilistic_python\\weather\\swmm_wet.txt")+'"'
-    path1cols[5] = '"' + main_path + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
+    #path1cols[5] = '"' + main_path + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
+    path1cols[5] = '"' + "\\".join(*splitall(main_path)) + r'\probabilistic_python\weather\swmm_wet.txt' + '"'
     # insert the correction and unlistify!
     filelines[50] = "\t".join(path1cols) + "\n"
 
@@ -79,7 +102,8 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     path2cols = path2cols[:2] + [""]
     # the corrected element of the listified line
     #path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
-    path2cols[2] = '"' + main_path + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
+    #path2cols[2] = '"' + main_path + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
+    path2cols[2] = '"' + "\\".join(*splitall(main_path)) + r'\app_rates\calpip\app_rate_output_for_swmm_48rain.txt' + '"'
     # insert the correction and unlistify!
     filelines[1384] = "\t".join(path2cols) + "\n"
 
@@ -90,7 +114,8 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
     path3cols = path3cols[:1] + [""]
     # the corrected element of the listified line
     #path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
-    path3cols[1] = '"' + main_path + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
+    #path3cols[1] = '"' + main_path + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
+    path3cols[1] = '"' + "\\".join(*splitall(main_path)) + r'\probabilistic_python\input\swmm\nplesant.jpg' + '"'
     # insert the correction and unlistify!
     filelines[9306] = "\t".join(path3cols) + "\n"
 
