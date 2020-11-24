@@ -39,10 +39,14 @@ def splitall(path):
         if parts[0] == path:  # sentinel for absolute paths
             if path not in ["/","\\","\\\\"]:
                 allparts.insert(0, parts[0])
+            else:
+                allparts.insert(0, "")
             break
         elif parts[1] == path: # sentinel for relative paths
             if path not in ["/","\\","\\\\"]:
                 allparts.insert(0, parts[1])
+            else:
+                allparts.insert(0, "")
             break
         else:
             path = parts[0]
