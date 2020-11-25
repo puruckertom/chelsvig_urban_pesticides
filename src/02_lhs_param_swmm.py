@@ -14,7 +14,7 @@ nsims = 5
 
 # import parameter ranges table
 loginfo("Reading in lhs parameter range data from <" + dir_path + "\input\lhs\lhs_param_ranges.csv>.")
-param_ranges = pd.read_csv(dir_path + r'\input\lhs\lhs_param_ranges.csv')
+param_ranges = pd.read_csv(os.path.join(dir_path, "input", "lhs", "lhs_param_ranges.csv"))#dir_path + r'\input\lhs\lhs_param_ranges.csv')
 print(param_ranges)
 
 # create list of input parameter names
@@ -38,6 +38,6 @@ print(round(lhs_df,3))
 
 # write out
 logging.info("02: Writing generated lhs parameter value data into <" + dir_path + "\io\lhs_sampled_params.csv>.")
-lhs_df.to_csv(dir_path + r'\io\lhs_sampled_params.csv')
+lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))#dir_path + r'\io\lhs_sampled_params.csv')
 
 
