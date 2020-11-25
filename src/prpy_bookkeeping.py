@@ -18,7 +18,7 @@ def log_prefixer(script):
 # Set up logging message constructor
 try:
     script = main.script
-except NameError:
+except AttributeError:
     script = os.path.basename(main.__file__)[:3]
 try:
     loginfo = loginfo
