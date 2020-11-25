@@ -12,7 +12,7 @@ from prpy_bookkeeping import *
 # nsims
 nsims = 5
 
-inp_dir_prefix = dir_path + r'\input\swmm\input_'
+inp_dir_prefix = os.path.join(dir_path, "input", "swmm", "input_")#dir_path + r'\input\swmm\input_'
 print(inp_dir_prefix)
 # save the path for the original dynamic link library
 dll_path = DLL_SELECTION()
@@ -34,7 +34,7 @@ Computable Output:
 def delay_job(i):
     loginfo("Simmulation " + str(i) + " of " + str(nsims))
     # create path to the .exe we are going to create
-    lib_path = dll_path[:-4]+'-'+str(i)+dll_path[-4:]
+    lib_path = dll_path[:dll_path.index(".")] + '-' + str(i) + dll_path[dll_path.index("."):] #dll_path[-4:]#[:-4]+'-'+str(i)+dll_path[-4:]
     # create .exe file
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
@@ -43,7 +43,7 @@ def delay_job(i):
     sim_file = os.path.join(sim_folder, r'NPlesantCreek.inp')
     print("Simulation input file found:", sim_file)
     # specify the file that pyswmm will (over)write with output after running the probabilistic simulation
-    binary_file = sim_folder + r'\NPlesantCreek.out'
+    binary_file = os.path.join(sim_folder, "NPlesantCreek.out")#sim_folder + r'\NPlesantCreek.out'
     # delete pre-existing .out, if present, in order to run swmm agreeably
     if os.path.exists(binary_file):
         loginfo("Deleting current copy of <" + binary_file + "> so new copy can be created.")
