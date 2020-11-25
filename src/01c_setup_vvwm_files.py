@@ -7,21 +7,23 @@ import pandas as pd, os, glob
 from path_names import vvwm_path
 from prpy_bookkeeping import *
 
-outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-            '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
+# outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
+#             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
+outfalls = ['outfall_31_26', 'outfall_31_28', 'outfall_31_29', 'outfall_31_35',
+            'outfall_31_36', 'outfall_31_38', 'outfall_31_42']
 
 # loop through each outfall to create its vvwm.zts input file
 #loginfo("Looping thru outfalls for navigating to each vwmm folder where its .zts file will be created.")
 loginfo("Looping thru outfalls for navigating to each vwmm folder where its .zts file will be created.")
 for o in outfalls:
     # set pathways
-    outfall_dir = vvwm_path + o
-    determ_dir = outfall_dir + r'\determ'
+    outfall_dir = os.path.join(vvwm_path, o)#vvwm_path + o
+    determ_dir = os.path.join(outfall_dir, "determ")#outfall_dir + r'\determ'
 
     # grab bif and runf .csv files
     loginfo("Looking for <runf_for_vvwm_" + o[-5:] + ".csv> and <bif_for_vvwm_" + o[-5:] + ".csv> files and reading to data frames.")
-    bif_df = pd.read_csv(glob.glob(determ_dir + r'\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
-    runf_df = pd.read_csv(glob.glob(determ_dir + r'\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
+    bif_df = pd.read_csv(glob.glob(os.path.join(determ_dir, "bif_for_vvwm_*.csv"), recursive=True)[0])#determ_dir + r'\bif_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
+    runf_df = pd.read_csv(glob.glob(os.path.join(determ_dir, "runf_for_vvwm_*.csv"), recursive=True)[0])#determ_dir + r'\runf_for_vvwm_*.csv', recursive=True)[0]) #JMS 10-15-20
 
     # vvwm .zts file format:
     # year,month,day,runf(cm/ha/day),0,bif(g/ha/day),0
@@ -39,11 +41,11 @@ for o in outfalls:
     vvwm_df = pd.concat([runf_sub, bif_sub], axis=1)
 
     # read out into comma-delimited .txt file
-    vvwm_df.to_csv(determ_dir + r'\output.zts', header=False, index=False, sep=',')
+    vvwm_df.to_csv(os.path.join(determ_dir, "output.zts"), header=False, index=False, sep=',')#determ_dir + r'\output.zts', header=False, index=False, sep=',')
 
     # define locations
-    swmm_out_path = determ_dir + r'\output.zts'
-    temp_path = determ_dir + r'\temp.zts'
+    swmm_out_path = os.path.join(determ_dir, "output.zts")#determ_dir + r'\output.zts'
+    temp_path = os.path.join(determ_dir, "temp.zts")#determ_dir + r'\temp.zts'
 
     # open original zts in read, dummy in write
     loginfo("Adding 3 blank lines to the top of the .zts file.")
