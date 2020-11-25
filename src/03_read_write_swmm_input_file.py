@@ -12,7 +12,7 @@ nsims = 5
 
 # read in lhs_sampled_params
 loginfo("Reading in data from file <" + dir_path + r'\io\lhs_sampled_params.csv>.')
-lhs_design = pd.read_csv(dir_path+r'\io\lhs_sampled_params.csv')
+lhs_design = pd.read_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv")#dir_path+r'\io\lhs_sampled_params.csv')
 del (lhs_design['Unnamed: 0'])
 
 # round lhs decimals
@@ -55,7 +55,7 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
     loginfo("Simmulation " + str(Ite) + " of " + str(nsims))
-    new_dir = swmm_path + r'\input_' + str(Ite)
+    new_dir = os.path.join(swmm_path, "input_" + str(Ite))#swmm_path + r'\input_' + str(Ite)
 
     if not os.path.exists(new_dir):
         os.mkdir(new_dir)
