@@ -12,7 +12,7 @@ nsims = 5
 
 # read in lhs_sampled_params
 loginfo("Reading in data from file <" + dir_path + r'\io\lhs_sampled_params.csv>.')
-lhs_design = pd.read_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv")#dir_path+r'\io\lhs_sampled_params.csv')
+lhs_design = pd.read_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))#dir_path+r'\io\lhs_sampled_params.csv')
 del (lhs_design['Unnamed: 0'])
 
 # round lhs decimals
