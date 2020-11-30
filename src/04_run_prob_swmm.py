@@ -34,7 +34,7 @@ Computable Output:
 def delay_job(i):
     loginfo("Simmulation " + str(i) + " of " + str(nsims))
     # create path to the .exe we are going to create
-    lib_path = dll_path[:dll_path.index(".")] + '-' + str(i) + dll_path[dll_path.index("."):] #dll_path[-4:]#[:-4]+'-'+str(i)+dll_path[-4:]
+    lib_path = dll_path[:dll_path.rindex(".")] + '-' + str(i) + dll_path[dll_path.rindex("."):] #dll_path[-4:]#[:-4]+'-'+str(i)+dll_path[-4:]
     # create .exe file
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
