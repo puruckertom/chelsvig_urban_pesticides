@@ -118,8 +118,8 @@ for rpt in range(1, nsims+1):
 
         # write out dataframes
         sfx_o = outfall_path[-9:]
-        runf_out = os.path.join(outfall_dir," input_" + str(rpt), "runf_for_vvwm" + sfx_o)#outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
-        bif_out = os.path.join(outfall_dir," input_" + str(rpt), "bif_for_vvwm" + sfx_o)#outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
+        runf_out = os.path.join(outfall_dir, "input_" + str(rpt), "runf_for_vvwm" + sfx_o)#outfall_dir + r'\input_' + str(rpt) + r'\runf_for_vvwm' + sfx_o
+        bif_out = os.path.join(outfall_dir, "input_" + str(rpt), "bif_for_vvwm" + sfx_o)#outfall_dir + r'\input_' + str(rpt) + r'\bif_for_vvwm' + sfx_o
         
         runf_msg = dask.delayed(save_and_finish)(runf_sub, runf_out)
         bif_msg = dask.delayed(save_and_finish)(bif_sub, bif_out)
