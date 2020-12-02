@@ -2,6 +2,8 @@ source("path_names_ar.R")
 library(dplyr)
 library(sensitivity)
 
+nsims = 1000
+
 # -----------------------------------------------------------
 lhs_params <- read.csv(paste0(main_dir,'probabilistic_python/io/lhs_sampled_params.csv'),
                        sep=",", header=T)[,-1 ]
@@ -11,13 +13,13 @@ sim_sums <- function(i,measurement){
            sep=",", header=T)[,-1 ] %>% colSums()
 }
 # for Runoff
-scr <- sim_sums(1,"runf"); for (i in 2:5){
+scr <- sim_sums(1,"runf"); for (i in 2:nsims){
   scr <- rbind(scr, sim_sums(i,"runf"))
-}; row.names(scr) <- 1:5; scr <- as.data.frame(scr)
+}; row.names(scr) <- 1:nsims; scr <- as.data.frame(scr)
 # for Bifenthrin
-scb <- sim_sums(1,"bif"); for (i in 2:5){
+scb <- sim_sums(1,"bif"); for (i in 2:nsims){
   scb <- rbind(scb, sim_sums(i,"bif"))
-}; row.names(scb) <- 1:5; scb <- as.data.frame(scb)
+}; row.names(scb) <- 1:nsims; scb <- as.data.frame(scb)
 
 # -----------------------------------------------------------
 
