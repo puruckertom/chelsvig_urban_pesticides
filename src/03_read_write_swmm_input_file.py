@@ -7,8 +7,11 @@ import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
 from prpy_bookkeeping import *
 
-# nsims
-nsims = 5
+# number of simulations
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 # read in lhs_sampled_params
 loginfo("Reading in data from file <" + dir_path + r'\io\lhs_sampled_params.csv>.')

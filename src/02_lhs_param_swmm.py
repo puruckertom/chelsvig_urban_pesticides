@@ -10,7 +10,10 @@ from path_names import dir_path
 from prpy_bookkeeping import *
 
 # number of simulations
-nsims = 5
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 # import parameter ranges table
 loginfo("Reading in lhs parameter range data from <" + dir_path + "\input\lhs\lhs_param_ranges.csv>.")

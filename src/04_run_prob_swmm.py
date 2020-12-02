@@ -9,8 +9,11 @@ from path_names import dir_path
 from pyswmm.lib import DLL_SELECTION
 from prpy_bookkeeping import *
 
-# nsims
-nsims = 5
+# number of simulations
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 inp_dir_prefix = os.path.join(dir_path, "input", "swmm", "input_")#dir_path + r'\input\swmm\input_'
 print(inp_dir_prefix)

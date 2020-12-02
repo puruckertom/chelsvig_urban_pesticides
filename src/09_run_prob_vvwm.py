@@ -7,8 +7,11 @@ import os, shutil, subprocess
 from path_names import exe_path, vvwm_path, wet_path
 from prpy_bookkeeping import *
 
-# nsims
-nsims = 5
+# number of simulations
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 # vvwm zones
 # outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',

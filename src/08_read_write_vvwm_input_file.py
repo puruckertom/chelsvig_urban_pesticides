@@ -12,8 +12,11 @@ from prpy_bookkeeping import *
 outfalls = ['outfall_31_26', 'outfall_31_28', 'outfall_31_29', 'outfall_31_35',
             'outfall_31_36', 'outfall_31_38', 'outfall_31_42']
 
-# nsims
-nsims = 5
+# number of simulations
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 # read in lhs_sampled_params
 loginfo("Reading in lhs sampled parameters from <" + dir_path + "\io\lhs_sampled_params_vvwm.csv>.")

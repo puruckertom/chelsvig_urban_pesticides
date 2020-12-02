@@ -13,7 +13,11 @@ from prpy_bookkeeping import *
 outfalls = ['outfall_31_26', 'outfall_31_28', 'outfall_31_29', 'outfall_31_35',
             'outfall_31_36', 'outfall_31_38', 'outfall_31_42']
 
-nsims = 5
+# number of simulations
+try:
+    nsims = main.nsims
+except AttributeError:
+    nsims = 5
 
 # SWMM output: obtain structural dimensions
 ndays = (date.date(2018,1,1) - date.date(2009,1,1)).days
