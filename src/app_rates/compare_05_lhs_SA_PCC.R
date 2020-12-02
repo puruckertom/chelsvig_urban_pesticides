@@ -26,7 +26,8 @@ scb <- sim_sums(1,"bif"); for (i in 2:nsims){
 # just use 3 params 4 now because we can't have more params than sims
 rNI <- c(); rNP <- c(); rSI <- c(); bNI <- c(); bNP <- c(); bSI <- c()
 for (i in 113){
-  sub.i.pcc.r <- pcc(X = lhs_params[,1:3], y = scr[,i])
+  #sub.i.pcc.r <- pcc(X = lhs_params[,1:3], y = scr[,i])
+  sub.i.pcc.r <- pcc(X = lhs_params, y = scr[,i])
   rNI <- append(rNI,sub.i.pcc.r$PCC["NImperv","original"])
   rNP <- append(rNP,sub.i.pcc.r$PCC["NPerv","original"])
   rSI <- append(rSI,sub.i.pcc.r$PCC["SImperv","original"])
