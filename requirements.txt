@@ -2,7 +2,6 @@
 # python packages required to have installed to run python scripts in repo
 # last updated 10/28/20
 dask
-datetime
 numpy
 pandas
 pyDOE2
