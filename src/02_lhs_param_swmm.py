@@ -3,8 +3,8 @@
 # ------------------------------------------------------------------
 
 # setup environment
-import os, pandas as pd
-from pyDOE import *
+import os, pandas as pd, numpy as np
+from pyDOE2 import lhs
 from scipy.stats import uniform
 from path_names import dir_path
 from prpy_bookkeeping import *
