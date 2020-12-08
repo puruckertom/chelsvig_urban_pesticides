@@ -5,7 +5,7 @@
 # setup
 import pandas as pd, os, numpy as np, dask
 from datetime import date
-import swmmtoolbox.swmmtoolbox as swmmtoolbox
+# import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import vvwm_path, dir_path
 from prpy_bookkeeping import *
 
@@ -79,19 +79,19 @@ for rpt in range(1, nsims+1):
     # binary output file
     sim_bin_path = os.path.join(sim_dir, "NPlesantCreek.out")#sim_dir + r'\NPlesantCreek.out'
 
-    # extract swmm outputs with swmmtoolbox
-    lab1 = 'subcatchment,,Runoff_rate'
-    lab2 = 'subcatchment,,Bifenthrin'
-    runf_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab1)
-    bif_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab2)
+    # # extract swmm outputs with swmmtoolbox
+    # lab1 = 'subcatchment,,Runoff_rate'
+    # lab2 = 'subcatchment,,Bifenthrin'
+    # runf_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab1)
+    # bif_stack = dask.delayed(swmmtoolbox.extract)(sim_bin_path, lab2)
 
-    # resample to daily average and save as new dataframe
-    runf_davg = runf_stack.resample('D').mean()
-    bif_davg = bif_stack.resample('D').mean()
+    # # resample to daily average and save as new dataframe
+    # runf_davg = runf_stack.resample('D').mean()
+    # bif_davg = bif_stack.resample('D').mean()
 
     # write out swmm daily average outputs
-    runf_to_conv = dask.delayed(save_and_continue)(runf_davg, os.path.join(sim_dir, "swmm_output_davg_runf.csv"))#sim_dir + r'\swmm_output_davg_runf.csv')
-    bif_to_conv = dask.delayed(save_and_continue)(bif_davg, os.path.join(sim_dir, "swmm_output_davg_bif.csv"))#sim_dir + r'\swmm_output_davg_bif.csv')
+    runf_to_conv = dask.delayed(pd.read_csv)(os.path.join(sim_dir, "swmm_output_davg_runf.csv"), index_col = 0)#sim_dir + r'\swmm_output_davg_runf.csv')
+    bif_to_conv = dask.delayed(pd.read_csv)(os.path.join(sim_dir, "swmm_output_davg_bif.csv"), index_col = 0)#sim_dir + r'\swmm_output_davg_bif.csv')
 
     # Conversion for runf and bif
     runf_to_conv = runf_to_conv.mul(86400).mul(0.01).div(sub_list_area)

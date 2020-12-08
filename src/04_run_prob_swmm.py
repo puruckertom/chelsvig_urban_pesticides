@@ -4,7 +4,8 @@
 
 # setup
 from pyswmm import Simulation
-import os, dask, shutil, time
+import swmmtoolbox.swmmtoolbox as swmmtoolbox
+import os, dask, shutil, time, pandas as pd
 from path_names import dir_path
 from pyswmm.lib import DLL_SELECTION
 from prpy_bookkeeping import *
@@ -41,24 +42,39 @@ def delay_job(i):
     # create .exe file
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
-    sim_folder = inp_dir_prefix + str(i)
+    sim_dir = inp_dir_prefix + str(i)
     # specify the actual file pyswmm needs
-    sim_file = os.path.join(sim_folder, r'NPlesantCreek.inp')
-    print("Simulation input file found:", sim_file)
+    sim_path = os.path.join(sim_dir, r'NPlesantCreek.inp')
+    print("Simulation input file found:", sim_path)
     # specify the file that pyswmm will (over)write with output after running the probabilistic simulation
-    binary_file = os.path.join(sim_folder, "NPlesantCreek.out")#sim_folder + r'\NPlesantCreek.out'
+    sim_bin_path = os.path.join(sim_dir, "NPlesantCreek.out")#sim_dir + r'\NPlesantCreek.out'
     # delete pre-existing .out, if present, in order to run swmm agreeably
-    if os.path.exists(binary_file):
-        loginfo("Deleting current copy of <" + binary_file + "> so new copy can be created.")
+    if os.path.exists(sim_bin_path):
+        loginfo("Deleting current copy of <" + sim_bin_path + "> so new copy can be created.")
         print("Deleting current copy of <NPlesantCreek.out> so new copy can be created.")
-        os.remove(binary_file)
+        os.remove(sim_bin_path)
     # stagger starting times 1 sec apart
     time.sleep(i)
     # load the model {no interaction, write (binary) results to <JS_NPlesantCreek.out>, use the specified dll}
-    sim = Simulation(inputfile=sim_file, reportfile=None, outputfile=binary_file, swmm_lib_path=lib_path)
+    sim = Simulation(inputfile=sim_path, reportfile=None, outputfile=sim_bin_path, swmm_lib_path=lib_path)
     # simulate the loaded model
-    loginfo("Executing SWMM simmulation with no interaction. Input from <" + sim_file + ">. Will store output in <" + binary_file + ">.")
+    loginfo("Executing SWMM simmulation with no interaction. Input from <" + sim_path + ">. Will store output in <" + sim_bin_path + ">.")
     sim.execute()
+
+    # extract swmm outputs with swmmtoolbox and delete expensive binary files
+    lab1 = 'subcatchment,,Runoff_rate'
+    lab2 = 'subcatchment,,Bifenthrin'
+    runf_stack = swmmtoolbox.extract(sim_bin_path, lab1)
+    bif_stack = swmmtoolbox.extract(sim_bin_path, lab2)
+    os.remove(sim_bin_path)
+
+    # compute and export daily averages to csv files and finish
+    runf_davg = runf_stack.resample('D').mean()
+    bif_davg = bif_stack.resample('D').mean()
+    print(save_and_finish(runf_davg, os.path.join(sim_dir, "swmm_output_davg_runf.csv")))
+    print(save_and_finish(bif_davg, os.path.join(sim_dir, "swmm_output_davg_bif.csv")))
+    # msg1 and msg2 text will be the same, but we must do both to save both csvs
+    
     # a message to indicate success
     return("file " + str(i) + " simulated!")
 

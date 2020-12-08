@@ -159,7 +159,7 @@ def save_and_continue(df,csv,msg = True):
     df.to_csv(csv)
     return(df)
 
-# for 01b and 05
+# for 01b, 04, and 05
 '''
 Saves data frame to specified .csv file and returns message of completion
  Inputs: df <pandas.DataFrame> -Data frame to export to .csv-
