@@ -6,6 +6,7 @@
 import shutil, os, pandas as pd
 from path_names import dir_path, vvwm_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("08")
 
 # outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
 #             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']

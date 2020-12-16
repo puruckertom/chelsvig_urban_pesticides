@@ -6,6 +6,7 @@
 import os, shutil, subprocess
 from path_names import exe_path, vvwm_path, wet_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("09")
 
 # number of simulations
 try:

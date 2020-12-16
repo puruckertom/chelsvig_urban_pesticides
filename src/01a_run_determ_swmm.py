@@ -7,6 +7,7 @@ from pyswmm import Simulation
 import os
 from path_names import inp_path, bin_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("01a")
 
 # delete pre-existing .out in order to run swmm
 if os.path.exists(bin_path):

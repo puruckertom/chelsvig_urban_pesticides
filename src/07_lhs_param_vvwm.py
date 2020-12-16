@@ -8,6 +8,7 @@ from pyDOE2 import lhs
 from scipy.stats import uniform
 from path_names import dir_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("07")
 
 # number of simulations
 try:

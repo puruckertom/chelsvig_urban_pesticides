@@ -7,6 +7,8 @@ import os, pandas as pd, dask, numpy as np
 import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import swmm_path, inp_path, bin_path, vvwm_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("01b")
+
 
 # outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
 #             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']

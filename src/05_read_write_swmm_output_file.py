@@ -8,6 +8,7 @@ from datetime import date
 # import swmmtoolbox.swmmtoolbox as swmmtoolbox
 from path_names import vvwm_path, dir_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("05")
 
 # number of simulations
 try:

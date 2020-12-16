@@ -7,6 +7,7 @@ import pandas as pd, os, numpy as np
 from path_names import vvwm_path
 import datetime as date
 from prpy_bookkeeping import *
+loginfo = log_prefixer("10")
 
 # outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
 #             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']

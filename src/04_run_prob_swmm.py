@@ -9,6 +9,7 @@ import os, dask, shutil, time, pandas as pd
 from path_names import dir_path
 from pyswmm.lib import DLL_SELECTION
 from prpy_bookkeeping import *
+loginfo = log_prefixer("04")
 
 # number of simulations
 try:

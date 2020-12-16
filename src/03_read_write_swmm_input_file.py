@@ -6,6 +6,7 @@
 import pytest_shutil, shutil, os, pandas as pd, regex as re
 from path_names import main_path, dir_path, swmm_path
 from prpy_bookkeeping import *
+loginfo = log_prefixer("03")
 
 # number of simulations
 try:
