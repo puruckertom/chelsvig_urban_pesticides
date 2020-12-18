@@ -60,7 +60,10 @@ def delay_job(i):
     sim = Simulation(inputfile=sim_path, reportfile=None, outputfile=sim_bin_path, swmm_lib_path=lib_path)
     # simulate the loaded model
     loginfo("Executing SWMM simmulation with no interaction. Input from <" + sim_path + ">. Will store output in <" + sim_bin_path + ">.")
-    sim.execute()
+    # sim.execute()
+    with sim as s:
+        for step in s:
+            pass
 
     # extract swmm outputs with swmmtoolbox and delete expensive binary files
     lab1 = 'subcatchment,,Runoff_rate'

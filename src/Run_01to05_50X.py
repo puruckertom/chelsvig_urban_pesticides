@@ -10,7 +10,7 @@ script = "01c"
 svf01c = __import__('01c_setup_vvwm_files')
 
 # Here is the point where we start simulating. Turn it up from 5 sims to 1000 sims
-nsims = 1000
+nsims = 50
 script = "02"
 lps02 = __import__('02_lhs_param_swmm')
 script = "03"

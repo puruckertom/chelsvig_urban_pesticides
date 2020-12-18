@@ -2,7 +2,7 @@ source("path_names_ar.R")
 library(dplyr)
 library(sensitivity)
 
-nsims = 1000
+nsims = 50
 
 # -----------------------------------------------------------
 lhs_params <- read.csv(paste0(main_dir,'probabilistic_python/io/lhs_sampled_params.csv'),
