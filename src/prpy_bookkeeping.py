@@ -1,4 +1,5 @@
 import logging, os, sys, __main__ as main
+from datetime import datetime
 main_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # set up logger
@@ -12,18 +13,18 @@ Sets up the function 'loginfo' with the appropriate prefix for the current scrip
 '''
 def log_prefixer(script):
     def loginfo(text):
-        logging.info(script + ": " + text)
+        logging.info(datetime.now().strftime("%d/%m/%Y %H:%M:%S") + ":: " + script + ": " + text)
     return(loginfo)
 
 # Set up logging message constructor
-try:
-    script = main.script
-except AttributeError:
-    script = os.path.basename(main.__file__)[:3]
-try:
-    loginfo = loginfo
-except NameError:
-    loginfo = log_prefixer(script) 
+# try:
+#     script = main.script
+# except AttributeError:
+#     script = os.path.basename(main.__file__)[:3]
+# try:
+#     loginfo = loginfo
+# except NameError:
+#     loginfo = log_prefixer(script) 
 
 # for 01a and 03
 # Borrowed from "https://www.oreilly.com/library/view/python-cookbook/0596001673/ch04s16.html"
@@ -72,7 +73,10 @@ def replace_infile_abspaths(inp_path = None, filelines = None, new_path = None, 
         try:
             script = script
         except NameError:
-            script = os.path.basename(main.__file__)[:3]
+            try:
+                script = main.script
+            except AttributeError:
+                script = os.path.basename(main.__file__)[:3]
         # Write info to log file if Log arg is True, or print info if False
         if Log:
             try:
@@ -155,6 +159,18 @@ def save_and_continue(df,csv,msg = True):
             dn = os.path.basename(os.path.dirname(csv))
             msg = "Saving intermediate version of data to <" + bn + "> in <" + dn + ">."
     if msg:
+        # Set up logging for inner-file operations
+        try: 
+            loginfo = loginfo
+        except NameError:
+            try:
+                script = script
+            except NameError:
+                try:
+                    script = main.script
+                except AttributeError:
+                    script = os.path.basename(main.__file__)[:3]
+            loginfo = log_prefixer(script) 
         loginfo(msg)
     df.to_csv(csv)
     return(df)
@@ -176,6 +192,18 @@ def save_and_finish(df,csv,msg = True):
             dn = os.path.basename(os.path.dirname(csv))
             msg = "Saving final version of data to <" + bn + "> in <" + dn + ">."
     if msg:
+        # Set up logging for inner-file operations
+        try: 
+            loginfo = loginfo
+        except NameError:
+            try:
+                script = script
+            except NameError:
+                try:
+                    script = main.script
+                except AttributeError:
+                    script = os.path.basename(main.__file__)[:3]
+            loginfo = log_prefixer(script) 
         loginfo(msg)
     df.to_csv(csv)
     return("Finished " + dn)
