@@ -21,7 +21,10 @@ inp_dir_prefix = os.path.join(dir_path, "input", "swmm", "input_")#dir_path + r'
 print(inp_dir_prefix)
 # save the path for the original dynamic link library
 dll_path = DLL_SELECTION()
-print(dll_path)
+# save its base name (just the name of the file)
+dll_bn = os.path.basename(dll_path)
+# save the path to a new folder where copies of dll will be stored upon creation
+dll_dir = os.path.join(dir_path, "input", "swmm", "dll")
 
 '''
 Makes arrangements for executing the following task:
@@ -38,9 +41,10 @@ Computable Output:
 @dask.delayed
 def delay_job(i):
     loginfo("Simmulation " + str(i) + " of " + str(nsims))
-    # create path to the .exe we are going to create
-    lib_path = dll_path[:dll_path.rindex(".")] + '-' + str(i) + dll_path[dll_path.rindex("."):] #dll_path[-4:]#[:-4]+'-'+str(i)+dll_path[-4:]
-    # create .exe file
+    # create path to the 1-time-use dll file we are going to create
+    dll_i = dll_bn[:dll_bn.rindex(".")] + '-' + str(i) + dll_bn[dll_bn.rindex("."):]
+    lib_path = os.path.join(dll_dir, dll_i)#dll_path[:dll_path.rindex(".")] + '-' + str(i) + dll_path[dll_path.rindex("."):]
+    # create 1-time-use dll file copy
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
     sim_dir = inp_dir_prefix + str(i)
