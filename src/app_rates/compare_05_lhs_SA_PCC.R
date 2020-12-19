@@ -31,7 +31,8 @@ for (i in 113){
   rNI <- append(rNI,sub.i.pcc.r$PCC["NImperv","original"])
   rNP <- append(rNP,sub.i.pcc.r$PCC["NPerv","original"])
   rSI <- append(rSI,sub.i.pcc.r$PCC["SImperv","original"])
-  sub.i.pcc.b <- pcc(X = lhs_params[,1:3], y = scb[,i])
+  #sub.i.pcc.b <- pcc(X = lhs_params[,1:3], y = scb[,i])
+  sub.i.pcc.b <- pcc(X = lhs_params, y = scb[,i])
   bNI <- append(rNI,sub.i.pcc.b$PCC["NImperv","original"])
   bNP <- append(rNP,sub.i.pcc.b$PCC["NPerv","original"])
   bSI <- append(rSI,sub.i.pcc.b$PCC["SImperv","original"])
@@ -39,3 +40,5 @@ for (i in 113){
 
 par(mfrow = c(2,3))
 sapply(list(rNI,rNP,rSI,bNI,bNP,bSI),hist)
+
+save.image(paste0(main_dir,'src/app_rates/SA_File_results.RData'))
