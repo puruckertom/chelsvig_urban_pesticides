@@ -25,7 +25,7 @@ scb <- sim_sums(1,"bif"); for (i in 2:nsims){
 
 # just use 3 params 4 now because we can't have more params than sims
 rNI <- c(); rNP <- c(); rSI <- c(); bNI <- c(); bNP <- c(); bSI <- c()
-for (i in 113){
+for (i in 1:113){
   #sub.i.pcc.r <- pcc(X = lhs_params[,1:3], y = scr[,i])
   sub.i.pcc.r <- pcc(X = lhs_params, y = scr[,i])
   rNI <- append(rNI,sub.i.pcc.r$PCC["NImperv","original"])
@@ -33,9 +33,9 @@ for (i in 113){
   rSI <- append(rSI,sub.i.pcc.r$PCC["SImperv","original"])
   #sub.i.pcc.b <- pcc(X = lhs_params[,1:3], y = scb[,i])
   sub.i.pcc.b <- pcc(X = lhs_params, y = scb[,i])
-  bNI <- append(rNI,sub.i.pcc.b$PCC["NImperv","original"])
-  bNP <- append(rNP,sub.i.pcc.b$PCC["NPerv","original"])
-  bSI <- append(rSI,sub.i.pcc.b$PCC["SImperv","original"])
+  bNI <- append(bNI,sub.i.pcc.b$PCC["NImperv","original"])
+  bNP <- append(bNP,sub.i.pcc.b$PCC["NPerv","original"])
+  bSI <- append(bSI,sub.i.pcc.b$PCC["SImperv","original"])
 }
 
 par(mfrow = c(2,3))
