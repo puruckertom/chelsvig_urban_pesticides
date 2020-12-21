@@ -2,11 +2,11 @@ source("path_names_ar.R")
 library(dplyr)
 library(sensitivity)
 
-nsims = 50
-
 # -----------------------------------------------------------
 lhs_params <- read.csv(paste0(main_dir,'probabilistic_python/io/lhs_sampled_params.csv'),
                        sep=",", header=T)[,-1 ]
+
+nsims = nrow(lhs_params)
 
 sim_sums <- function(i,measurement){
   read.csv(paste0(main_dir,'probabilistic_python/input/swmm/input_',i,'/swmm_conv_to_vvwm_',measurement,'.csv'),
@@ -23,22 +23,20 @@ scb <- sim_sums(1,"bif"); for (i in 2:nsims){
 
 # -----------------------------------------------------------
 
-# just use 3 params 4 now because we can't have more params than sims
-rNI <- c(); rNP <- c(); rSI <- c(); bNI <- c(); bNP <- c(); bSI <- c()
-for (i in 1:113){
-  #sub.i.pcc.r <- pcc(X = lhs_params[,1:3], y = scr[,i])
+runf.PCC <- bif.PCC <- data.frame()
+
+for (i in c(1:113)){
   sub.i.pcc.r <- pcc(X = lhs_params, y = scr[,i])
-  rNI <- append(rNI,sub.i.pcc.r$PCC["NImperv","original"])
-  rNP <- append(rNP,sub.i.pcc.r$PCC["NPerv","original"])
-  rSI <- append(rSI,sub.i.pcc.r$PCC["SImperv","original"])
-  #sub.i.pcc.b <- pcc(X = lhs_params[,1:3], y = scb[,i])
+  runf.PCC[i,names(lhs_params)] <- sub.i.pcc.r$PCC[,"original"]
   sub.i.pcc.b <- pcc(X = lhs_params, y = scb[,i])
-  bNI <- append(bNI,sub.i.pcc.b$PCC["NImperv","original"])
-  bNP <- append(bNP,sub.i.pcc.b$PCC["NPerv","original"])
-  bSI <- append(bSI,sub.i.pcc.b$PCC["SImperv","original"])
+  bif.PCC[i,names(lhs_params)] <- sub.i.pcc.b$PCC[,"original"]
 }
 
-par(mfrow = c(2,3))
-sapply(list(rNI,rNP,rSI,bNI,bNP,bSI),hist)
+# # so apparently subcatchment 65 is causing a problem.
+# runf.PCC.cln <- runf.PCC; runf.PCC.cln[65,] <- NA
+# bif.PCC.cln <- bif.PCC; bif.PCC.cln[65,] <- NA
 
-save.image(paste0(main_dir,'src/app_rates/SA_File_results.RData'))
+
+rm(sub.i.pcc.b,sub.i.pcc.r,i)
+
+save.image(paste0(main_dir,'src/app_rates/SA_results.RData'))
