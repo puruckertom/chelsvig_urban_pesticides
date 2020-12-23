@@ -17,7 +17,7 @@ try:
 except AttributeError:
     nsims = 5
 
-inp_dir_prefix = os.path.join(dir_path, "input", "swmm", "input_")#dir_path + r'\input\swmm\input_'
+inp_dir_prefix = os.path.join(dir_path, "input", "swmm", "input_")
 print(inp_dir_prefix)
 # save the path for the original dynamic link library
 dll_path = DLL_SELECTION()
@@ -48,7 +48,7 @@ def delay_job(i):
     loginfo("Simmulation " + str(i) + " of " + str(nsims))
     # create path to the 1-time-use dll file we are going to create
     dll_i = dll_bn[:dll_bn.rindex(".")] + '-' + str(i) + dll_bn[dll_bn.rindex("."):]
-    lib_path = os.path.join(dll_dir, dll_i)#dll_path[:dll_path.rindex(".")] + '-' + str(i) + dll_path[dll_path.rindex("."):]
+    lib_path = os.path.join(dll_dir, dll_i)
     # create 1-time-use dll file copy
     shutil.copyfile(dll_path, lib_path)
     # specify the directory with the file pyswmm needs by attaching the folder id to the rest of the folder's absolute path
@@ -57,7 +57,7 @@ def delay_job(i):
     sim_path = os.path.join(sim_dir, r'NPlesantCreek.inp')
     #print("Simulation input file found:", sim_path)
     # specify the file that pyswmm will (over)write with output after running the probabilistic simulation
-    sim_bin_path = os.path.join(sim_dir, "NPlesantCreek.out")#sim_dir + r'\NPlesantCreek.out'
+    sim_bin_path = os.path.join(sim_dir, "NPlesantCreek.out")
     # delete pre-existing .out, if present, in order to run swmm agreeably
     if os.path.exists(sim_bin_path):
         loginfo("Deleting current copy of <" + sim_bin_path + "> so new copy can be created.")

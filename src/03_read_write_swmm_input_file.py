@@ -16,7 +16,7 @@ except AttributeError:
 
 # read in lhs_sampled_params
 loginfo("Reading in data from file <" + dir_path + r'\io\lhs_sampled_params.csv>.')
-lhs_design = pd.read_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))#dir_path+r'\io\lhs_sampled_params.csv')
+lhs_design = pd.read_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
 del (lhs_design['Unnamed: 0'])
 
 # round lhs decimals
@@ -59,7 +59,7 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
 # do the following for each simulation...
 for Ite in range(1, nsims+1):
     loginfo("Simmulation " + str(Ite) + " of " + str(nsims))
-    new_dir = os.path.join(swmm_path, "input_" + str(Ite))#swmm_path + r'\input_' + str(Ite)
+    new_dir = os.path.join(swmm_path, "input_" + str(Ite))
 
     if not os.path.exists(new_dir):
         os.mkdir(new_dir)
@@ -85,36 +85,6 @@ for Ite in range(1, nsims+1):
     # -----------------------------
     # first we need to correct some absolute paths, because they are currently only set to work on the author's computer
     filelines = replace_infile_abspaths(filelines = filelines)
-
-    # # the first absolute path to correct, listified
-    # path1cols = filelines[50].split()
-    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # # so instead, make a new list using the first five, a space holder, and the last two elements of the original list
-    # path1cols = path1cols[:5] + [""] + path1cols[-2:]
-    # # the corrected element of the listified line
-    # path1cols[5] = '"'+os.path.join(dir_path,"weather\swmm_wet.txt")+'"'
-    # # insert the correction and unlistify!
-    # filelines[50] = "\t".join(path1cols) + "\n"
-
-    # # the second absolute path to correct, listified
-    # path2cols = filelines[1384].split()
-    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # # so instead, make a new list using the first 2 elements of the original list and a space holder
-    # path2cols = path2cols[:2] + [""]
-    # # the corrected element of the listified line
-    # path2cols[2] = '"'+os.path.join(main_path,"app_rates\\calpip\\app_rate_output_for_swmm_48rain.txt")+'"'
-    # # insert the correction and unlistify!
-    # filelines[1384] = "\t".join(path2cols) + "\n"
-    
-    # # the third absolute path to correct, listified
-    # path3cols = filelines[9306].split()
-    # # remember, there might be a space in the filepath, meaning that the split function could have created two elements, not 1
-    # # so instead, make a new list using the first element of the original list and a space holder
-    # path3cols = path3cols[:1] + [""]
-    # # the corrected element of the listified line
-    # path3cols[1] = '"'+os.path.join(main_path,"probabilistic_python\\input\\swmm\\nplesant.jpg")+'"'
-    # # insert the correction and unlistify!
-    # filelines[9306] = "\t".join(path3cols) + "\n"
 
     # ---------------------------
     # 113 = number of subcatchments

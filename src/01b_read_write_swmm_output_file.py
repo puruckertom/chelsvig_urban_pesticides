@@ -10,8 +10,6 @@ from prpy_bookkeeping import *
 loginfo = log_prefixer("01b")
 
 
-# outfalls = ['\outfall_31_26', '\outfall_31_28', '\outfall_31_29', '\outfall_31_35',
-#             '\outfall_31_36', '\outfall_31_38', '\outfall_31_42']
 outfalls = ['outfall_31_26', 'outfall_31_28', 'outfall_31_29', 'outfall_31_35',
             'outfall_31_36', 'outfall_31_38', 'outfall_31_42']
 
@@ -49,8 +47,8 @@ bif_davg = bif_stack.resample('D').mean()
 
 # write out swmm daily outputs
 #loginfo("Writing daily average data to csv files.")
-runf_to_conv = dask.delayed(save_and_continue)(runf_davg, os.path.join(swmm_path, "swmm_output_davg_runf.csv"))#swmm_path + r'\swmm_output_davg_runf.csv')
-bif_to_conv = dask.delayed(save_and_continue)(bif_davg, os.path.join(swmm_path, "swmm_output_davg_bif.csv"))#swmm_path + r'\swmm_output_davg_bif.csv')
+runf_to_conv = dask.delayed(save_and_continue)(runf_davg, os.path.join(swmm_path, "swmm_output_davg_runf.csv"))
+bif_to_conv = dask.delayed(save_and_continue)(bif_davg, os.path.join(swmm_path, "swmm_output_davg_bif.csv"))
 
 # # specify loop variables
 runf_df_cols, runf_df_rows, bif_df_cols, bif_df_rows = 113, 3287, 113, 3287
@@ -91,8 +89,8 @@ for thissub in range(0, runf_df_cols):
 runf_to_conv = runf_to_conv.mul(86400).mul(0.01).div(sub_list_area)
 bif_to_conv = bif_to_conv.mul(runf_to_conv.values)
 #loginfo("Writing the tables with the converted runoff and bifenthrin values to csv files.")
-runf_to_conv = dask.delayed(save_and_continue)(runf_to_conv, os.path.join(swmm_path, "swmm_conv_to_vvwm_runf.csv"))#swmm_path + r'\swmm_conv_to_vvwm_runf.csv')
-bif_to_conv = dask.delayed(save_and_continue)(bif_to_conv, os.path.join(swmm_path, "swmm_conv_to_vvwm_bif.csv"))#swmm_path + r'\swmm_conv_to_vvwm_bif.csv')
+runf_to_conv = dask.delayed(save_and_continue)(runf_to_conv, os.path.join(swmm_path, "swmm_conv_to_vvwm_runf.csv"))
+bif_to_conv = dask.delayed(save_and_continue)(bif_to_conv, os.path.join(swmm_path, "swmm_conv_to_vvwm_bif.csv"))
 
 delayed_tasks = []
 
@@ -100,9 +98,9 @@ delayed_tasks = []
 loginfo("Looping thru outfalls for subset the subcatchments for each vwmm folder.")
 for o in outfalls:
     # set pathways
-    outfall_dir = os.path.join(vvwm_path, o)#vvwm_path + o
-    determ_dir = os.path.join(outfall_dir, "determ")#outfall_dir + r'\determ'
-    outfall_path = os.path.join(outfall_dir, o + ".csv")#outfall_dir + o + r'.csv'
+    outfall_dir = os.path.join(vvwm_path, o)
+    determ_dir = os.path.join(outfall_dir, "determ")
+    outfall_path = os.path.join(outfall_dir, o + ".csv")
 
     # declare which columns need to be subset for the respective outfall
     loginfo("Reading in <" + r'\determ' + o + r'.csv' + "> to data frame.") # might want to fix later, but fine for now
@@ -123,8 +121,8 @@ for o in outfalls:
 
     # write out dataframes
     sfx_o = outfall_path[-9:] #JMS 10-19-20
-    runf_out = os.path.join(determ_dir, "runf_for_vvwm_" + sfx_o)#determ_dir + r'\runf_for_vvwm_' + sfx_o
-    bif_out = os.path.join(determ_dir, "bif_for_vvwm_" + sfx_o)#determ_dir + r'\bif_for_vvwm_' + sfx_o
+    runf_out = os.path.join(determ_dir, "runf_for_vvwm_" + sfx_o)
+    bif_out = os.path.join(determ_dir, "bif_for_vvwm_" + sfx_o)
     # loginfo("Writing final data to <" + runf_out + "> and <" + bif_out + ">.")
 
     runf_msg = dask.delayed(save_and_finish)(runf_sub, runf_out)
