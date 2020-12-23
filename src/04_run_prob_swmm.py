@@ -25,6 +25,11 @@ dll_path = DLL_SELECTION()
 dll_bn = os.path.basename(dll_path)
 # save the path to a new folder where copies of dll will be stored upon creation
 dll_dir = os.path.join(dir_path, "input", "swmm", "dll")
+# make sure that folder exists. If it doesn't, create it.
+if not os.path.exists(dll_dir):
+    loginfo("Creating directory <" + dll_dir + ">.")
+    print("Creating <dll/> directory.")
+    os.mkdir(dll_dir)
 
 '''
 Makes arrangements for executing the following task:
@@ -50,13 +55,13 @@ def delay_job(i):
     sim_dir = inp_dir_prefix + str(i)
     # specify the actual file pyswmm needs
     sim_path = os.path.join(sim_dir, r'NPlesantCreek.inp')
-    print("Simulation input file found:", sim_path)
+    #print("Simulation input file found:", sim_path)
     # specify the file that pyswmm will (over)write with output after running the probabilistic simulation
     sim_bin_path = os.path.join(sim_dir, "NPlesantCreek.out")#sim_dir + r'\NPlesantCreek.out'
     # delete pre-existing .out, if present, in order to run swmm agreeably
     if os.path.exists(sim_bin_path):
         loginfo("Deleting current copy of <" + sim_bin_path + "> so new copy can be created.")
-        print("Deleting current copy of <NPlesantCreek.out> so new copy can be created.")
+        #print("Deleting current copy of <NPlesantCreek.out> so new copy can be created.")
         os.remove(sim_bin_path)
     # stagger starting times 1 sec apart
     time.sleep(i)
@@ -74,7 +79,12 @@ def delay_job(i):
     lab2 = 'subcatchment,,Bifenthrin'
     runf_stack = swmmtoolbox.extract(sim_bin_path, lab1)
     bif_stack = swmmtoolbox.extract(sim_bin_path, lab2)
+
+    loginfo("Deleting <" + sim_bin_path + "> to free up memory.")
     os.remove(sim_bin_path)
+    loginfo("Deleting <" + dll_i + "> to free up memory.")
+    os.system("rm " + lib_path)
+    print("Deleted <input_" + str(i) + "/JS_NPlesantCreek.out> and <" + dll_i + "> to free up memory.")    
 
     # compute and export daily averages to csv files and finish
     runf_davg = runf_stack.resample('D').mean()
