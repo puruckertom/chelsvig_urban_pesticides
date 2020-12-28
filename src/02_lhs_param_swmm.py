@@ -17,7 +17,7 @@ except AttributeError:
     nsims = 5
 
 # import parameter ranges table
-loginfo("Reading in lhs parameter range data from <" + dir_path + "\input\lhs\lhs_param_ranges.csv>.")
+loginfo("Reading in lhs parameter range data from <" + dir_path + r"\input\lhs\lhs_param_ranges.csv>.")
 param_ranges = pd.read_csv(os.path.join(dir_path, "input", "lhs", "lhs_param_ranges.csv"))
 print(param_ranges)
 
@@ -25,23 +25,27 @@ print(param_ranges)
 param_names = param_ranges["Parameter"].to_list()
 
 # parameter conditions:
-# por >= fc, fc >= wp,
+# por >= fc, fc >= wp, MaxRate>=MinRate
 
 # conduct lhs sampling
-lhs_design = lhs(n=len(param_names), samples=3*nsims)
-lhs_design = lhs_design[np.where(lhs_design[:,11]<lhs_design[:,10])[0][:nsims]] #JMS 10-20-20
-print("LHS Design w Uniform: ","\n",lhs_design.round(2)) #JMS 10-20-20
+lhs_design = lhs(n=len(param_names), samples=3*nsims)  # take 3x as many samples as needed, in case some don't meet conditions
+lhs_design = lhs_design[np.where(
+    lhs_design[:,10]<lhs_design[:,9] and  # por >= fc
+    lhs_design[:,11]<lhs_design[:,10] and  # fc >= wp
+    lhs_design[:,6]<lhs_design[:,5]  # MaxRate >= MinRate
+    )[0][:nsims]] #only take first nsims rows meeting conditions
+print("LHS Design w Uniform: ","\n",lhs_design.round(2))
 
 # uniformly sample
-for i in range(0,len(param_names)):#-1): -JMS 10-20-20
-    lhs_design[:,i] = param_ranges.loc[i,"Min"] + (lhs_design[:,i])*(param_ranges.loc[i,"Range"]) #JMS 10-20-20
+for i in range(0,len(param_names)):
+    lhs_design[:,i] = param_ranges.loc[i,"Min"] + (lhs_design[:,i])*(param_ranges.loc[i,"Range"])
 
 # convert to data frame
 lhs_df = pd.DataFrame(lhs_design, columns=param_names)
 print(round(lhs_df,3))
 
 # write out
-logging.info("02: Writing generated lhs parameter value data into <" + dir_path + "\io\lhs_sampled_params.csv>.")
+loginfo("Writing generated lhs parameter value data into <" + dir_path + r"\io\lhs_sampled_params.csv>.")
 lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
 
 
