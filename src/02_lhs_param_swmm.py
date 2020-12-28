@@ -25,20 +25,17 @@ print(param_ranges)
 param_names = param_ranges["Parameter"].to_list()
 
 # parameter conditions:
-# por >= fc, fc >= wp, MaxRate>=MinRate
+# por >= fc (happens automatically), fc >= wp, MaxRate>=MinRate
 
 # conduct lhs sampling
 lhs_design = lhs(n=len(param_names), samples=3*nsims)  # take 3x as many samples as needed, in case some don't meet conditions
-lhs_design = lhs_design[np.where(
-    lhs_design[:,10]<lhs_design[:,9] and  # por >= fc
-    lhs_design[:,11]<lhs_design[:,10] and  # fc >= wp
-    lhs_design[:,6]<lhs_design[:,5]  # MaxRate >= MinRate
-    )[0][:nsims]] #only take first nsims rows meeting conditions
-print("LHS Design w Uniform: ","\n",lhs_design.round(2))
-
 # uniformly sample
 for i in range(0,len(param_names)):
     lhs_design[:,i] = param_ranges.loc[i,"Min"] + (lhs_design[:,i])*(param_ranges.loc[i,"Range"])
+# filter on conditions: fc >= wp, MaxRate >= MinRate
+lhs_design = lhs_design.iloc[np.where(lhs_design.iloc[:,11]<lhs_design.iloc[:,10])[0]]  # fc >= wp
+lhs_design = lhs_design.iloc[np.where(lhs_design.iloc[:,6]<lhs_design.iloc[:,5])[0]]  # MaxRate >= MinRate
+lhs_design = lhs_design.head(nsims) # only take first nsims rows meeting conditions
 
 # convert to data frame
 lhs_df = pd.DataFrame(lhs_design, columns=param_names)
@@ -46,6 +43,6 @@ print(round(lhs_df,3))
 
 # write out
 loginfo("Writing generated lhs parameter value data into <" + dir_path + r"\io\lhs_sampled_params.csv>.")
-lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
+#lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
 
 
