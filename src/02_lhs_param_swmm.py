@@ -43,6 +43,6 @@ print(round(lhs_df,3))
 
 # write out
 loginfo("Writing generated lhs parameter value data into <" + dir_path + r"\io\lhs_sampled_params.csv>.")
-#lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
+lhs_df.to_csv(os.path.join(dir_path, "io", "lhs_sampled_params.csv"))
 
 
