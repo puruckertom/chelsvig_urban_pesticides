@@ -33,9 +33,9 @@ lhs_design = lhs(n=len(param_names), samples=3*nsims)  # take 3x as many samples
 for i in range(0,len(param_names)):
     lhs_design[:,i] = param_ranges.loc[i,"Min"] + (lhs_design[:,i])*(param_ranges.loc[i,"Range"])
 # filter on conditions: fc >= wp, MaxRate >= MinRate
-lhs_design = lhs_design.iloc[np.where(lhs_design.iloc[:,11]<lhs_design.iloc[:,10])[0]]  # fc >= wp
-lhs_design = lhs_design.iloc[np.where(lhs_design.iloc[:,6]<lhs_design.iloc[:,5])[0]]  # MaxRate >= MinRate
-lhs_design = lhs_design.head(nsims) # only take first nsims rows meeting conditions
+lhs_design = lhs_design[np.where(lhs_design[:,11]<lhs_design[:,10])[0]]  # fc >= wp
+lhs_design = lhs_design[np.where(lhs_design[:,6]<lhs_design[:,5])[0]]  # MaxRate >= MinRate
+lhs_design = lhs_design[:nsims] # only take first nsims rows meeting condition
 
 # convert to data frame
 lhs_df = pd.DataFrame(lhs_design, columns=param_names)
