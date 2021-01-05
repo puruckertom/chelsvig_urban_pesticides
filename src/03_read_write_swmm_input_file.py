@@ -137,7 +137,7 @@ for Ite in range(1, nsims+1):
     # 195 = number of conduits
     
     # # parameter = Rough
-    # filelines[734:(734 + 195)] = editted_lines(Ite = Ite, Num = 195, row_0 = 734, parameter = "Rough", Col = 4, flines = filelines)
+    filelines[734:(734 + 195)] = editted_lines(Ite = Ite, Num = 195, row_0 = 734, parameter = "Rough", Col = 4, flines = filelines)
     # ---------------------------
     
     # ---------------------------
