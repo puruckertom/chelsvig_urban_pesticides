@@ -39,7 +39,7 @@ def delay_job(o,Ite):
     outfall_dir = os.path.join(vvwm_path, o)
 
     # do for each simulation...
-    # loginfo("Looping thru simulations of " + o[1:] + " to replace inputs with lhs inputs.")
+    # loginfo("Looping thru simulations of " + o + " to replace inputs with lhs inputs.")
     # for Ite in range(1, nsims + 1):
 
     # create new input folder for sim

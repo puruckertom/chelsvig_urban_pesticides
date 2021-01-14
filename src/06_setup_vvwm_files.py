@@ -28,7 +28,7 @@ def delay_job(o,Ite):
 
     # set pathways
     outfall_dir = os.path.join(vvwm_path, o)
-    loginfo("Looping thru simulations of " + o[1:] + " to create their .zts files by munging the data in their sets of .csv files.")
+    loginfo("Looping thru simulations of " + o + " to create their .zts files by munging the data in their sets of .csv files.")
     # for Ite in range(1, nsims + 1):
     input_dir = os.path.join(outfall_dir, "input_" + str(Ite))
 

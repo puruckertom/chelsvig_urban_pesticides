@@ -34,7 +34,7 @@ loginfo("Looping thru outfalls for navigating to each vwmm folder and then each 
 for o in outfalls:
     # set pathways
     outfall_dir = os.path.join(vvwm_path, o)
-    loginfo("Looping thru simulations of " + o[1:] + " to extract certain parts of each simulation's vvwm output file data.")
+    loginfo("Looping thru simulations of " + o + " to extract certain parts of each simulation's vvwm output file data.")
     for Ite in range(1, nsims + 1):
         input_dir = os.path.join(outfall_dir, "input_" + str(Ite))
 
@@ -48,7 +48,7 @@ for o in outfalls:
         array_vvwm[:, :, Ite - 1] = vvwm_df
 
     # subset desired output variables (#shape = days*nsims)
-    loginfo("Making prob_runf.txt, prob_conc_h20.txt, and prob_conc_benth.txt with the data from all " + o[1:] + "'s simulations.")
+    loginfo("Making prob_runf.txt, prob_conc_h20.txt, and prob_conc_benth.txt with the data from all " + o + "'s simulations.")
     np.savetxt(os.path.join(outfall_dir, "prob_runf.txt"), array_swmm[:, 0, :], delimiter=',')
     np.savetxt(os.path.join(outfall_dir, "prob_conc_h20.txt"), array_vvwm[:, 0, :], delimiter=',')
     np.savetxt(os.path.join(outfall_dir, "prob_conc_benth.txt"), array_vvwm[:, 1, :], delimiter=',')

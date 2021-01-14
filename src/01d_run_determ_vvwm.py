@@ -22,7 +22,7 @@ for o in outfalls:
     print(old_wet_path)
     new_wet_path = os.path.join(determ_dir, "vvwm_wet.dvf")
     print(new_wet_path)
-    loginfo("Copying weather, exe, and vvwmTransfer files into" + o[1:] + " determ folder.")
+    loginfo("Copying weather, exe, and vvwmTransfer files into" + o + " determ folder.")
     shutil.copyfile(old_wet_path, new_wet_path)
 
     # copy exe into new file location
