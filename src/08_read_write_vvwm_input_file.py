@@ -3,7 +3,7 @@
 # -----------------------------------------
 
 # setup
-import shutil, os, pandas as pd
+import shutil, os, pandas as pd, dask
 from path_names import dir_path, vvwm_path
 from prpy_bookkeeping import *
 loginfo = log_prefixer("08")
@@ -28,132 +28,144 @@ lhs_design = lhs_design.round(
      "froc1": 3, "doc1": 2})
 print(lhs_design.head())
 
-# do the following for each outfall...replace inputs with lhs inputs
-loginfo("Looping thru outfalls for navigating to each vwmm folder and then each of its " + str(nsims) + " input folders.")
-for o in outfalls:
+delayed_tasks = []
 
+# do the following for each outfall...replace inputs with lhs inputs
+# loginfo("Looping thru outfalls for navigating to each vwmm folder and then each of its " + str(nsims) + " input folders.")
+# for o in outfalls:
+@dask.delayed
+def delay_job(o,Ite):
     # set pathways
     outfall_dir = os.path.join(vvwm_path, o)
 
     # do for each simulation...
-    loginfo("Looping thru simulations of " + o[1:] + " to replace inputs with lhs inputs.")
-    for Ite in range(1, nsims + 1):
+    # loginfo("Looping thru simulations of " + o[1:] + " to replace inputs with lhs inputs.")
+    # for Ite in range(1, nsims + 1):
 
-        # create new input folder for sim
-        new_dir = os.path.join(outfall_dir, "input_" + str(Ite))
-        if not os.path.exists(new_dir):
-            os.mkdir(new_dir)
-            print("Folder ", Ite, " created", "\n")
-        else:
-            print("Folder ", Ite, "already exists")
+    # create new input folder for sim
+    new_dir = os.path.join(outfall_dir, "input_" + str(Ite))
+    if not os.path.exists(new_dir):
+        os.mkdir(new_dir)
+        print("Folder ", Ite, " created", "\n")
+    else:
+        print("Folder ", Ite, "already exists")
 
-        # copy base file into new file location
-        old_path = os.path.join(vvwm_path, "vvwmTransfer.txt")
-        new_path = os.path.join(new_dir, "vvwmTransfer.txt")
-        shutil.copyfile(old_path, new_path)
+    # copy base file into new file location
+    old_path = os.path.join(vvwm_path, "vvwmTransfer.txt")
+    new_path = os.path.join(new_dir, "vvwmTransfer.txt")
+    shutil.copyfile(old_path, new_path)
 
-        # start reading the new file
-        new_file = open(new_path, "r")
-        filelines = new_file.readlines()
-        new_file.close()
+    # start reading the new file
+    new_file = open(new_path, "r")
+    filelines = new_file.readlines()
+    new_file.close()
 
-        # edit the new file
-        # parameter = kd
-        row_0 = 4
-        var = lhs_design.loc[Ite - 1, "kd"]
-        filelines[row_0] = str(var) + "\n"
+    # edit the new file
+    # parameter = kd
+    row_0 = 4
+    var = lhs_design.loc[Ite - 1, "kd"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = aer_aq
-        row_0 = 5
-        var = lhs_design.loc[Ite - 1, "aer_aq"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = aer_aq
+    row_0 = 5
+    var = lhs_design.loc[Ite - 1, "aer_aq"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = aer_aq_temp
-        row_0 = 6
-        var = lhs_design.loc[Ite - 1, "aer_aq_temp"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = aer_aq_temp
+    row_0 = 6
+    var = lhs_design.loc[Ite - 1, "aer_aq_temp"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = anae_aq
-        row_0 = 7
-        var = lhs_design.loc[Ite - 1, "anae_aq"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = anae_aq
+    row_0 = 7
+    var = lhs_design.loc[Ite - 1, "anae_aq"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = anae_aq_temp
-        row_0 = 8
-        var = lhs_design.loc[Ite - 1, "anae_aq_temp"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = anae_aq_temp
+    row_0 = 8
+    var = lhs_design.loc[Ite - 1, "anae_aq_temp"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = photo
-        row_0 = 9
-        var = lhs_design.loc[Ite - 1, "photo"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = photo
+    row_0 = 9
+    var = lhs_design.loc[Ite - 1, "photo"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = rflat
-        row_0 = 10
-        var = lhs_design.loc[Ite - 1, "rflat"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = rflat
+    row_0 = 10
+    var = lhs_design.loc[Ite - 1, "rflat"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = hydro
-        row_0 = 11
-        var = lhs_design.loc[Ite - 1, "hydro"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = hydro
+    row_0 = 11
+    var = lhs_design.loc[Ite - 1, "hydro"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = sol
-        row_0 = 17
-        var = lhs_design.loc[Ite - 1, "sol"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = sol
+    row_0 = 17
+    var = lhs_design.loc[Ite - 1, "sol"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = benthic depth
-        row_0 = 40
-        var = lhs_design.loc[Ite - 1, "benthic_depth"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = benthic depth
+    row_0 = 40
+    var = lhs_design.loc[Ite - 1, "benthic_depth"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = porosity
-        row_0 = 41
-        var = lhs_design.loc[Ite - 1, "porosity"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = porosity
+    row_0 = 41
+    var = lhs_design.loc[Ite - 1, "porosity"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = bulk_density
-        row_0 = 42
-        var = lhs_design.loc[Ite - 1, "bulk_density"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = bulk_density
+    row_0 = 42
+    var = lhs_design.loc[Ite - 1, "bulk_density"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = froc2
-        row_0 = 43
-        var = lhs_design.loc[Ite - 1, "froc2"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = froc2
+    row_0 = 43
+    var = lhs_design.loc[Ite - 1, "froc2"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = doc2
-        row_0 = 44
-        var = lhs_design.loc[Ite - 1, "doc2"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = doc2
+    row_0 = 44
+    var = lhs_design.loc[Ite - 1, "doc2"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = bnmas
-        row_0 = 45
-        var = lhs_design.loc[Ite - 1, "bnmas"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = bnmas
+    row_0 = 45
+    var = lhs_design.loc[Ite - 1, "bnmas"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = sused
-        row_0 = 47
-        var = lhs_design.loc[Ite - 1, "sused"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = sused
+    row_0 = 47
+    var = lhs_design.loc[Ite - 1, "sused"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = chl
-        row_0 = 48
-        var = lhs_design.loc[Ite - 1, "chl"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = chl
+    row_0 = 48
+    var = lhs_design.loc[Ite - 1, "chl"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = froc1
-        row_0 = 49
-        var = lhs_design.loc[Ite - 1, "froc1"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = froc1
+    row_0 = 49
+    var = lhs_design.loc[Ite - 1, "froc1"]
+    filelines[row_0] = str(var) + "\n"
 
-        # parameter = doc1
-        row_0 = 50
-        var = lhs_design.loc[Ite - 1, "doc1"]
-        filelines[row_0] = str(var) + "\n"
+    # parameter = doc1
+    row_0 = 50
+    var = lhs_design.loc[Ite - 1, "doc1"]
+    filelines[row_0] = str(var) + "\n"
 
-        # copy, write out file
-        new_file = open(new_path, "w")
-        new_file.writelines(filelines)
-        new_file.close()
+    # copy, write out file
+    new_file = open(new_path, "w")
+    new_file.writelines(filelines)
+    new_file.close()
+
+    # return a message to indicate success!
+    return("VVWM simulation " + str(Ite) + ", " + o + " input file parameters finalized!")
+
+# set up the processes for each of the simulations
+delayed_tasks = [delay_job(outfall, simulation) for outfall in outfalls for simulation in range(1, nsims+1)]
+
+# hit go!
+dask.delayed(print)(delayed_tasks).compute()

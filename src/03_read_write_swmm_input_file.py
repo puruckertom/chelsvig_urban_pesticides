@@ -3,7 +3,7 @@
 # -----------------------------------------
 
 # setup
-import pytest_shutil, shutil, os, pandas as pd, regex as re
+import pytest_shutil, shutil, os, pandas as pd, regex as re, dask
 from path_names import main_path, dir_path, swmm_path
 from prpy_bookkeeping import *
 loginfo = log_prefixer("03")
@@ -55,10 +55,11 @@ def editted_lines(Ite, Num, row_0, parameter, Col, flines):
     print(sim)
     return([edit1line(flines[row_0 + i], Col, sim) for i in range(Num)])
 
+delayed_tasks = []
 
-# do the following for each simulation...
-for Ite in range(1, nsims+1):
-    loginfo("Simmulation " + str(Ite) + " of " + str(nsims))
+@dask.delayed
+def delay_job(Ite):
+    # loginfo("Simmulation " + str(Ite) + " of " + str(nsims))
     new_dir = os.path.join(swmm_path, "input_" + str(Ite))
 
     if not os.path.exists(new_dir):
@@ -70,14 +71,14 @@ for Ite in range(1, nsims+1):
     # copy base file into new file location
     old_path = os.path.join(swmm_path, "NPlesantCreek.inp")
     new_path = os.path.join(new_dir, "NPlesantCreek.inp")
-    loginfo("Copying base swmm input file <" + old_path + "> into <" + new_dir + ">.")
+    # loginfo("Copying base swmm input file <" + old_path + "> into <" + new_dir + ">.")
     shutil.copyfile(old_path, new_path)
 
     # start reading the new file
-    loginfo("Opening file <" + new_path + "> to read.")
+    # loginfo("Opening file <" + new_path + "> to read.")
     new_file = open(new_path, "r")
     filelines = new_file.readlines()
-    loginfo("Closing file <" + new_path + "> after reading lines into list.")
+    # loginfo("Closing file <" + new_path + "> after reading lines into list.")
     new_file.close()
 
     # edit the new file
@@ -137,7 +138,7 @@ for Ite in range(1, nsims+1):
     # 195 = number of conduits
     
     # # parameter = Rough
-    filelines[734:(734 + 195)] = editted_lines(Ite = Ite, Num = 195, row_0 = 734, parameter = "Rough", Col = 4, flines = filelines)
+    # filelines[734:(734 + 195)] = editted_lines(Ite = Ite, Num = 195, row_0 = 734, parameter = "Rough", Col = 4, flines = filelines)
     # ---------------------------
     
     # ---------------------------
@@ -151,16 +152,21 @@ for Ite in range(1, nsims+1):
 
     # parameter = WCoeff2
     filelines[1377:(1377 + 1)] = editted_lines(Ite = Ite, Num = 1, row_0 = 1377, parameter = "WCoeff2", Col = 4, flines = filelines)
-    # ---------------------------
-    
+    # ---------------------------   
 
     # copy, write out file
     loginfo("Opening file <" + new_path + "> to overwrite with edited content.")
     new_file = open(new_path, "w")
     new_file.writelines(filelines)
-    loginfo("Closing file <" + new_path + ">.")
+    # loginfo("Closing file <" + new_path + ">.")
     new_file.close()
 
-# ----------------------------------------------
-# the end
-# ----------------------------------------------
+    # a message to indicate success!
+    return("file " + str(Ite) + " written!")    
+
+# set up the processes for each of the simulations
+delayed_tasks = [delay_job(x) for x in range(1, nsims+1)]
+
+# hit go!
+dask.delayed(print)(delayed_tasks).compute()
+
