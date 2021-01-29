@@ -83,3 +83,5 @@ probabilistic_python/*/
 **/probpy.log
 app_rates/*/
 !app_rates/figures/
+jupyter_notebooks/.ipynb_checkpoints/
+src/__pycache__/
