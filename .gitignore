@@ -68,6 +68,9 @@ probabilistic_python/input/swmm/JS_swmm_output_davg_*f.csv
 probabilistic_python/input/swmm/swmm_conv_to_vvwm_*f.csv
 probabilistic_python/input/swmm/JS_swmm_conv_to_vvwm_*f.csv
 probabilistic_python/input/swmm/input_*/swmm_output_davg_*f.csv
+probabilistic_python/input/swmm/input_*/JS_swmm_output_davg_*f.csv
+probabilistic_python/input/swmm/input_*/swmm_conv_to_vvwm_*f.csv
+probabilistic_python/input/swmm/input_*/JS_swmm_conv_to_vvwm_*f.csv
 
 ### including the vvwm ones
 probabilistic_python/input/vvwm/outfall_*/output_NPlesant_Custom_parent_analysis.*
