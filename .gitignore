@@ -51,3 +51,29 @@ probabilistic_python/jupyter_notebooks/JS_*
 
 # Julia's temporary files 
 JS_temp/
+
+##############################
+# I learned from my mistakes #
+##############################
+
+## I don't need to pollute the status report with output from test runs of 01a and 04
+probabilistic_python/input/swmm/input_*/JS_NPlesantCreek.out
+probabilistic_python/input/swmm/input_*/JS_NPlesantCreek.rpt
+probabilistic_python/input/swmm/JS_NPlesantCreek.out
+probabilistic_python/input/swmm/JS_NPlesantCreek.rpt
+
+## those pesky .csv files from 01b and 05 too
+probabilistic_python/input/swmm/swmm_output_davg_*f.csv
+probabilistic_python/input/swmm/JS_swmm_output_davg_*f.csv
+probabilistic_python/input/swmm/swmm_conv_to_vvwm_*f.csv
+probabilistic_python/input/swmm/JS_swmm_conv_to_vvwm_*f.csv
+probabilistic_python/input/swmm/input_*/swmm_output_davg_*f.csv
+
+### including the vvwm ones
+probabilistic_python/input/vvwm/outfall_*/output_NPlesant_Custom_parent_analysis.*
+probabilistic_python/input/vvwm/outfall_*/output.zts
+probabilistic_python/input/vvwm/outfall_*/*f_for_vvwm*.csv
+#probabilistic_python/input/vvwm/outfall_*/
+#probabilistic_python/input/vvwm/outfall_*/
+#probabilistic_python/input/vvwm/outfall_*/determ/
+
